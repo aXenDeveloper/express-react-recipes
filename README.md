@@ -6,7 +6,7 @@ Description
 
 -   [🏷️ Requirements](#user-content-️-requirements)
 -   [🧰 Install](#user-content--install)
--   [🛠️ Update](#user-content--update)
+-   [🛠️ Update](#user-content-️-update)
 
 ## 🏷️ Requirements
 
