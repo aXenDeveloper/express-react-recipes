@@ -9,8 +9,8 @@ router.post('/register', async (req, res) => {
         email: req.body.email
     });
     if (emailExist) return res.status(400).json({
-        'error': true,
-        'message': 'Email already exist!'
+        error: true,
+        message: 'Email already exist!'
     });
 
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
@@ -25,9 +25,9 @@ router.post('/register', async (req, res) => {
     try {
         await createMember.save();
         res.json({
-            'message': 'Created account success!',
-            'id_member': createMember._id,
-            'error': false,
+            message: 'Created account success!',
+            id_member: createMember._id,
+            error: false,
         });
     } catch (err) {
         res.status(400).send(err);
@@ -42,14 +42,14 @@ router.post('/login', async (req, res) => {
     const validPassword = await bcrypt.compare(req.body.password, memberExist.password);
 
     if (!memberExist || !validPassword) return res.status(400).json({
-        'error': true,
-        'message': 'Email or password is wrong!'
+        error: true,
+        message: 'Email or password is wrong!'
     });
 
     res.json({
-        'message': 'Logged in!',
-        'member': memberExist,
-        'error': false,
+        message: 'Logged in!',
+        member: memberExist,
+        error: false,
     });
 });
 
