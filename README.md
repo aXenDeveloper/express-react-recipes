@@ -4,13 +4,18 @@ Description
 
 ## 📖 Table of contents
 
--   [🧰 Install](#install)
--   [🛠️ Update](#update)
+-   [🏷️ Requirements](#user-content-️-requirements)
+-   [🧰 Install](#user-content--install)
+-   [🛠️ Update](#user-content--update)
 
 ## 🏷️ Requirements
 
 -   test
 
 ## 🧰 Install
+
+-   test
+
+## 🛠️ Update
 
 -   test
