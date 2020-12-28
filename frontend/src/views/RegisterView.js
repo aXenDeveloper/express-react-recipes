@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Register_view = () => {
+const RegisterView = () => {
 	const api = async () => {
 		try {
 			const api = await fetch('http://localhost:8000/account/register', {
@@ -28,4 +28,4 @@ const Register_view = () => {
 	);
 };
 
-export default Register_view;
+export default RegisterView;

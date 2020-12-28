@@ -42,9 +42,14 @@ router.post('/login', async (req, res) => {
         email: req.body.email
     });
 
+    if (!memberExist) return res.status(400).json({
+        error: true,
+        message: 'Email or password is wrong!'
+    });
+
     const validPassword = await bcrypt.compare(req.body.password, memberExist.password);
 
-    if (!memberExist || !validPassword) return res.status(400).json({
+    if (!validPassword) return res.status(400).json({
         error: true,
         message: 'Email or password is wrong!'
     });
@@ -66,8 +71,26 @@ router.post('/login', async (req, res) => {
             CSRF_token: token,
             error: false,
         });
-    } catch(err) {
+    } catch (err) {
         res.status(400).send(err);
+    }
+});
+
+router.get('/verifyCSRF', async (req, res) => {
+    const sesionExist = await Session.findOne({
+        token: req.header('CSRF_Token')
+    });
+
+    if (sesionExist) {
+        return res.json({
+            error: false,
+            message: 'CSRF Token is correct!'
+        });
+    } else {
+        return res.status(401).json({
+            error: true,
+            message: 'Access denied!'
+        });
     }
 });
 

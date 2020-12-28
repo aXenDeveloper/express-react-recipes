@@ -3,17 +3,17 @@ const jwt = require('jsonwebtoken');
 const Session = require('../models/core_session');
 
 const csrf = async (req, res, next) => {
-    const sesionInvalid = await Session.findOne({
-        token: req.header('CSRF-token')
+    const sesionExist = await Session.findOne({
+        token: req.header('CSRF_Token')
     });
 
-    if (!sesionInvalid) return res.status(401).json({
+    if (!sesionExist) return res.status(401).json({
         error: true,
         message: 'Access denied!'
     });
 
     try {
-        const verified = jwt.verify(sesionInvalid.token, process.env.CSRF_TOKEN);
+        const verified = jwt.verify(sesionExist.token, process.env.CSRF_TOKEN);
         req.memberID = verified;
 
         next();
