@@ -7,7 +7,7 @@ const csrf = async (req, res, next) => {
         token: req.header('CSRF-token')
     });
 
-    if(!sesionInvalid) return res.status(401).json({
+    if (!sesionInvalid) return res.status(401).json({
         error: true,
         message: 'Access denied!'
     });
@@ -17,7 +17,7 @@ const csrf = async (req, res, next) => {
         req.memberID = verified;
 
         next();
-    } catch(err) {
+    } catch (err) {
         res.status(400).json({
             error: true,
             message: 'Invalid token!'

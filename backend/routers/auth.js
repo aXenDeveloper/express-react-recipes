@@ -12,8 +12,8 @@ router.post('/register', async (req, res) => {
         email: req.body.email
     });
     if (emailExist) return res.status(400).json({
-        'error': true,
-        'message': 'Email already exist!'
+        error: true,
+        message: 'Email already exist!'
     });
 
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
@@ -45,8 +45,8 @@ router.post('/login', async (req, res) => {
     const validPassword = await bcrypt.compare(req.body.password, memberExist.password);
 
     if (!memberExist || !validPassword) return res.status(400).json({
-        'error': true,
-        'message': 'Email or password is wrong!'
+        error: true,
+        message: 'Email or password is wrong!'
     });
 
     const token = jwt.sign({ _id: memberExist._id }, process.env.CSRF_TOKEN);
