@@ -94,15 +94,18 @@ router.get('/verifyCSRF', async (req, res) => {
     });
 });
 
-router.delete('/logout', csrf, async (req, res) => {
-    const deleteSession = await Session.findOneAndDelete({
+router.delete('/logout', csrf, async (req, res, next) => {
+    await Session.findOneAndDelete({
         token: req.header('CSRF_Token')
     });
 
     try {
-        await deleteSession.save();
+        res.json({
+            message: 'Successfully logout.',
+            error: false,
+        });
     } catch (err) {
-        res.status(400).send(err);
+        console.error(err);
     }
 });
 

@@ -24,9 +24,8 @@ const LoginView = () => {
 
 			if (api.status === 200) {
 				createTokenCSRF(data.CSRF_token);
+				window.location.href = '/';
 			}
-
-			console.log(data);
 
 		} catch (err) {
 			console.error(err);

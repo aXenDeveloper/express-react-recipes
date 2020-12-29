@@ -17,8 +17,13 @@ const App = () => {
 		setTokenCSRF(key);
 	};
 
+	const deleteTokenCSRF = () => {
+		Cookies.remove('CSRF_token');
+		setTokenCSRF(undefined);
+	};
+
 	return (
-		<AuthContext.Provider value={{ tokenCSRF, createTokenCSRF }}>
+		<AuthContext.Provider value={{ tokenCSRF, createTokenCSRF, deleteTokenCSRF }}>
 			<Router>
 				<Layout>
 					<Route exact path="/" component={HomeView} />
