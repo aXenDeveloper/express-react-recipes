@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Route } from 'react-router-dom';
 import { useCSRF } from '../context/csrf';
 import ErrorView from '../views/ErrorView';
+import config from '../config';
 
 const ProtectedRoute = ({ component: Component, ...res }) => {
 	const [statusVerifyCSRF, setStatusVerifyCSRF] = useState();
@@ -9,7 +10,7 @@ const ProtectedRoute = ({ component: Component, ...res }) => {
 
 	useEffect(() => {
 		if (tokenCSRF) {
-			fetch('http://localhost:8000/account/verifyCSRF', {
+			fetch(`${config.backend_url}/account/verifyCSRF`, {
 				headers: {
 					'Content-Type': 'application/json',
 					CSRF_Token: tokenCSRF

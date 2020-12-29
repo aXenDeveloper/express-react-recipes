@@ -1,9 +1,10 @@
 import React from 'react';
+import config from '../config';
 
 const RegisterView = () => {
 	const api = async () => {
 		try {
-			const api = await fetch('http://localhost:8000/account/register', {
+			const api = await fetch(`${config.backend_url}/account/register`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'

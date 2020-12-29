@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import { useCSRF } from '../context/csrf';
+import config from '../config';
 
 const LoginView = () => {
 	const [inputEmail, setInputEmail] = useState('');
 	const [inputPassword, setInputPassword] = useState('');
-	const { createTokenCSRF, verifyTokenCSRF, tokenCSRF } = useCSRF();
+	const { createTokenCSRF } = useCSRF();
 
 	const api = async () => {
 		try {
-			const api = await fetch('http://localhost:8000/account/login', {
+			const api = await fetch(`${config.backend_url}/account/login`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
@@ -47,10 +48,6 @@ const LoginView = () => {
 				<input type="password" placeholder="password" onChange={handlePassword} value={inputPassword} />
 				<input type="submit" value="Login" />
 			</form>
-
-			<button onClick={() => createTokenCSRF('siema')}>Cookie</button>
-			<button onClick={() => verifyTokenCSRF(tokenCSRF)}>verifyTokenCSRF</button>
-			<button onClick={api}>API</button>
 		</div>
 	);
 };
