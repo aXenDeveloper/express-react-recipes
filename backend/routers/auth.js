@@ -2,6 +2,7 @@ const router = require('express').Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv').config();
+const csrf = require('./csrf');
 
 // Import models
 const Member = require('../models/core_members');
@@ -27,7 +28,8 @@ router.post('/register', async (req, res) => {
 
     try {
         await createMember.save();
-        res.json({
+
+        return res.json({
             message: 'Created account success!',
             id_member: createMember._id,
             error: false,
@@ -65,7 +67,7 @@ router.post('/login', async (req, res) => {
     try {
         await createCSRF.save();
 
-        res.json({
+        return res.json({
             message: 'Logged in!',
             member: memberExist,
             CSRF_token: token,
@@ -81,16 +83,26 @@ router.get('/verifyCSRF', async (req, res) => {
         token: req.header('CSRF_Token')
     });
 
-    if (sesionExist) {
-        return res.json({
-            error: false,
-            message: 'CSRF Token is correct!'
-        });
-    } else {
-        return res.status(401).json({
-            error: true,
-            message: 'Access denied!'
-        });
+    if (!sesionExist) return res.status(401).json({
+        error: true,
+        message: 'Access denied!'
+    });
+
+    return res.json({
+        error: false,
+        message: 'CSRF Token is correct!'
+    });
+});
+
+router.delete('/logout', csrf, async (req, res) => {
+    const deleteSession = await Session.findOneAndDelete({
+        token: req.header('CSRF_Token')
+    });
+
+    try {
+        await deleteSession.save();
+    } catch (err) {
+        res.status(400).send(err);
     }
 });
 
