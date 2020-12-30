@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 
+const Member = require('../models/core_members');
 const Session = require('../models/core_session');
 
 const csrf = async (req, res, next) => {
@@ -14,7 +15,20 @@ const csrf = async (req, res, next) => {
 
     try {
         const verified = jwt.verify(sesionExist.token, process.env.CSRF_TOKEN);
-        req.memberID = verified;
+        const memberExist = await Member.findOne({
+            _id: verified._id
+        });
+
+        if (!memberExist) return res.status(401).json({
+            error: true,
+            message: 'Access denied! - User not found'
+        });
+
+        return res.json({
+            error: false,
+            message: 'CSRF Token is correct!',
+            member: memberExist
+        });
 
         next();
     } catch (err) {

@@ -6,12 +6,15 @@ import UserbarUl from '../styles/userbar';
 import Button from '../styles/button';
 
 const Userbar = () => {
-    const { tokenCSRF } = useCSRF();
+    const { tokenCSRF, memberData } = useCSRF();
 
     return (
         <UserbarUl>
             {tokenCSRF ? (
                 <>
+                    <li>
+                        Welcome {memberData.name}
+                    </li>
                     <li>
                         <LogoutButton />
                     </li>

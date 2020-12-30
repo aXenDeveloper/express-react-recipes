@@ -78,20 +78,8 @@ router.post('/login', async (req, res) => {
     }
 });
 
-router.get('/verifyCSRF', async (req, res) => {
-    const sesionExist = await Session.findOne({
-        token: req.header('CSRF_Token')
-    });
+router.get('/verifyCSRF', csrf, async (req, res) => {
 
-    if (!sesionExist) return res.status(401).json({
-        error: true,
-        message: 'Access denied!'
-    });
-
-    return res.json({
-        error: false,
-        message: 'CSRF Token is correct!'
-    });
 });
 
 router.delete('/logout', csrf, async (req, res, next) => {
