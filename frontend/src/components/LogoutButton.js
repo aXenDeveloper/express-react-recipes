@@ -2,7 +2,7 @@ import React from 'react';
 import config from '../config';
 import { useCSRF } from '../context/csrf';
 
-const Logout = () => {
+const LogoutButton = () => {
     const { tokenCSRF, deleteTokenCSRF } = useCSRF();
 
     const api = async () => {
@@ -26,8 +26,10 @@ const Logout = () => {
     };
 
     return (
-        <button onClick={() => api()}>Logout</button>
+        <>
+            {tokenCSRF && <button onClick={() => api()}>Logout</button>}
+        </>
     );
 };
 
-export default Logout;
+export default LogoutButton;

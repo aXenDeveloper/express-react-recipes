@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const core_membersSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true
+    },
     email: {
         type: String,
         required: true
@@ -12,6 +16,10 @@ const core_membersSchema = new mongoose.Schema({
     date: {
         type: Date,
         default: Date.now
+    },
+    group_id: {
+        type: Number,
+        default: 3
     }
 });
 

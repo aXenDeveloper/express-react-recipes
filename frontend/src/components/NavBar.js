@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { NavBarStyle } from '../styles/navBar';
-import Logout from "./Logout";
+import LogoutButton from "./LogoutButton";
 
 const NavBar = () => (
     <NavBarStyle>
@@ -16,7 +16,7 @@ const NavBar = () => (
                 <NavLink exact to="/admin">Admin</NavLink>
             </li>
         </ul>
-        <Logout />
+        <LogoutButton />
     </NavBarStyle>
 );
 

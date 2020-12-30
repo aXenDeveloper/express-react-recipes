@@ -1,15 +1,15 @@
 import React from 'react';
 import Header from "./Header";
-import { Container } from '../styles/layout';
+import { Container, Main } from '../styles/layout';
 
 const Layout = ({ children }) => (
     <>
         <Header />
-        <main>
+        <Main>
             <Container>
                 {children}
             </Container>
-        </main>
+        </Main>
     </>
 );
 

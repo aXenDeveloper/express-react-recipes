@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { useCSRF } from '../context/csrf';
 import config from '../config';
+import { BoxConatainerSmall, FlexCenter, PaddingLarge } from '../styles/layout';
+import { Form } from '../styles/forms';
+import { Button } from '../styles/buttons';
 
 const LoginView = () => {
 	const [inputEmail, setInputEmail] = useState('');
@@ -21,6 +24,7 @@ const LoginView = () => {
 			});
 
 			const data = await api.json();
+			console.log(data);
 
 			if (api.status === 200) {
 				createTokenCSRF(data.CSRF_token);
@@ -41,13 +45,17 @@ const LoginView = () => {
 	const handlePassword = e => setInputPassword(e.target.value);
 
 	return (
-		<div>
-			<form onSubmit={forumSubmit}>
-				<input type="email" placeholder="email" onChange={handleEmail} value={inputEmail} />
-				<input type="password" placeholder="password" onChange={handlePassword} value={inputPassword} />
-				<input type="submit" value="Login" />
-			</form>
-		</div>
+		<FlexCenter>
+			<BoxConatainerSmall>
+				<PaddingLarge>
+					<Form onSubmit={forumSubmit}>
+						<input type="email" placeholder="Email" onChange={handleEmail} value={inputEmail} />
+						<input type="password" placeholder="Password" onChange={handlePassword} value={inputPassword} />
+						<Button primary type="submit">Login</Button>
+					</Form>
+				</PaddingLarge>
+			</BoxConatainerSmall>
+		</FlexCenter>
 	);
 };
 

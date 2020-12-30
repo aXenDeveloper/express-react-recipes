@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const NavBarStyle = styled.nav`
-    margin-left: 1rem;
+    margin: 0 auto 0 1rem;
 
     ul {
         list-style: none;

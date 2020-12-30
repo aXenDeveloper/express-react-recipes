@@ -105,7 +105,7 @@ router.delete('/logout', csrf, async (req, res, next) => {
             error: false,
         });
     } catch (err) {
-        console.error(err);
+        res.status(400).send(err);
     }
 });
 
