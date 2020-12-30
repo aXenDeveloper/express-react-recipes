@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Layout from './components/Layout';
 import HomeView from './views/HomeView';
 import LoginView from './views/LoginView';
 import RegisterView from './views/RegisterView';
-import ProtectedRoute from './components/ProtectedRoute';
 import { AuthContext } from './context/csrf';
 import AdminView from './views/AdminView';
 import Cookies from 'js-cookie';
 import config from './config';
+import ErrorView from './views/ErrorView';
 
 const App = () => {
 	const [tokenCSRF, setTokenCSRF] = useState(Cookies.get('CSRF_token'));
@@ -22,12 +22,14 @@ const App = () => {
 					'Content-Type': 'application/json',
 					CSRF_Token: tokenCSRF
 				}
-			}).then(res => {
-				setStatusVerifyCSRF(res.status);
-				return res.json();
-			}).then(data => {
-				setMemberData(data.member);
-			});
+			})
+				.then(res => {
+					setStatusVerifyCSRF(res.status);
+					return res.json();
+				})
+				.then(data => {
+					setMemberData(data.member);
+				});
 		}
 	}, [tokenCSRF]);
 
@@ -45,10 +47,19 @@ const App = () => {
 		<AuthContext.Provider value={{ tokenCSRF, createTokenCSRF, deleteTokenCSRF, statusVerifyCSRF, memberData }}>
 			<BrowserRouter>
 				<Layout>
-					<Route exact path="/" component={HomeView} />
-					<Route exact path="/login" component={LoginView} />
-					<Route exact path="/register" component={RegisterView} />
-					<ProtectedRoute path="/admin" component={AdminView} />
+					<Switch>
+						<Route exact path="/" component={HomeView} />
+						<Route exact path="/login" component={LoginView} />
+						<Route exact path="/register" component={RegisterView} />
+
+						{statusVerifyCSRF === 200 ? (
+							<Route exact path="/admin" component={AdminView} />
+						) : (
+							<ErrorView code="401">You don't have access to this page!</ErrorView>
+						)}
+
+						<Route component={() => <ErrorView code="404">The page you requested does not exist</ErrorView>} />
+					</Switch>
 				</Layout>
 			</BrowserRouter>
 		</AuthContext.Provider>

@@ -7,6 +7,10 @@ const UserbarUl = styled.ul`
     display: flex;
     align-items: center;
 
+    @media screen and (max-width: 980px) {
+        display: none;
+    }
+
     > li:not(:last-child) {
         margin-right: 1.5rem;
     }

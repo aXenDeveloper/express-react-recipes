@@ -3,6 +3,10 @@ import styled from 'styled-components';
 export const NavBarStyle = styled.nav`
     margin: 0 auto 0 1rem;
 
+    @media screen and (max-width: 980px) {
+        display: none;
+    }
+
     ul {
         list-style: none;
         padding: 0;
