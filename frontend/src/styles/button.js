@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const Button = styled.button`
+const Button = styled.button`
     display: block;
     font-size: 1.4rem;
     font-weight: 400;
@@ -42,4 +42,6 @@ export const Button = styled.button`
     &:hover::after {
         opacity: 1;
     }
-`;;
+`;
+
+export default Button;

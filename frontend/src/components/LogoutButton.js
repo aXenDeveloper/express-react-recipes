@@ -1,6 +1,7 @@
 import React from 'react';
 import config from '../config';
 import { useCSRF } from '../context/csrf';
+import Button from '../styles/button';
 
 const LogoutButton = () => {
     const { tokenCSRF, deleteTokenCSRF } = useCSRF();
@@ -27,7 +28,7 @@ const LogoutButton = () => {
 
     return (
         <>
-            {tokenCSRF && <button onClick={() => api()}>Logout</button>}
+            {tokenCSRF && <Button important onClick={() => api()}>Logout</Button>}
         </>
     );
 };

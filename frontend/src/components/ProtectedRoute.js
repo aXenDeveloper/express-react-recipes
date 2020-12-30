@@ -6,6 +6,7 @@ import config from '../config';
 
 const ProtectedRoute = ({ component: Component, ...res }) => {
 	const [statusVerifyCSRF, setStatusVerifyCSRF] = useState();
+	// const [username, setUsername] = useState();
 	const { tokenCSRF } = useCSRF();
 
 	useEffect(() => {
@@ -15,7 +16,10 @@ const ProtectedRoute = ({ component: Component, ...res }) => {
 					'Content-Type': 'application/json',
 					CSRF_Token: tokenCSRF
 				}
-			}).then(res => setStatusVerifyCSRF(res.status));
+			}).then(res => {
+				setStatusVerifyCSRF(res.status);
+				return res.json();
+			});
 		}
 	}, [tokenCSRF]); // statusVerifyCSRF === 200
 

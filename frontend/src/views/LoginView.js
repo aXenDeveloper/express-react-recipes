@@ -3,7 +3,7 @@ import { useCSRF } from '../context/csrf';
 import config from '../config';
 import { BoxConatainerSmall, FlexCenter, PaddingLarge } from '../styles/layout';
 import { Form } from '../styles/forms';
-import { Button } from '../styles/buttons';
+import Button from '../styles/button';
 
 const LoginView = () => {
 	const [inputEmail, setInputEmail] = useState('');
