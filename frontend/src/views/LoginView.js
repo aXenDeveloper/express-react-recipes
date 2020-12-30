@@ -30,13 +30,12 @@ const LoginView = () => {
 				createTokenCSRF(data.CSRF_token);
 				window.location.href = '/';
 			}
-
 		} catch (err) {
 			console.error(err);
 		}
 	};
 
-	const forumSubmit = e => {
+	const formSubmit = e => {
 		e.preventDefault();
 		api();
 	};
@@ -48,10 +47,13 @@ const LoginView = () => {
 		<FlexCenter>
 			<BoxConatainerSmall>
 				<PaddingLarge>
-					<Form onSubmit={forumSubmit}>
-						<input type="email" placeholder="Email" onChange={handleEmail} value={inputEmail} />
+					<Form onSubmit={formSubmit}>
+						<input type="email" placeholder="Email Address" onChange={handleEmail} value={inputEmail} />
 						<input type="password" placeholder="Password" onChange={handlePassword} value={inputPassword} />
-						<Button primary type="submit">Login</Button>
+
+						<Button primary type="submit">
+							Login
+						</Button>
 					</Form>
 				</PaddingLarge>
 			</BoxConatainerSmall>

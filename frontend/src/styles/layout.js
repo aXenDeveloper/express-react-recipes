@@ -16,6 +16,21 @@ export const BoxContainer = styled.div`
     background-color: var(--box--backgroundColor);
 `;
 
+export const BoxContainerTitle = styled.div`
+    background-color: rgb( var(--theme-main-color) );
+    padding: 1.6rem;
+    border-top-left-radius: inherit;
+    border-top-right-radius: inherit;
+    color: #fff;
+
+    h1, h2, h3 {
+        padding: 0;
+        margin: 0;
+        font-size: 16px;
+        font-weight: bold;
+    }
+`;
+
 export const BoxConatainerSmall = styled(BoxContainer)`
     width: 98%;
     max-width: 450px;
@@ -33,4 +48,8 @@ export const Padding = styled.div`
 
 export const PaddingLarge = styled.div`
     padding: 4rem;
+`;
+
+export const TextCenter = styled.div`
+    text-align: center;
 `;

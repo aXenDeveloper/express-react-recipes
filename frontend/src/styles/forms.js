@@ -1,11 +1,13 @@
 import styled from 'styled-components';
+import { TextCenter } from './layout';
 
 export const Form = styled.form`
     display: flex;
     flex-direction: column;
 
     input[type="email"],
-    input[type="password"] {
+    input[type="password"],
+    input[type="text"] {
         border-radius: var(--border--radius);
         padding: 1.3rem 1.2rem;
         color: inherit;
@@ -23,4 +25,9 @@ export const Form = styled.form`
     > input {
         margin-bottom: 2rem;
     }
+`;
+
+export const TextCenterForm = styled(TextCenter)`
+    margin-bottom: 3rem;
+    font-size: 1.6rem;
 `;

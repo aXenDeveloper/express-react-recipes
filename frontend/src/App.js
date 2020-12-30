@@ -49,14 +49,25 @@ const App = () => {
 				<Layout>
 					<Switch>
 						<Route exact path="/" component={HomeView} />
-						<Route exact path="/login" component={LoginView} />
-						<Route exact path="/register" component={RegisterView} />
 
-						{statusVerifyCSRF === 200 ? (
-							<Route exact path="/admin" component={AdminView} />
-						) : (
-							<ErrorView code="401">You don't have access to this page!</ErrorView>
-						)}
+						<Route
+							exact
+							path="/login"
+							render={() => (!tokenCSRF ? <LoginView /> : <ErrorView code="400">You are already logged in!</ErrorView>)}
+						/>
+						<Route
+							exact
+							path="/register"
+							render={() => (!tokenCSRF ? <RegisterView /> : <ErrorView code="400">You are already logged in!</ErrorView>)}
+						/>
+
+						<Route
+							exact
+							path="/admin"
+							render={() =>
+								statusVerifyCSRF === 200 ? <AdminView /> : <ErrorView code="401">You don't have access to this page!</ErrorView>
+							}
+						/>
 
 						<Route component={() => <ErrorView code="404">The page you requested does not exist</ErrorView>} />
 					</Switch>
