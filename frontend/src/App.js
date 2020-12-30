@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter, Route } from 'react-router-dom';
 import Layout from './components/Layout';
 import HomeView from './views/HomeView';
 import LoginView from './views/LoginView';
@@ -43,14 +43,14 @@ const App = () => {
 
 	return (
 		<AuthContext.Provider value={{ tokenCSRF, createTokenCSRF, deleteTokenCSRF, statusVerifyCSRF, memberData }}>
-			<Router>
+			<BrowserRouter>
 				<Layout>
 					<Route exact path="/" component={HomeView} />
 					<Route exact path="/login" component={LoginView} />
 					<Route exact path="/register" component={RegisterView} />
 					<ProtectedRoute path="/admin" component={AdminView} />
 				</Layout>
-			</Router>
+			</BrowserRouter>
 		</AuthContext.Provider>
 	);
 };

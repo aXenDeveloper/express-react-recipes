@@ -1,13 +1,16 @@
 import React from 'react';
 import { useCSRF } from '../context/csrf';
+import { BoxContainer, Padding } from "../styles/layout";
 
 const AdminView = () => {
     const { memberData } = useCSRF();
 
     return (
-        <div>
-            Admin {memberData.name}
-        </div>
+        <BoxContainer>
+            <Padding>
+                Admin {memberData.name}
+            </Padding>
+        </BoxContainer>
     );
 };
 

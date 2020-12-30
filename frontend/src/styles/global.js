@@ -12,6 +12,7 @@ const GlobalStyle = createGlobalStyle`
     --border--radius: 5px;
     --box-shadow: 0 0 40px 0 rgba(94, 92, 154, .08);
     --box--backgroundColor: #fff;
+    --theme-light-color: #68778c;
 
     --input--border: rgba(113, 128, 150, .4);
     --input--border-focusShadow: rgba( var(--theme-main-color), .3) 0 0 0 4px;
