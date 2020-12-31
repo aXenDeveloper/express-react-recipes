@@ -6,7 +6,8 @@
     font-family: inherit;
     padding: 1rem 2rem;
     border-radius: var(--border--radius);
-    color: #fff !important;
+    background: transparent;
+    color: var(--theme-main-color-rgb);
     position: relative;
     z-index: 1;
     overflow: hidden;
@@ -30,15 +31,22 @@
         opacity: 1;
     }
 
+    &_full {
+        width: 100%;
+    }
+
     &_primary {
         background-color: var(--theme-main-color-rgb);
+        color: var(--button-primary-text);
     }
 
     &_success {
         background-color: var(--button-success);
+        color: var(--button-success-text);
     }
 
     &_important {
         background-color: var(--button-important);
+        color: var(--button-important-text);
     }
 }

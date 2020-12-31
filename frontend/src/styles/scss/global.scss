@@ -15,13 +15,17 @@
     --input--border: rgba(113, 128, 150, 0.4);
     --input--border-focusShadow: rgba(var(--theme-main-color), 0.3) 0 0 0 4px;
 
-    --button--background-hover: rgba(255, 255, 255, 0.1);
-
     --loading-border: rgba(0, 0, 0, 0.2);
     --loading-border-top: #000;
 
+    --button--background-hover: rgba(255, 255, 255, 0.1);
+    --button-primary-text: #fff;
     --button-success: #267b3c;
+    --button-success-text: #fff;
     --button-important: #ca1e1e;
+    --button-important-text: #fff;
+
+    --line-hr: rgba(0, 0, 0, 0.1);
 }
 
 *,
@@ -53,15 +57,7 @@ a {
     }
 }
 
-@keyframes spinner {
-    0% {
-        transform: rotate(0);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
-}
-
+@import './animation';
 @import './layout';
 @import './header';
 @import './error';

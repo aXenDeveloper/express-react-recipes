@@ -1,60 +1,47 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
-import styled, { css } from 'styled-components';
+import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { useCSRF } from '../context/csrf';
+import LogoutButton from './LogoutButton';
 
 const NavbarMobile = () => {
 	const [active, setActive] = useState(false);
 
-	const NavMobileBackground = styled.div`
-		position: fixed;
-		z-index: 1000;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		background-color: rgba(0, 0, 0, 0.4);
+	const { tokenCSRF, memberData } = useCSRF();
 
-		${props =>
-			!props.active &&
-			css`
-				display: none;
-			`}
-	`;
-
-	const NavMobileContent = styled.div`
-		position: fixed;
-		top: 0;
-		right: 0;
-		bottom: 0;
-		z-index: 1100;
-		width: 340px;
-		max-width: calc(100% - 50px);
-		background-color: red;
-		box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.2);
-		transform: translateX(calc(100% + 45px));
-		transition: transform 0.3s ease;
-		overflow: auto;
-
-		${props =>
-			props.active &&
-			css`
-				transform: translateX(0);
-			`}
-	`;
-
-	const handleButtonNavMobile = () => {
-		setActive(!active);
-	};
+	const navOpen = () => setActive(true);
+	const navClose = () => setActive(false);
 
 	return (
 		<>
-			<button aria-label="mobile-button-nav" onClick={handleButtonNavMobile}>
+			<button className="nav_mobile_button:open" aria-label="Open nav mobile" onClick={navOpen}>
 				<FontAwesomeIcon icon={faBars} />
 			</button>
 
-			<div active={active}>test</div>
-			<div active={active}></div>
+			<button className={`nav_mobile_button:close${active ? ' active' : ''}`} aria-label="Close nav mobile" onClick={navClose}>
+				<FontAwesomeIcon icon={faTimes} />
+			</button>
+
+			<div className={`nav_mobile_content${active ? ' active' : ''}`}>
+				<div className="nav_mobile_content_top padding">
+					{tokenCSRF ? (
+						<div>Welcome {memberData.name}</div>
+					) : (
+						<>
+							<Link to="/login" onClick={navClose}>
+								<button className="button button_full margin_bottom:half">Existing user? Sign In</button>
+							</Link>
+
+							<Link to="/register" onClick={navClose}>
+								<button className="button button_primary button_full">Sign Up</button>
+							</Link>
+						</>
+					)}
+				</div>
+				<div className="padding">{tokenCSRF && <LogoutButton buttonFull />}</div>
+			</div>
+			<div className={`nav_mobile_background${active ? ' active' : ''}`} onClick={navClose}></div>
 		</>
 	);
 };

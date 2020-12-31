@@ -40,7 +40,7 @@ const Root = () => {
 
 	const deleteTokenCSRF = () => {
 		Cookies.remove('CSRF_token');
-		setTokenCSRF(undefined);
+		setTokenCSRF(null);
 	};
 
 	return (
