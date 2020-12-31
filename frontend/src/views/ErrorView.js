@@ -1,12 +1,10 @@
 import React from 'react';
-import { BoxContainer } from "../styles/layout";
-import PaddingWithFlex from "../styles/error";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
 
 const ErrorView = ({ children, code }) => (
-    <BoxContainer>
-        <PaddingWithFlex>
+    <div className="container_box">
+        <div className="errorBox">
             <FontAwesomeIcon icon={faExclamationCircle} />
             <p>Oops, something is wrong (╯°□°）╯︵ ┻━┻</p>
             <span>
@@ -15,8 +13,8 @@ const ErrorView = ({ children, code }) => (
             <p>
                 Error code: <span>{code}</span>
             </p>
-        </PaddingWithFlex>
-    </BoxContainer>
+        </div>
+    </div>
 );
 
 export default ErrorView;

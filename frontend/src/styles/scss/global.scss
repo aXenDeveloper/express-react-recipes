@@ -1,0 +1,71 @@
+:root {
+    --theme-main-color: 26, 122, 191;
+    --theme-main-color-rgb: rgb(var(--theme-main-color));
+
+    --theme-header: #fff;
+
+    --theme-background: #edf0f4;
+    --theme-color: #353c41;
+    --container-width: 1630px;
+    --border--radius: 5px;
+    --box-shadow: 0 0 40px 0 rgba(94, 92, 154, 0.08);
+    --box--backgroundColor: #fff;
+    --theme-light-color: #68778c;
+
+    --input--border: rgba(113, 128, 150, 0.4);
+    --input--border-focusShadow: rgba(var(--theme-main-color), 0.3) 0 0 0 4px;
+
+    --button--background-hover: rgba(255, 255, 255, 0.1);
+
+    --loading-border: rgba(0, 0, 0, 0.2);
+    --loading-border-top: #000;
+
+    --button-success: #267b3c;
+    --button-important: #ca1e1e;
+}
+
+*,
+*::after,
+*::before {
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 10px;
+}
+
+body {
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+    font-size: 1.3rem;
+    line-height: 1.5;
+    background-color: var(--theme-background);
+    color: var(--theme-color);
+    height: 100%;
+    margin: 0;
+}
+
+a {
+    color: var(--theme-main-color-rgb);
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+@keyframes spinner {
+    0% {
+        transform: rotate(0);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@import './layout';
+@import './header';
+@import './error';
+@import './form';
+@import './navbar';
+@import './userbar';
+@import './button';

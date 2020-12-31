@@ -1,6 +1,4 @@
-import styled from 'styled-components';
-
-export const NavBarStyle = styled.nav`
+.navbar {
     margin: 0 auto 0 1rem;
 
     @media screen and (max-width: 980px) {
@@ -18,4 +16,16 @@ export const NavBarStyle = styled.nav`
             margin-right: 1rem;
         }
     }
-`;
+
+    /* 
+    width: 48px;
+    height: 48px;
+    font-size: 2.5rem;
+    background: transparent;
+    border: 0;
+    
+    @media screen and (min-width: 980px) {
+        display: none;
+    }
+    */
+}

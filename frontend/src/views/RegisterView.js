@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import config from '../config';
-import { BoxConatainerSmall, FlexCenter, PaddingLarge, BoxContainerTitle } from '../styles/layout';
-import { Form, TextCenterForm } from '../styles/forms';
-import Button from '../styles/button';
 
 const RegisterView = () => {
 	const [inputName, setInputName] = useState('');
@@ -45,30 +42,30 @@ const RegisterView = () => {
 	const handlePasswordCF = e => setInputPasswordCF(e.target.value);
 
 	return (
-		<FlexCenter>
-			<BoxConatainerSmall>
-				<BoxContainerTitle>
+		<div className="flex flex-ai:center flex-jc:center">
+			<div className="container_box container_box:small">
+				<div className="container_title">
 					<h1>Register</h1>
-				</BoxContainerTitle>
+				</div>
 
-				<PaddingLarge>
-					<TextCenterForm>
-						<Link to="/login">Existing user? Sign In</Link>
-					</TextCenterForm>
-
-					<Form onSubmit={formSubmit}>
+				<div className="padding:large">
+					<form onSubmit={formSubmit}>
 						<input type="text" placeholder="Display Name" onChange={handleName} value={inputName} />
 						<input type="email" placeholder="Email Address" onChange={handleEmail} value={inputEmail} />
 						<input type="password" placeholder="Password" onChange={handlePassword} value={inputPassword} />
 						<input type="password" placeholder="Confirm Password" onChange={handlePasswordCF} value={inputPasswordCF} />
 
-						<Button primary type="submit">
+						<button className="button button_primary" type="submit">
 							Register
-						</Button>
-					</Form>
-				</PaddingLarge>
-			</BoxConatainerSmall>
-		</FlexCenter>
+						</button>
+					</form>
+
+					<div className="text:center margin_top">
+						<Link to="/login">Existing user? Sign In</Link>
+					</div>
+				</div>
+			</div>
+		</div>
 	);
 };
 

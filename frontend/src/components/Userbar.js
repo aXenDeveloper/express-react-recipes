@@ -2,14 +2,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useCSRF } from '../context/csrf';
 import LogoutButton from './LogoutButton';
-import UserbarUl from '../styles/userbar';
-import Button from '../styles/button';
 
 const Userbar = () => {
     const { tokenCSRF, memberData } = useCSRF();
 
     return (
-        <UserbarUl>
+        <div className="userbar">
             {tokenCSRF ? (
                 <>
                     <li>
@@ -29,14 +27,14 @@ const Userbar = () => {
 
                         <li>
                             <Link to="/register">
-                                <Button primary>
+                                <button className="button button_primary">
                                     Sign Up
-                                </Button>
+                                </button>
                             </Link>
                         </li>
                     </>
                 )}
-        </UserbarUl>
+        </div>
     );
 };
 

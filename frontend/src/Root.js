@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import Layout from './components/Layout';
 import HomeView from './views/HomeView';
 import LoginView from './views/LoginView';
@@ -10,7 +10,7 @@ import Cookies from 'js-cookie';
 import config from './config';
 import ErrorView from './views/ErrorView';
 
-const App = () => {
+const Root = () => {
 	const [tokenCSRF, setTokenCSRF] = useState(Cookies.get('CSRF_token'));
 	const [statusVerifyCSRF, setStatusVerifyCSRF] = useState(0);
 	const [memberData, setMemberData] = useState({});
@@ -53,12 +53,12 @@ const App = () => {
 						<Route
 							exact
 							path="/login"
-							render={() => (!tokenCSRF ? <LoginView /> : <ErrorView code="400">You are already logged in!</ErrorView>)}
+							render={() => (!tokenCSRF ? <LoginView /> : <Redirect to="/" />)}
 						/>
 						<Route
 							exact
 							path="/register"
-							render={() => (!tokenCSRF ? <RegisterView /> : <ErrorView code="400">You are already logged in!</ErrorView>)}
+							render={() => (!tokenCSRF ? <RegisterView /> : <Redirect to="/" />)}
 						/>
 
 						<Route
@@ -77,4 +77,4 @@ const App = () => {
 	);
 };
 
-export default App;
+export default Root;

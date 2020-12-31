@@ -1,11 +1,9 @@
-import styled from 'styled-components';
-import { Padding } from './layout';
-
-const PaddingWithFlex = styled(Padding)`
+.errorBox {
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    padding: 2rem;
 
     > svg {
         font-size: 64px;
@@ -27,6 +25,4 @@ const PaddingWithFlex = styled(Padding)`
         line-height: 1.4;
         max-width: 800px;
     }
-`;
-
-export default PaddingWithFlex;
+}

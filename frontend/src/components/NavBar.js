@@ -1,13 +1,12 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { NavBarStyle } from '../styles/navBar';
 import { useCSRF } from '../context/csrf';
 
 const NavBar = () => {
     const { tokenCSRF } = useCSRF();
 
     return (
-        <NavBarStyle>
+        <nav className="navbar">
             <ul>
                 <li>
                     <NavLink exact to="/">Home</NavLink>
@@ -18,7 +17,7 @@ const NavBar = () => {
                     </li>
                 )}
             </ul>
-        </NavBarStyle>
+        </nav>
     );
 };
 

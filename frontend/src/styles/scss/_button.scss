@@ -1,6 +1,4 @@
-import styled from 'styled-components';
-
-const Button = styled.button`
+.button {
     display: block;
     font-size: 1.4rem;
     font-weight: 400;
@@ -14,17 +12,6 @@ const Button = styled.button`
     overflow: hidden;
     cursor: pointer;
     border: 0;
-    background-color: ${props => {
-        if (props.primary) {
-            return 'rgb( var(--theme-main-color) )';
-        } else if (props.success) {
-            return '#267b3c';
-        } else if (props.important) {
-            return '#ca1e1e';
-        } else if (props.important) {
-            return '#e8f2fa';
-        }
-    }};
 
     &::after {
         content: '';
@@ -36,12 +23,22 @@ const Button = styled.button`
         bottom: 0;
         background: var(--button--background-hover);
         opacity: 0;
-        transition: opacity .15s ease-in-out;
+        transition: opacity 0.15s ease-in-out;
     }
 
     &:hover::after {
         opacity: 1;
     }
-`;
 
-export default Button;
+    &_primary {
+        background-color: var(--theme-main-color-rgb);
+    }
+
+    &_success {
+        background-color: var(--button-success);
+    }
+
+    &_important {
+        background-color: var(--button-important);
+    }
+}

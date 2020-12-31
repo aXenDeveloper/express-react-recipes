@@ -13,7 +13,7 @@ Include pages:
 -   [🏷️ Requirements](#user-content-️-requirements)
 -   [🧰 Install](#user-content--install)
 -   [🛠️ Update](#user-content-️-update)
--   [📂 Package](#user-content-️-package)
+-   [📂 Package](#user-content--package)
 
 ## 🏷️ Requirements
 
@@ -34,7 +34,7 @@ Include pages:
 
 -   React
 -   js-cookie
--   Styled Components
+-   SCSS
 
 ### Back-end
 

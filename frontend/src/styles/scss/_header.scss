@@ -1,0 +1,18 @@
+header {
+    background-color: var(--theme-header);
+
+    .container {
+        display: flex;
+        align-items: center;
+
+        @media screen and (max-width: 980px) {
+            justify-content: space-between;
+        }
+    }
+
+    .logo > img {
+        max-width: 250px;
+        padding: 1rem 0;
+        object-fit: contain;
+    }
+}

@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import { useCSRF } from '../context/csrf';
 import config from '../config';
-import { BoxConatainerSmall, FlexCenter, PaddingLarge } from '../styles/layout';
-import { Form } from '../styles/forms';
-import Button from '../styles/button';
 
 const LoginView = () => {
 	const [inputEmail, setInputEmail] = useState('');
 	const [inputPassword, setInputPassword] = useState('');
+
 	const { createTokenCSRF } = useCSRF();
 
 	const api = async () => {
@@ -28,7 +26,6 @@ const LoginView = () => {
 
 			if (api.status === 200) {
 				createTokenCSRF(data.CSRF_token);
-				window.location.href = '/';
 			}
 		} catch (err) {
 			console.error(err);
@@ -44,20 +41,20 @@ const LoginView = () => {
 	const handlePassword = e => setInputPassword(e.target.value);
 
 	return (
-		<FlexCenter>
-			<BoxConatainerSmall>
-				<PaddingLarge>
-					<Form onSubmit={formSubmit}>
+		<div className="flex flex-ai:center flex-jc:center">
+			<div className="container_box container_box:small">
+				<div className="padding:large">
+					<form onSubmit={formSubmit}>
 						<input type="email" placeholder="Email Address" onChange={handleEmail} value={inputEmail} />
 						<input type="password" placeholder="Password" onChange={handlePassword} value={inputPassword} />
 
-						<Button primary type="submit">
+						<button className="button button_primary" type="submit">
 							Login
-						</Button>
-					</Form>
-				</PaddingLarge>
-			</BoxConatainerSmall>
-		</FlexCenter>
+						</button>
+					</form>
+				</div>
+			</div>
+		</div>
 	);
 };
 
