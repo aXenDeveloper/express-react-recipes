@@ -60,7 +60,7 @@ const RegisterView = () => {
 						</button>
 					</form>
 
-					<div className="text:center margin_top">
+					<div className="text:center margin-top">
 						<Link to="/login">Existing user? Sign In</Link>
 					</div>
 				</div>

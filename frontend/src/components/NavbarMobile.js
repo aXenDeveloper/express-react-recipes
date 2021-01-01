@@ -30,7 +30,7 @@ const NavbarMobile = () => {
 					) : (
 						<>
 							<Link to="/login" onClick={navClose}>
-								<button className="button button_full margin_bottom:half">Existing user? Sign In</button>
+								<button className="button button_full margin-bottom:half">Existing user? Sign In</button>
 							</Link>
 
 							<Link to="/register" onClick={navClose}>
