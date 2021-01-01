@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
-import { useCSRF } from '../context/csrf';
-import LogoutButton from './LogoutButton';
+import { useCSRF } from '../../context/csrf';
+import LogoutButton from '../LogoutButton';
+import NavItems from "./NavItems";
 
 const NavbarMobile = () => {
 	const [active, setActive] = useState(false);
@@ -28,18 +29,26 @@ const NavbarMobile = () => {
 					{tokenCSRF ? (
 						<div>Welcome {memberData.name}</div>
 					) : (
-						<>
-							<Link to="/login" onClick={navClose}>
-								<button className="button button_full margin-bottom:half">Existing user? Sign In</button>
-							</Link>
+							<>
+								<Link to="/login" onClick={navClose}>
+									<button className="button button_full margin-bottom:half">Existing user? Sign In</button>
+								</Link>
 
-							<Link to="/register" onClick={navClose}>
-								<button className="button button_primary button_full">Sign Up</button>
-							</Link>
-						</>
-					)}
+								<Link to="/register" onClick={navClose}>
+									<button className="button button_primary button_full">Sign Up</button>
+								</Link>
+							</>
+						)}
 				</div>
-				<div className="padding">{tokenCSRF && <LogoutButton buttonFull />}</div>
+				<div className="padding">
+					<nav onClick={navClose}>
+						<ul>
+							<NavItems />
+						</ul>
+					</nav>
+
+					{tokenCSRF && <LogoutButton buttonFull />}
+				</div>
 			</div>
 			<div className={`nav_mobile_background${active ? ' active' : ''}`} onClick={navClose}></div>
 		</>

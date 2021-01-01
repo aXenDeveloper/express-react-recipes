@@ -14,6 +14,7 @@ Include pages:
 -   [🧰 Install](#user-content--install)
 -   [🛠️ Update](#user-content-️-update)
 -   [📂 Package](#user-content--package)
+-   [👨‍👧‍👦 Groups ID](#user-content--package)
 
 ## 🏷️ Requirements
 
@@ -43,3 +44,8 @@ Include pages:
 -   dotenv
 -   jsonwebtoken
 -   mongoose
+
+## 👨‍👧‍👦 Groups ID
+
+-   3 - Member,
+-   4 - Root
