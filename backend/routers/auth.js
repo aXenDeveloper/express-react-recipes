@@ -11,10 +11,15 @@ const Session = require('../models/core_session');
 router.post('/register', async (req, res) => {
 	const { email, name, password } = req.body;
 
+	const nameExist = await Member.findOne({ name });
+	if (nameExist)
+		return res.status(400).json({
+			message: 'Display name already exist!'
+		});
+
 	const emailExist = await Member.findOne({ email });
 	if (emailExist)
 		return res.status(400).json({
-			error: true,
 			message: 'Email already exist!'
 		});
 
@@ -31,8 +36,7 @@ router.post('/register', async (req, res) => {
 
 		return res.json({
 			message: 'Created account success!',
-			id_member: createMember._id,
-			error: false
+			id_member: createMember._id
 		});
 	} catch (err) {
 		res.status(400).send(err);
@@ -45,14 +49,12 @@ router.post('/login', async (req, res) => {
 	const memberExist = await Member.findOne({ email });
 	if (!memberExist)
 		return res.status(400).json({
-			error: true,
 			message: 'Email or password is wrong!'
 		});
 
 	const validPassword = await bcrypt.compare(password, memberExist.password);
 	if (!validPassword)
 		return res.status(400).json({
-			error: true,
 			message: 'Email or password is wrong!'
 		});
 
@@ -70,8 +72,7 @@ router.post('/login', async (req, res) => {
 		return res.json({
 			message: 'Logged in!',
 			member: memberExist,
-			CSRF_token: token,
-			error: false
+			CSRF_token: token
 		});
 	} catch (err) {
 		res.status(400).send(err);
@@ -85,7 +86,6 @@ router.get('/verifyCSRF', async (req, res) => {
 
 	if (!sesionExist)
 		return res.status(401).json({
-			error: true,
 			message: 'Access denied!'
 		});
 
@@ -97,18 +97,15 @@ router.get('/verifyCSRF', async (req, res) => {
 
 		if (!memberExist)
 			return res.status(401).json({
-				error: true,
 				message: 'Access denied! - User not found'
 			});
 
 		return res.json({
-			error: false,
 			message: 'CSRF Token is correct!',
 			member: memberExist
 		});
 	} catch (err) {
 		res.status(400).json({
-			error: true,
 			message: 'Invalid token!'
 		});
 	}
@@ -121,8 +118,7 @@ router.delete('/logout', csrf, async (req, res, next) => {
 
 	try {
 		res.json({
-			message: 'Successfully logout.',
-			error: false
+			message: 'Successfully logout.'
 		});
 	} catch (err) {
 		res.status(400).send(err);

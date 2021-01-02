@@ -10,7 +10,6 @@ const csrf = async (req, res, next) => {
 
 	if (!sesionExist)
 		return res.status(401).json({
-			error: true,
 			message: 'Access denied!'
 		});
 
@@ -22,14 +21,12 @@ const csrf = async (req, res, next) => {
 
 		if (!memberExist)
 			return res.status(401).json({
-				error: true,
 				message: 'Access denied! - User not found'
 			});
 
 		next();
 	} catch (err) {
 		res.status(400).json({
-			error: true,
 			message: 'Invalid token!'
 		});
 	}

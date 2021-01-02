@@ -1,12 +1,11 @@
 .message {
     padding: 1.2rem 2.4rem 1.2rem 3rem;
-    margin: 2rem 0;
+    margin: 1rem 0 2rem 0;
     border-left: 4px solid var(--theme-main-color-rgb);
     position: relative;
     border-radius: 0 var(--border--radius) var(--border--radius) 0;
 
     &::before {
-        content: '!';
         position: absolute;
         top: 12px;
         left: -12px;
@@ -24,7 +23,18 @@
         background-color: var(--message-error-01);
 
         &::before {
+            content: '!';
             background-color: var(--message-error);
+        }
+    }
+
+    &-success {
+        border-color: var(--message-success);
+        background-color: var(--message-success-01);
+
+        &::before {
+            content: '✓';
+            background-color: var(--message-success);
         }
     }
 }

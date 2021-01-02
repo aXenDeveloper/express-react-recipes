@@ -29,6 +29,10 @@
     --message-error: rgb(var(--message-error-code));
     --message-error-01: rgba(var(--message-error-code), 0.1);
 
+    --message-success-code: 38, 123, 60;
+    --message-success: rgb(var(--message-success-code));
+    --message-success-01: rgba(var(--message-success-code), 0.1);
+
     --line-hr: rgba(0, 0, 0, 0.1);
 }
 

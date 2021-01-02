@@ -16,8 +16,7 @@ router.post('/add', csrf, async (req, res) => {
 		await createRecipe.save();
 
 		return res.json({
-			message: 'The recipe has been added!',
-			error: false
+			message: 'The recipe has been added!'
 		});
 	} catch (err) {
 		res.status(400).send(err);
