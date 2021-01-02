@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
@@ -6,10 +6,10 @@ import { useCSRF } from '../../context/csrf';
 import LogoutButton from '../LogoutButton';
 import NavItems from './NavItems';
 
-const NavbarMobile = () => {
+const NavbarMobile: FC = () => {
 	const [active, setActive] = useState(false);
 
-	const { tokenCSRF, memberData } = useCSRF();
+	const { tokenCSRF, memberData }: any = useCSRF();
 
 	const navOpen = () => setActive(true);
 	const navClose = () => setActive(false);

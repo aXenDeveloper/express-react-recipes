@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, FormEvent, ChangeEvent } from 'react';
 import { Link } from 'react-router-dom';
 import config from '../config';
 
 const RegisterView = () => {
-	const [inputName, setInputName] = useState('');
-	const [inputEmail, setInputEmail] = useState('');
-	const [inputPassword, setInputPassword] = useState('');
-	const [inputPasswordCF, setInputPasswordCF] = useState('');
-	const [errorMessage, setErrorMessage] = useState();
-	const [successMessage, setSuccessMessage] = useState();
-	const [verifyPasswordCF, setVerifyPasswordCF] = useState(true);
+	const [inputName, setInputName] = useState<string>('');
+	const [inputEmail, setInputEmail] = useState<string>('');
+	const [inputPassword, setInputPassword] = useState<string>('');
+	const [inputPasswordCF, setInputPasswordCF] = useState<string>('');
+	const [errorMessage, setErrorMessage] = useState<string>('');
+	const [successMessage, setSuccessMessage] = useState<string>('');
+	const [verifyPasswordCF, setVerifyPasswordCF] = useState<boolean>(true);
 
 	useEffect(() => {
 		document.title = `${config.title_page} - Register`;
@@ -32,8 +32,8 @@ const RegisterView = () => {
 			const data = await api.json();
 			console.log(data);
 
-			setErrorMessage(null);
-			setSuccessMessage(null);
+			setErrorMessage('');
+			setSuccessMessage('');
 
 			if (api.status === 200) {
 				setSuccessMessage(data.message);
@@ -45,17 +45,17 @@ const RegisterView = () => {
 		}
 	};
 
-	const formSubmit = e => {
+	const formSubmit = (e: FormEvent<HTMLFormElement>): void => {
 		e.preventDefault();
 		if (inputPassword === inputPasswordCF) {
 			api();
 		}
 	};
 
-	const handleName = e => setInputName(e.target.value);
-	const handleEmail = e => setInputEmail(e.target.value);
-	const handlePassword = e => setInputPassword(e.target.value);
-	const handlePasswordCF = e => {
+	const handleName = (e: ChangeEvent<HTMLInputElement>): void => setInputName(e.target.value);
+	const handleEmail = (e: ChangeEvent<HTMLInputElement>): void => setInputEmail(e.target.value);
+	const handlePassword = (e: ChangeEvent<HTMLInputElement>): void => setInputPassword(e.target.value);
+	const handlePasswordCF = (e: ChangeEvent<HTMLInputElement>): void => {
 		setInputPasswordCF(e.target.value);
 
 		if (inputPassword === e.target.value) {

@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { FC, useEffect } from 'react';
 import SwiperCore, { Autoplay, Navigation } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper.scss';
 import config from '../config';
 import SwiperVideo from '../assets/video-banner.mp4';
 
-const HomeView = () => {
+const HomeView: FC = () => {
 	useEffect(() => {
 		document.title = config.title_page;
 	}, []);
@@ -21,7 +21,7 @@ const HomeView = () => {
 					</video>
 				</div>
 
-				<Swiper navigation autoplay={{ delay: 3000, disableOnInteraction: false }} delay={5000}>
+				<Swiper navigation autoplay={{ delay: 3000, disableOnInteraction: false }}>
 					<SwiperSlide>
 						<div className="swiper_slide">
 							<div className="swiper_slide:title">Lifehack in Kitchen #1</div>

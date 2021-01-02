@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { FC } from 'react';
 import NavItems from './NavItems';
 
-const NavBar = ({ navMobile }) => (
+const NavBar: FC = () => (
 	<nav className="nav">
 		<div className="container">
 			<ul>

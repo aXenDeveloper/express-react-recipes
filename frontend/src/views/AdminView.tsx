@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { FC, useEffect } from 'react';
 import { useCSRF } from '../context/csrf';
 import config from '../config';
 
-const AdminView = () => {
-	const { memberData } = useCSRF();
+const AdminView: FC = () => {
+	const { memberData }: any = useCSRF();
 
 	useEffect(() => {
 		document.title = `${config.title_page} - Admin Panel`;

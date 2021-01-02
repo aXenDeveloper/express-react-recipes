@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { NavLink } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faUserShield, faPhoneAlt } from '@fortawesome/free-solid-svg-icons';
 import { useCSRF } from '../../context/csrf';
 
-const NavItems = () => {
-	const { tokenCSRF } = useCSRF();
+const NavItems: FC = () => {
+	const { tokenCSRF }: any = useCSRF();
 
 	return (
 		<>

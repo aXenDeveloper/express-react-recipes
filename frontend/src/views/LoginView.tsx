@@ -1,26 +1,23 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect, FC, ChangeEvent, FormEvent } from 'react';
 import { useCSRF } from '../context/csrf';
 import config from '../config';
 
-const LoginView = () => {
-	const [inputEmail, setInputEmail] = useState('');
-	const [inputPassword, setInputPassword] = useState('');
+const LoginView: FC = () => {
+	const [inputEmail, setInputEmail] = useState<string>('');
+	const [inputPassword, setInputPassword] = useState<string>('');
 
-	const [loading, setLoading] = useState(false);
-	const [errorMessage, setErrorMessage] = useState();
+	const [loading, setLoading] = useState<boolean>(false);
+	const [errorMessage, setErrorMessage] = useState<string>('');
 
-	const { createTokenCSRF } = useCSRF();
+	const { createTokenCSRF }: any = useCSRF();
 
-	const unmounted = useRef(false);
 	useEffect(() => {
 		document.title = `${config.title_page} - Login`;
-		return (unmounted.current = true);
 	}, []);
 
 	const api = async () => {
-		setLoading(true);
-
 		try {
+			setLoading(true);
 			const api = await fetch(`${config.backend_url}/account/login`, {
 				method: 'POST',
 				headers: {
@@ -47,13 +44,13 @@ const LoginView = () => {
 		}
 	};
 
-	const formSubmit = e => {
+	const formSubmit = (e: FormEvent<HTMLFormElement>): void => {
 		e.preventDefault();
 		api();
 	};
 
-	const handleEmail = e => setInputEmail(e.target.value);
-	const handlePassword = e => setInputPassword(e.target.value);
+	const handleEmail = (e: ChangeEvent<HTMLInputElement>) => setInputEmail(e.target.value);
+	const handlePassword = (e: ChangeEvent<HTMLInputElement>) => setInputPassword(e.target.value);
 
 	return (
 		<div className="container">

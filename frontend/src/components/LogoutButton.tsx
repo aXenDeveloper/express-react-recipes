@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { FC } from 'react';
 import config from '../config';
 import { useCSRF } from '../context/csrf';
 
-const LogoutButton = ({ buttonFull }) => {
-	const { tokenCSRF, deleteTokenCSRF } = useCSRF();
+interface LogoutButtonInterface {
+	buttonFull?: boolean;
+}
+
+const LogoutButton: FC<LogoutButtonInterface> = ({ buttonFull }) => {
+	const { tokenCSRF, deleteTokenCSRF }: any = useCSRF();
 
 	const api = async () => {
 		try {

@@ -1,9 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { FC, useEffect, ReactNode } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
 import config from '../config';
 
-const ErrorView = ({ children, code }) => {
+interface ErrorViewInterface {
+	children: ReactNode;
+	code: number;
+}
+
+const ErrorView: FC<ErrorViewInterface> = ({ children, code }) => {
 	useEffect(() => {
 		document.title = `${config.title_page} - Error ${code}`;
 	}, [code]);
