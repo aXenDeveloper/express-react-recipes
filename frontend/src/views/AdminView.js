@@ -10,8 +10,10 @@ const AdminView = () => {
 	}, []);
 
 	return (
-		<div className="container_box">
-			<div className="padding">Admin {memberData.name}</div>
+		<div className="container">
+			<div className="container_box">
+				<div className="padding">Admin {memberData.name}</div>
+			</div>
 		</div>
 	);
 };

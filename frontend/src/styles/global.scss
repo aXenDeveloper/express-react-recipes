@@ -34,6 +34,8 @@
     --message-success-01: rgba(var(--message-success-code), 0.1);
 
     --line-hr: rgba(0, 0, 0, 0.1);
+
+    --swiper-height: 500px;
 }
 
 *,
@@ -74,3 +76,4 @@ a {
 @import './userbar';
 @import './button';
 @import './message';
+@import './swiper';

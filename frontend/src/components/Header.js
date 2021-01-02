@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import LogoDark from '../assets/logo_dark.png';
 import NavbarMobile from './nav/NavbarMobile';
 import Userbar from './Userbar';
+import Navbar from './nav/Navbar';
 
 const Header = () => (
 	<header>
@@ -11,6 +12,7 @@ const Header = () => (
 				<img src={LogoDark} alt="Logo" />
 			</Link>
 
+			<Navbar />
 			<Userbar />
 			<NavbarMobile />
 		</div>

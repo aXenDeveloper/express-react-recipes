@@ -64,31 +64,33 @@ const RegisterView = () => {
 	};
 
 	return (
-		<div className="flex flex-ai:center flex-jc:center">
-			<div className="container_box container_box:small">
-				<div className="container_title">
-					<h1>Register</h1>
-				</div>
+		<div className="container">
+			<div className="flex flex-ai:center flex-jc:center">
+				<div className="container_box container_box:small">
+					<div className="container_title">
+						<h1>Register</h1>
+					</div>
 
-				<div className="padding:large">
-					{errorMessage && <div className="message message-error">{errorMessage}</div>}
-					{successMessage && <div className="message message-success">{successMessage}</div>}
+					<div className="padding:large">
+						{errorMessage && <div className="message message-error">{errorMessage}</div>}
+						{successMessage && <div className="message message-success">{successMessage}</div>}
 
-					<form onSubmit={formSubmit}>
-						<input type="text" placeholder="Display Name" onChange={handleName} value={inputName} />
-						<input type="email" placeholder="Email Address" onChange={handleEmail} value={inputEmail} />
-						<input type="password" placeholder="Password" onChange={handlePassword} value={inputPassword} />
-						<input type="password" placeholder="Confirm Password" onChange={handlePasswordCF} value={inputPasswordCF} />
+						<form onSubmit={formSubmit}>
+							<input type="text" placeholder="Display Name" onChange={handleName} value={inputName} />
+							<input type="email" placeholder="Email Address" onChange={handleEmail} value={inputEmail} />
+							<input type="password" placeholder="Password" onChange={handlePassword} value={inputPassword} />
+							<input type="password" placeholder="Confirm Password" onChange={handlePasswordCF} value={inputPasswordCF} />
 
-						{verifyPasswordCF && <div className="message message-error">The password confirmation must be the same.</div>}
+							{verifyPasswordCF && <div className="message message-error">The password confirmation must be the same.</div>}
 
-						<button className="button button_primary" type="submit">
-							Register
-						</button>
-					</form>
+							<button className="button button_primary" type="submit">
+								Register
+							</button>
+						</form>
 
-					<div className="text:center margin-top">
-						<Link to="/login">Existing user? Sign In</Link>
+						<div className="text:center margin-top">
+							<Link to="/login">Existing user? Sign In</Link>
+						</div>
 					</div>
 				</div>
 			</div>

@@ -54,6 +54,7 @@ Include pages:
 -   React
 -   js-cookie
 -   SCSS
+-   Swiper
 
 ### Back-end
 

@@ -56,7 +56,7 @@ const LoginView = () => {
 	const handlePassword = e => setInputPassword(e.target.value);
 
 	return (
-		<>
+		<div className="container">
 			{loading ? (
 				<div className="loading"></div>
 			) : (
@@ -77,7 +77,7 @@ const LoginView = () => {
 					</div>
 				</div>
 			)}
-		</>
+		</div>
 	);
 };
 
