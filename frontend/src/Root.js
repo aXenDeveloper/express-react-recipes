@@ -50,16 +50,8 @@ const Root = () => {
 					<Switch>
 						<Route exact path="/" component={HomeView} />
 
-						<Route
-							exact
-							path="/login"
-							render={() => (!tokenCSRF ? <LoginView /> : <Redirect to="/" />)}
-						/>
-						<Route
-							exact
-							path="/register"
-							render={() => (!tokenCSRF ? <RegisterView /> : <Redirect to="/" />)}
-						/>
+						<Route exact path="/login" render={() => (!tokenCSRF ? <LoginView /> : <Redirect to="/" />)} />
+						<Route exact path="/register" render={() => (!tokenCSRF ? <RegisterView /> : <Redirect to="/" />)} />
 
 						<Route
 							exact
@@ -69,7 +61,7 @@ const Root = () => {
 							}
 						/>
 
-						<Route component={() => <ErrorView code="404">The page you requested does not exist</ErrorView>} />
+						<Route component={() => <ErrorView code={404}>The page you requested does not exist</ErrorView>} />
 					</Switch>
 				</Layout>
 			</BrowserRouter>

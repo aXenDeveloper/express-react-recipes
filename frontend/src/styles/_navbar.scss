@@ -1,5 +1,5 @@
 .nav {
-    margin: 0 auto 0 1rem;
+    background-color: var(--theme-header);
 
     @media screen and (max-width: 980px) {
         display: none;
@@ -12,12 +12,44 @@
         display: flex;
         align-items: center;
 
-        li:not(:last-child) {
-            margin-right: 1rem;
+        a {
+            display: block;
+            font-size: 1.4rem;
+            padding: 20px;
+            transition: color 0.15s ease-in-out;
+
+            &.active {
+                background-color: var(--theme-background);
+                color: #000;
+                font-weight: bold;
+                border-radius: var(--border--radius) var(--border--radius) 0 0;
+            }
+
+            &:hover {
+                color: #000;
+                text-decoration: none;
+            }
         }
     }
 
     &_mobile {
+        > ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+
+            a {
+                display: block;
+                padding: 12px 20px;
+                text-decoration: none;
+
+                &.active {
+                    color: #000;
+                    font-weight: bold;
+                }
+            }
+        }
+
         &_button {
             &\:open {
                 width: 48px;
@@ -42,7 +74,7 @@
                 position: fixed;
                 opacity: 0;
                 top: 5px;
-                right: calc(30rem + 1rem);
+                right: calc(30rem + 0.5rem);
                 z-index: 2000;
                 border: 0;
                 cursor: pointer;

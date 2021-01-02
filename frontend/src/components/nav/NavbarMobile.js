@@ -40,15 +40,18 @@ const NavbarMobile = () => {
 						</>
 					)}
 				</div>
-				<div className="padding">
-					<nav onClick={navClose}>
-						<ul>
-							<NavItems />
-						</ul>
-					</nav>
 
-					{tokenCSRF && <LogoutButton buttonFull />}
-				</div>
+				<nav className="nav_mobile" onClick={navClose}>
+					<ul>
+						<NavItems />
+					</ul>
+				</nav>
+
+				{tokenCSRF && (
+					<div className="padding">
+						<LogoutButton buttonFull />
+					</div>
+				)}
 			</div>
 			<div className={`nav_mobile_background${active ? ' active' : ''}`} onClick={navClose}></div>
 		</>

@@ -13,6 +13,7 @@ const LoginView = () => {
 
 	const unmounted = useRef(false);
 	useEffect(() => {
+		document.title = `${config.title_page} - Login`;
 		return (unmounted.current = true);
 	}, []);
 

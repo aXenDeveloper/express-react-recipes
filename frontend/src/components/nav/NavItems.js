@@ -1,5 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHome, faUserShield, faPhoneAlt } from '@fortawesome/free-solid-svg-icons';
 import { useCSRF } from '../../context/csrf';
 
 const NavItems = () => {
@@ -9,13 +11,19 @@ const NavItems = () => {
 		<>
 			<li>
 				<NavLink exact to="/">
-					Home
+					<FontAwesomeIcon icon={faHome} /> Home
+				</NavLink>
+			</li>
+
+			<li>
+				<NavLink exact to="/contact">
+					<FontAwesomeIcon icon={faPhoneAlt} /> Contact
 				</NavLink>
 			</li>
 			{tokenCSRF && (
 				<li>
 					<NavLink exact to="/admin">
-						Admin
+						<FontAwesomeIcon icon={faUserShield} /> Admin
 					</NavLink>
 				</li>
 			)}

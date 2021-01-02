@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import config from '../config';
 
@@ -10,6 +10,10 @@ const RegisterView = () => {
 	const [errorMessage, setErrorMessage] = useState();
 	const [successMessage, setSuccessMessage] = useState();
 	const [verifyPasswordCF, setVerifyPasswordCF] = useState(true);
+
+	useEffect(() => {
+		document.title = `${config.title_page} - Register`;
+	}, []);
 
 	const api = async () => {
 		try {

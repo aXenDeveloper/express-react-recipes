@@ -1,16 +1,14 @@
 import React from 'react';
-import NavbarMobile from "./NavbarMobile";
-import NavItems from "./NavItems";
+import NavItems from './NavItems';
 
 const NavBar = ({ navMobile }) => (
-    <>
-        <nav className="nav">
-            <ul>
-                <NavItems />
-            </ul>
-        </nav>
-        <NavbarMobile />
-    </>
+	<nav className="nav">
+		<div className="container">
+			<ul>
+				<NavItems />
+			</ul>
+		</div>
+	</nav>
 );
 
 export default NavBar;
