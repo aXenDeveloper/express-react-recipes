@@ -31,14 +31,6 @@
         }
     }
 
-    h1,
-    h2 {
-        font-size: 2.4rem;
-        font-weight: bold;
-        line-height: 1.2;
-        margin: 0 0 2rem 0;
-    }
-
     &_wraper {
         display: flex;
         justify-content: space-between;
@@ -61,6 +53,20 @@
             max-width: 340px;
         }
     }
+
+    &_header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        > h1,
+        > h2 {
+            font-size: 2.4rem;
+            font-weight: bold;
+            line-height: 1.2;
+            margin: 0 0 2rem 0;
+        }
+    }
 }
 
 main .container {
@@ -76,6 +82,14 @@ main .container {
 
     &\:half {
         padding: 1rem;
+    }
+
+    &-top {
+        padding-top: 2rem;
+
+        &\:half {
+            padding-top: 1rem;
+        }
     }
 }
 
@@ -127,6 +141,12 @@ main .container {
     &-jc {
         &\:center {
             justify-content: center;
+        }
+    }
+
+    &-fd {
+        &\:column {
+            flex-direction: column;
         }
     }
 }

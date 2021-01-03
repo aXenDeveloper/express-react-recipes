@@ -77,3 +77,9 @@ a {
 @import './button';
 @import './message';
 @import './swiper';
+@import './inputs';
+
+.ck.ck-editor__main .ck.ck-content {
+    min-height: 240px;
+    max-height: 80vh;
+}

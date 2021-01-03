@@ -64,19 +64,37 @@ const LoginView: FC = () => {
 				<div className="loading"></div>
 			) : (
 				<div className="flex flex-ai:center flex-jc:center">
-					<div className="container_box container_box:small">
-						<div className="padding:large">
-							{errorMessage && <div className="message message-error">{errorMessage}</div>}
+					<div className="container_box container_box:small padding:large">
+						{errorMessage && <div className="message message-error">{errorMessage}</div>}
 
-							<form onSubmit={formSubmit}>
-								<input type="email" placeholder="Email Address" onChange={handleEmail} value={inputEmail} />
-								<input type="password" placeholder="Password" onChange={handlePassword} value={inputPassword} />
+						<form className="form" onSubmit={formSubmit}>
+							<ul className="form_ul">
+								<li>
+									<input
+										type="email"
+										className="input input_text input_full"
+										placeholder="Email Address"
+										onChange={handleEmail}
+										value={inputEmail}
+									/>
+								</li>
+								<li>
+									<input
+										type="password"
+										className="input input_text input_full"
+										placeholder="Password"
+										onChange={handlePassword}
+										value={inputPassword}
+									/>
+								</li>
+							</ul>
 
-								<button className="button button_primary" type="submit">
+							<div className="flex flex-jc:center margin-top">
+								<button className="button button_primary button_full" type="submit">
 									Login
 								</button>
-							</form>
-						</div>
+							</div>
+						</form>
 					</div>
 				</div>
 			)}

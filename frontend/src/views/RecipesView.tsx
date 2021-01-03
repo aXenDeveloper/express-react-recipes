@@ -1,9 +1,13 @@
 import { FC, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import config from '../config';
+import { useCSRF } from '../context/csrf';
 
 const RecipesView: FC = () => {
 	const [loading, setLoading] = useState<boolean>(false);
 	const [recipesList, setRecipesList] = useState<[]>([]);
+
+	const { tokenCSRF }: any = useCSRF();
 
 	useEffect(() => {
 		document.title = `${config.title_page} - Recipes`;
@@ -27,7 +31,16 @@ const RecipesView: FC = () => {
 
 	return (
 		<div className="container">
-			<h1>Recipes</h1>
+			<div className="container_header">
+				<h1>Recipes</h1>
+
+				{tokenCSRF && (
+					<Link to="/recipes/add">
+						<button className="button button_important">Add new recipe</button>
+					</Link>
+				)}
+			</div>
+
 			<div className="container_wraper">
 				<div className="container_wraper_main">
 					<div className="container_box">
@@ -51,5 +64,3 @@ const RecipesView: FC = () => {
 };
 
 export default RecipesView;
-
-// {loading ? <div className="loading"></div> : <div>Recipe</div>}

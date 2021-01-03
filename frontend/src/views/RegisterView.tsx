@@ -75,17 +75,57 @@ const RegisterView = () => {
 						{errorMessage && <div className="message message-error">{errorMessage}</div>}
 						{successMessage && <div className="message message-success">{successMessage}</div>}
 
-						<form onSubmit={formSubmit}>
-							<input type="text" placeholder="Display Name" onChange={handleName} value={inputName} />
-							<input type="email" placeholder="Email Address" onChange={handleEmail} value={inputEmail} />
-							<input type="password" placeholder="Password" onChange={handlePassword} value={inputPassword} />
-							<input type="password" placeholder="Confirm Password" onChange={handlePasswordCF} value={inputPasswordCF} />
+						<form className="form" onSubmit={formSubmit}>
+							<ul className="form_ul">
+								<li>
+									<input
+										type="text"
+										className="input input_text input_full"
+										placeholder="Display Name"
+										onChange={handleName}
+										value={inputName}
+									/>
+								</li>
+								<li>
+									<input
+										type="email"
+										className="input input_text input_full"
+										placeholder="Email Address"
+										onChange={handleEmail}
+										value={inputEmail}
+									/>
+								</li>
+								<li>
+									<input
+										type="password"
+										className="input input_text input_full"
+										placeholder="Password"
+										onChange={handlePassword}
+										value={inputPassword}
+									/>
+								</li>
+								<li>
+									<input
+										type="password"
+										className="input input_text input_full"
+										placeholder="Confirm Password"
+										onChange={handlePasswordCF}
+										value={inputPasswordCF}
+									/>
+								</li>
 
-							{verifyPasswordCF && <div className="message message-error">The password confirmation must be the same.</div>}
+								{verifyPasswordCF && (
+									<li>
+										<div className="message message-error">The password confirmation must be the same.</div>
+									</li>
+								)}
+							</ul>
 
-							<button className="button button_primary" type="submit">
-								Register
-							</button>
+							<div className="flex flex-jc:center margin-top">
+								<button className="button button_primary button_full" type="submit">
+									Register
+								</button>
+							</div>
 						</form>
 
 						<div className="text:center margin-top">

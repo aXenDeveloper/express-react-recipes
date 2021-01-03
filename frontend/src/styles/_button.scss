@@ -27,8 +27,12 @@
         transition: opacity 0.15s ease-in-out;
     }
 
-    &:hover::after {
-        opacity: 1;
+    &:hover {
+        text-decoration: none;
+
+        &::after {
+            opacity: 1;
+        }
     }
 
     &_full {
