@@ -55,6 +55,8 @@ Include pages:
 -   js-cookie
 -   SCSS
 -   Swiper
+-   Typescript
+-   CKEditor
 
 ### Back-end
 

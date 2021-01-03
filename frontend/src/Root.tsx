@@ -5,10 +5,12 @@ import HomeView from './views/HomeView';
 import LoginView from './views/LoginView';
 import RegisterView from './views/RegisterView';
 import { AuthContext } from './context/csrf';
-import AdminView from './views/AdminView';
+import AdminView from './views/protected/AdminView';
 import Cookies from 'js-cookie';
 import config from './config';
 import ErrorView from './views/ErrorView';
+import RecipesView from './views/RecipesView';
+import RecipesAddView from './views/protected/recipes/RecipesAddView';
 
 const Root = () => {
 	const [tokenCSRF, setTokenCSRF] = useState<string | undefined>(Cookies.get('CSRF_token'));
@@ -49,6 +51,7 @@ const Root = () => {
 				<Layout>
 					<Switch>
 						<Route exact path="/" component={HomeView} />
+						<Route exact path="/recipes" component={RecipesView} />
 
 						<Route exact path="/login" render={() => (!tokenCSRF ? <LoginView /> : <Redirect to="/" />)} />
 						<Route exact path="/register" render={() => (!tokenCSRF ? <RegisterView /> : <Redirect to="/" />)} />
@@ -58,6 +61,14 @@ const Root = () => {
 							path="/admin"
 							render={() =>
 								statusVerifyCSRF === 200 ? <AdminView /> : <ErrorView code={401}>You don't have access to this page!</ErrorView>
+							}
+						/>
+
+						<Route
+							exact
+							path="/recipes/add"
+							render={() =>
+								statusVerifyCSRF === 200 ? <RecipesAddView /> : <ErrorView code={401}>You don't have access to this page!</ErrorView>
 							}
 						/>
 

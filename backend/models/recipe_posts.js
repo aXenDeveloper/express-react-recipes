@@ -5,6 +5,10 @@ const recipe_posts = new mongoose.Schema({
 		type: String,
 		required: true
 	},
+	category: {
+		type: String,
+		required: true
+	},
 	ingredients: {
 		type: Array,
 		required: true

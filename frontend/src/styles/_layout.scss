@@ -30,6 +30,37 @@
             font-weight: bold;
         }
     }
+
+    h1,
+    h2 {
+        font-size: 2.4rem;
+        font-weight: bold;
+        line-height: 1.2;
+        margin: 0 0 2rem 0;
+    }
+
+    &_wraper {
+        display: flex;
+        justify-content: space-between;
+
+        @media screen and (max-width: 980px) {
+            flex-direction: column;
+        }
+
+        &_main {
+            flex: 1;
+            margin: 0 2rem 0 0;
+
+            @media screen and (max-width: 980px) {
+                margin: 0 0 2rem 0;
+            }
+        }
+
+        &_widget {
+            min-width: 340px;
+            max-width: 340px;
+        }
+    }
 }
 
 main .container {

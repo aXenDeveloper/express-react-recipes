@@ -1,6 +1,6 @@
-import React, { FC, useEffect } from 'react';
-import { useCSRF } from '../context/csrf';
-import config from '../config';
+import { FC, useEffect } from 'react';
+import { useCSRF } from '../../context/csrf';
+import config from '../../config';
 
 const AdminView: FC = () => {
 	const { memberData }: any = useCSRF();

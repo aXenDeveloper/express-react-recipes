@@ -30,6 +30,6 @@ app.use(express.json());
 
 // Routers
 app.use('/account', require('./routers/auth'));
-app.use('/recipe', require('./routers/recipe'));
+app.use('/recipes', require('./routers/recipes'));
 
 app.listen(PORT, () => console.log(`Server running in http://localhost:${PORT}/`));

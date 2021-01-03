@@ -1,4 +1,4 @@
-import React, { useState, useEffect, FC, ChangeEvent, FormEvent } from 'react';
+import { useState, useEffect, FC, ChangeEvent, FormEvent, useRef, MutableRefObject } from 'react';
 import { useCSRF } from '../context/csrf';
 import config from '../config';
 
@@ -11,8 +11,14 @@ const LoginView: FC = () => {
 
 	const { createTokenCSRF }: any = useCSRF();
 
+	const _isMounted: MutableRefObject<boolean> = useRef(true);
+
 	useEffect(() => {
 		document.title = `${config.title_page} - Login`;
+
+		return () => {
+			_isMounted.current = false;
+		};
 	}, []);
 
 	const api = async () => {

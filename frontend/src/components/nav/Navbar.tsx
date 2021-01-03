@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import NavItems from './NavItems';
 
 const NavBar: FC = () => (

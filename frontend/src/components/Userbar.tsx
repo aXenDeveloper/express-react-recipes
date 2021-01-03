@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import { useCSRF } from '../context/csrf';
 import LogoutButton from './LogoutButton';

@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import LogoDark from '../assets/logo_dark.png';
 import NavbarMobile from './nav/NavbarMobile';

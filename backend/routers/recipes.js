@@ -4,10 +4,11 @@ const csrf = require('./csrf');
 const Recipe_posts = require('../models/recipe_posts');
 
 router.post('/add', csrf, async (req, res) => {
-	const { title, ingredients, description } = req.body;
+	const { title, category, ingredients, description } = req.body;
 
 	const createRecipe = new Recipe_posts({
 		title,
+		category,
 		ingredients,
 		description
 	});
