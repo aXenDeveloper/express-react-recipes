@@ -2,11 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import config from '../../../config';
+import uniqid from 'uniqid';
+import Ingredient from './Ingredient';
 
 const RecipesAddView = () => {
 	const [inputTitle, setInputTitle] = useState('');
 	const [inputDesc, setInputDesc] = useState('');
 	const [inputCategory, setInputCategory] = useState('breakfast');
+
+	const [inputIngredient, setInputIngredient] = useState('');
+	const [listIngredient, setListIngredient] = useState([
+		{ id: 1, element: 'test1' },
+		{ id: 11, element: 'test123' }
+	]);
 
 	useEffect(() => {
 		document.title = `${config.title_page} - Add Recipe`;
@@ -17,13 +25,30 @@ const RecipesAddView = () => {
 		console.log(inputDesc);
 	};
 
+	const addIngredient = () => {
+		setListIngredient([
+			...listIngredient,
+			{
+				id: uniqid(),
+				element: inputIngredient
+			}
+		]);
+		setInputIngredient('');
+	};
+
+	const removeIngredient = id => {
+		console.log(listIngredient.filter(el => el.id !== id));
+		setListIngredient(listIngredient.filter(el => el.id !== id));
+	};
+
 	const handleTitle = e => setInputTitle(e.target.value);
 	const handleCategory = e => setInputCategory(e.target.value);
+	const handleIngredient = e => setInputIngredient(e.target.value);
 
 	return (
-		<form className="form container" onSubmit={formSubmit}>
-			<div className="container_wraper">
-				<div className="container_wraper_main container_box padding">
+		<form className="form" onSubmit={formSubmit}>
+			<div className="container">
+				<div className="container_box padding">
 					<ul className="form_ul">
 						<li>
 							<label htmlFor="title" className="input_label">
@@ -52,9 +77,21 @@ const RecipesAddView = () => {
 									console.log({ event, editor, data });
 									setInputDesc(data);
 								}}
+								config={{
+									removePlugins: ['Image', 'ImageCaption', 'ImageStyle', 'ImageToolbar', 'ImageUpload'],
+									width: 'auto'
+								}}
 							/>
 						</li>
 					</ul>
+
+					<Ingredient
+						listIngredient={listIngredient}
+						removeIngredient={removeIngredient}
+						handleIngredient={handleIngredient}
+						inputIngredient={inputIngredient}
+						addIngredient={addIngredient}
+					/>
 
 					<div className="flex flex-ai:center flex-jc:center padding-top">
 						<button className="button button_primary" type="submit">
@@ -62,8 +99,6 @@ const RecipesAddView = () => {
 						</button>
 					</div>
 				</div>
-
-				<div className="container_wraper_widget">test</div>
 			</div>
 		</form>
 	);

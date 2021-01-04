@@ -116,6 +116,18 @@ main .container {
         }
     }
 
+    &-right {
+        margin-right: 2rem;
+
+        &\:large {
+            margin-right: 4rem;
+        }
+
+        &\:half {
+            margin-right: 1rem;
+        }
+    }
+
     &-top {
         margin-top: 2rem;
 
@@ -142,12 +154,20 @@ main .container {
         &\:center {
             justify-content: center;
         }
+
+        &\:space-between {
+            justify-content: space-between;
+        }
     }
 
     &-fd {
         &\:column {
             flex-direction: column;
         }
+    }
+
+    &\:11 {
+        flex: 1;
     }
 }
 

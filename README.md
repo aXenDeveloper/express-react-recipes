@@ -57,6 +57,7 @@ Include pages:
 -   Swiper
 -   Typescript
 -   CKEditor
+-   uniqid
 
 ### Back-end
 
