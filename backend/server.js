@@ -18,6 +18,8 @@ mongoose.connect(
 	}
 );
 
+app.use(express.static('public'));
+
 // Allow access API
 app.use((req, res, next) => {
 	res.header('Access-Control-Allow-Origin', '*');

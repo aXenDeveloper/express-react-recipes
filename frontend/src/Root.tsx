@@ -10,7 +10,7 @@ import Cookies from 'js-cookie';
 import config from './config';
 import ErrorView from './views/ErrorView';
 import RecipesView from './views/RecipesView';
-import RecipesAddView from './views/protected/recipes/RecipesAddView';
+import RecipesAddView from './views/protected/recipes/RecipeAddView';
 
 const Root = () => {
 	const [tokenCSRF, setTokenCSRF] = useState<string | undefined>(Cookies.get('CSRF_token'));

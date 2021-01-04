@@ -2,7 +2,7 @@ const router = require('express').Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv').config();
-const csrf = require('./csrf');
+const csrfValidate = require('./validate/csrfValidate');
 
 // Import models
 const Member = require('../models/core_members');
@@ -111,7 +111,7 @@ router.get('/verifyCSRF', async (req, res) => {
 	}
 });
 
-router.delete('/logout', csrf, async (req, res, next) => {
+router.delete('/logout', csrfValidate, async (req, res, next) => {
 	await Session.findOneAndDelete({
 		token: req.header('CSRF_Token')
 	});

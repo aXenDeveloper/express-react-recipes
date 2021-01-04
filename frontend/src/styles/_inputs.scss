@@ -8,6 +8,9 @@
 
 .input {
     border-radius: var(--border--radius);
+    background-color: var(--box--backgroundColor);
+    border: 1px solid var(--input--border);
+    color: inherit;
 
     &_label {
         margin-bottom: 0.5rem;
@@ -18,9 +21,6 @@
 
     &_text {
         padding: 1.3rem 1.2rem;
-        color: inherit;
-        background-color: var(--box--backgroundColor);
-        border: 1px solid var(--input--border);
         transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 
         @include input-focus();
@@ -32,9 +32,6 @@
         background-repeat: no-repeat;
         background-position: right 0.75rem center;
         background-size: 16px 12px;
-        background-color: var(--box--backgroundColor);
-        color: inherit;
-        border: 1px solid var(--input--border);
         appearance: none;
         cursor: pointer;
         transition: background-color 0.15s ease-in-out, background-position 0.15s ease-in-out,
@@ -43,6 +40,14 @@
         &::-ms-expand {
             display: none;
         }
+
+        @include input-focus();
+    }
+
+    &_file {
+        padding: 1.3rem 1.2rem;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        cursor: pointer;
 
         @include input-focus();
     }

@@ -66,6 +66,7 @@ Include pages:
 -   dotenv
 -   jsonwebtoken
 -   mongoose
+-   multer
 
 ## 👨‍👧‍👦 Groups ID
 

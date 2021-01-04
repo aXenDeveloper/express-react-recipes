@@ -1,10 +1,25 @@
 const router = require('express').Router();
-const csrf = require('./csrf');
-
+const csrfValidate = require('./validate/csrfValidate');
+const multer = require('multer');
 const Recipe_posts = require('../models/recipe_posts');
 
-router.post('/add', csrf, async (req, res) => {
+const storage = multer.diskStorage({
+	destination: function (req, file, cb) {
+		cb(null, './public/uploads');
+	},
+	filename: function (req, file, cb) {
+		cb(null, new Date().toISOString().replace(':', '_').replace(':', '_') + file.originalname);
+	}
+});
+
+const upload = multer({
+	storage: storage
+}).single('productImage');
+
+router.post('/add', csrfValidate, upload, async (req, res) => {
 	const { title, category, ingredients, description } = req.body;
+
+	if (!title || !category || !description) return res.status(400).json({ message: 'Not all fields have been completed!' });
 
 	const createRecipe = new Recipe_posts({
 		title,

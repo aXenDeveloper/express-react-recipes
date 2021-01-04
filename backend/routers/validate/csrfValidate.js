@@ -1,9 +1,9 @@
 const jwt = require('jsonwebtoken');
 
-const Member = require('../models/core_members');
-const Session = require('../models/core_session');
+const Member = require('../../models/core_members');
+const Session = require('../../models/core_session');
 
-const csrf = async (req, res, next) => {
+const csrfValidate = async (req, res, next) => {
 	const sesionExist = await Session.findOne({
 		token: req.header('CSRF_Token')
 	});
@@ -32,4 +32,4 @@ const csrf = async (req, res, next) => {
 	}
 };
 
-module.exports = csrf;
+module.exports = csrfValidate;
