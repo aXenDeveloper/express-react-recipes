@@ -32,6 +32,7 @@ router.post('/add', csrfValidate, upload, async (req, res) => {
 	const createRecipe = new Recipe_posts({
 		title,
 		mamber_id: verified._id,
+		imageURL: req.file.filename,
 		category,
 		ingredients,
 		description

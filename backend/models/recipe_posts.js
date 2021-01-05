@@ -13,6 +13,10 @@ const recipe_posts = new mongoose.Schema({
 		type: String,
 		required: true
 	},
+	imageURL: {
+		type: String,
+		required: true
+	},
 	ingredients: {
 		type: String,
 		required: true
