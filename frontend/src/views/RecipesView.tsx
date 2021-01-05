@@ -11,25 +11,25 @@ const RecipesView: FC = () => {
 
 	useEffect(() => {
 		document.title = `${config.title_page} - Recipes`;
+
+		const api = async () => {
+			try {
+				setLoading(true);
+				const recipesAPI = await fetch(`${config.backend_url}/recipes`);
+
+				const dataRecipesAPI = await recipesAPI.json();
+
+				// console.log(JSON.parse(dataRecipesAPI.recipe[0].ingredients));
+				setRecipesList(dataRecipesAPI.recipe.reverse());
+				console.log(dataRecipesAPI.recipe);
+
+				setLoading(false);
+			} catch (err) {
+				console.error(err);
+			}
+		};
 		api();
 	}, []);
-
-	const api = async () => {
-		try {
-			setLoading(true);
-			const recipesAPI = await fetch(`${config.backend_url}/recipes`);
-
-			const dataRecipesAPI = await recipesAPI.json();
-
-			// console.log(JSON.parse(dataRecipesAPI.recipe[0].ingredients));
-			setRecipesList(dataRecipesAPI.recipe.reverse());
-			console.log(dataRecipesAPI.recipe);
-
-			setLoading(false);
-		} catch (err) {
-			console.error(err);
-		}
-	};
 
 	return (
 		<div className="container">
@@ -55,7 +55,7 @@ const RecipesView: FC = () => {
 										<>
 											{recipesList.map((el: any) => (
 												<li key={el._id}>
-													<Link to="/recipes">
+													<Link to={`/recipes/${el._id}`}>
 														<div className="recipes_item">
 															<img src={`${config.backend_url}/uploads/${el.image_url}`} alt={el.title} />
 															<div className="recipes_item_title">{el.title}</div>

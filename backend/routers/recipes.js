@@ -2,6 +2,7 @@ const router = require('express').Router();
 const csrfValidate = require('./validate/csrfValidate');
 const multer = require('multer');
 const jwt = require('jsonwebtoken');
+const mongoose = require('mongoose');
 
 const Recipe_posts = require('../models/recipe_posts');
 const Member = require('../models/core_members');
@@ -63,6 +64,18 @@ router.post('/add', csrfValidate, upload, async (req, res) => {
 router.get('/', async (req, res) => {
 	const recipe = await Recipe_posts.find({});
 	return res.json({ recipe });
+});
+
+router.get('/item', async (req, res) => {
+	try {
+		const recipeItem = await Recipe_posts.find({
+			_id: mongoose.Types.ObjectId(req.query.id)
+		});
+
+		return res.json({ recipeItem });
+	} catch (err) {
+		return res.status(404).json({ message: 'Invalid item ID!' });
+	}
 });
 
 module.exports = router;
