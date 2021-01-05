@@ -17,13 +17,13 @@ const RecipesView: FC = () => {
 	const api = async () => {
 		try {
 			setLoading(true);
-			const api = await fetch(`${config.backend_url}/recipes`);
+			const recipesAPI = await fetch(`${config.backend_url}/recipes`);
 
-			const data = await api.json();
+			const dataRecipesAPI = await recipesAPI.json();
 
-			console.log(JSON.parse(data.recipe[0].ingredients));
-			setRecipesList(data.recipe.reverse());
-			console.log(data.recipe.reverse());
+			// console.log(JSON.parse(dataRecipesAPI.recipe[0].ingredients));
+			setRecipesList(dataRecipesAPI.recipe.reverse());
+			console.log(dataRecipesAPI.recipe.reverse());
 
 			setLoading(false);
 		} catch (err) {
@@ -50,17 +50,26 @@ const RecipesView: FC = () => {
 							{loading ? (
 								<div className="loading"></div>
 							) : (
-								<>
+								<ul className="recipes_ul">
 									{recipesList.length > 0 ? (
-										<div>
+										<>
 											{recipesList.map((el: any) => (
-												<div key={el._id}>{el.title}</div>
+												<li key={el._id}>
+													<Link to="/recipes">
+														<div className="recipes_item">
+															<img src={`${config.backend_url}/uploads/${el.imageURL}`} alt={el.title} />
+															<div className="recipes_item_title">{el.title}</div>
+															<div className="recipes_item_category">{el.category}</div>
+															<div className="recipes_item_author">aXen</div>
+														</div>
+													</Link>
+												</li>
 											))}
-										</div>
+										</>
 									) : (
-										<div>No recipes</div>
+										<li>No recipes</li>
 									)}
-								</>
+								</ul>
 							)}
 						</div>
 					</div>
