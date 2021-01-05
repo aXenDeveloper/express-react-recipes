@@ -125,4 +125,31 @@ router.delete('/logout', csrfValidate, async (req, res, next) => {
 	}
 });
 
+/* router.get('/memberdata', async (req, res) => {
+	const queryID = req.query.id;
+
+	if (!queryID.match(/^[0-9a-fA-F]{24}$/))
+		res.status(400).json({
+			message: 'Invalid member ID!'
+		});
+
+	const memberExist = await Member.findOne({
+		_id: queryID
+	});
+
+	if (!memberExist)
+		return res.status(400).json({
+			message: 'User id not found!'
+		});
+
+	try {
+		return res.json({
+			name: memberExist.name,
+			id: memberExist._id
+		});
+	} catch (err) {
+		res.status(400).send(err);
+	}
+}); */
+
 module.exports = router;

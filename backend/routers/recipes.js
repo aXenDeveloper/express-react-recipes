@@ -4,6 +4,7 @@ const multer = require('multer');
 const jwt = require('jsonwebtoken');
 
 const Recipe_posts = require('../models/recipe_posts');
+const Member = require('../models/core_members');
 const Session = require('../models/core_session');
 
 const storage = multer.diskStorage({
@@ -29,10 +30,20 @@ router.post('/add', csrfValidate, upload, async (req, res) => {
 
 	const verified = jwt.verify(sesionExist.token, process.env.CSRF_TOKEN);
 
+	const memberExist = await Member.findOne({
+		_id: verified._id
+	});
+
+	if (!memberExist)
+		return res.status(400).json({
+			message: 'User id not found!'
+		});
+
 	const createRecipe = new Recipe_posts({
 		title,
-		mamber_id: verified._id,
-		imageURL: req.file.filename,
+		member_id: memberExist._id,
+		member_name: memberExist.name,
+		image_url: req.file.filename,
 		category,
 		ingredients,
 		description

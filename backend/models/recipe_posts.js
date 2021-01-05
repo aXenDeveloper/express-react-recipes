@@ -5,7 +5,11 @@ const recipe_posts = new mongoose.Schema({
 		type: String,
 		required: true
 	},
-	mamber_id: {
+	member_id: {
+		type: String,
+		required: true
+	},
+	member_name: {
 		type: String,
 		required: true
 	},
@@ -13,7 +17,7 @@ const recipe_posts = new mongoose.Schema({
 		type: String,
 		required: true
 	},
-	imageURL: {
+	image_url: {
 		type: String,
 		required: true
 	},

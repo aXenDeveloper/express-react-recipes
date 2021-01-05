@@ -23,7 +23,7 @@ const RecipesView: FC = () => {
 
 			// console.log(JSON.parse(dataRecipesAPI.recipe[0].ingredients));
 			setRecipesList(dataRecipesAPI.recipe.reverse());
-			console.log(dataRecipesAPI.recipe.reverse());
+			console.log(dataRecipesAPI.recipe);
 
 			setLoading(false);
 		} catch (err) {
@@ -57,10 +57,10 @@ const RecipesView: FC = () => {
 												<li key={el._id}>
 													<Link to="/recipes">
 														<div className="recipes_item">
-															<img src={`${config.backend_url}/uploads/${el.imageURL}`} alt={el.title} />
+															<img src={`${config.backend_url}/uploads/${el.image_url}`} alt={el.title} />
 															<div className="recipes_item_title">{el.title}</div>
 															<div className="recipes_item_category">{el.category}</div>
-															<div className="recipes_item_author">aXen</div>
+															<div className="recipes_item_author">{el.member_name}</div>
 														</div>
 													</Link>
 												</li>
