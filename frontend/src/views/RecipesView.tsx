@@ -20,6 +20,8 @@ const RecipesView: FC = () => {
 			const api = await fetch(`${config.backend_url}/recipes`);
 
 			const data = await api.json();
+
+			console.log(JSON.parse(data.recipe[0].ingredients));
 			setRecipesList(data.recipe.reverse());
 			console.log(data.recipe.reverse());
 
@@ -48,11 +50,17 @@ const RecipesView: FC = () => {
 							{loading ? (
 								<div className="loading"></div>
 							) : (
-								<div>
-									{recipesList.map((el: any) => (
-										<div key={el._id}>{el.title}</div>
-									))}
-								</div>
+								<>
+									{recipesList.length > 0 ? (
+										<div>
+											{recipesList.map((el: any) => (
+												<div key={el._id}>{el.title}</div>
+											))}
+										</div>
+									) : (
+										<div>No recipes</div>
+									)}
+								</>
 							)}
 						</div>
 					</div>

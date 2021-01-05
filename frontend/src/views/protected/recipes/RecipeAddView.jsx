@@ -31,7 +31,7 @@ const RecipesAddView = () => {
 		formData.append('productImage', inputImage);
 		formData.append('title', inputTitle);
 		formData.append('category', inputCategory);
-		formData.append('ingredients', listIngredient);
+		formData.append('ingredients', JSON.stringify(listIngredient));
 		formData.append('description', inputDesc);
 
 		try {
