@@ -1,6 +1,6 @@
 import { FC, ChangeEvent } from 'react';
 
-type IngredientType = {
+type IngredientsType = {
 	listIngredient: [];
 	removeIngredient(el: string): void;
 	handleIngredient(event: ChangeEvent<HTMLInputElement>): void;
@@ -10,7 +10,7 @@ type IngredientType = {
 	handleIngredientAmount(event: ChangeEvent<HTMLInputElement>): void;
 };
 
-const Ingredient: FC<IngredientType> = ({
+const Ingredients: FC<IngredientsType> = ({
 	listIngredient,
 	removeIngredient,
 	handleIngredient,
@@ -47,4 +47,4 @@ const Ingredient: FC<IngredientType> = ({
 	);
 };
 
-export default Ingredient;
+export default Ingredients;

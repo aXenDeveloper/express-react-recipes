@@ -1,10 +1,10 @@
 import React, { useState, useEffect, createRef } from 'react';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import config from '../../../config';
+import config from '../../config';
 import uniqid from 'uniqid';
-import Ingredient from './Ingredient';
-import { useCSRF } from '../../../context/csrf';
+import IngredientsForm from '../../components/IngredientsForm';
+import { useCSRF } from '../../context/csrf';
 
 const RecipesAddView = () => {
 	const { tokenCSRF } = useCSRF();
@@ -129,7 +129,7 @@ const RecipesAddView = () => {
 						</li>
 					</ul>
 
-					<Ingredient
+					<IngredientsForm
 						listIngredient={listIngredient}
 						removeIngredient={removeIngredient}
 						handleIngredient={handleIngredient}

@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from 'react';
 import ErrorView from './ErrorView';
 import config from '../config';
-import RecipeIngredients from './widgets/RecipeIngredients';
+import RecipeIngredients from '../components/widgets/RecipeIngredients';
 
 type RecipeItemViewType = {
 	match: any;

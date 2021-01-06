@@ -10,7 +10,7 @@ import Cookies from 'js-cookie';
 import config from './config';
 import ErrorView from './views/ErrorView';
 import RecipesView from './views/RecipesView';
-import RecipesAddView from './views/protected/recipes/RecipeAddView';
+import RecipesAddView from './views/protected/RecipeAddView';
 import RecipeItemView from './views/RecipeItemView';
 
 const Root = () => {
