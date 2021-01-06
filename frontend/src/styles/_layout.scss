@@ -51,6 +51,11 @@
         &_widget {
             min-width: 340px;
             max-width: 340px;
+
+            @media screen and (max-width: 980px) {
+                min-width: initial;
+                max-width: initial;
+            }
         }
     }
 

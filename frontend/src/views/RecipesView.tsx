@@ -46,32 +46,30 @@ const RecipesView: FC = () => {
 			<div className="container_wraper">
 				<div className="container_wraper_main">
 					<div className="container_box">
-						<div className="padding">
-							{loading ? (
-								<div className="loading"></div>
-							) : (
-								<ul className="recipes_ul">
-									{recipesList.length > 0 ? (
-										<>
-											{recipesList.map((el: any) => (
-												<li key={el._id}>
-													<Link to={`/recipes/${el._id}`}>
-														<div className="recipes_item">
-															<img src={`${config.backend_url}/uploads/${el.image_url}`} alt={el.title} />
-															<div className="recipes_item_title">{el.title}</div>
-															<div className="recipes_item_category">{el.category}</div>
-															<div className="recipes_item_author">{el.member_name}</div>
-														</div>
-													</Link>
-												</li>
-											))}
-										</>
-									) : (
-										<li>No recipes</li>
-									)}
-								</ul>
-							)}
-						</div>
+						{loading ? (
+							<div className="loading" />
+						) : (
+							<ul className="recipes_ul">
+								{recipesList.length > 0 ? (
+									<>
+										{recipesList.map((el: any) => (
+											<li key={el._id}>
+												<Link to={`/recipes/${el._id}`}>
+													<div className="recipes_item">
+														<img src={`${config.backend_url}/uploads/${el.image_url}`} alt={el.title} />
+														<div className="recipes_item_title">{el.title}</div>
+														<div className="recipes_item_category">{el.category}</div>
+														<div className="recipes_item_author">{el.member_name}</div>
+													</div>
+												</Link>
+											</li>
+										))}
+									</>
+								) : (
+									<li>No recipes</li>
+								)}
+							</ul>
+						)}
 					</div>
 				</div>
 				<div className="container_wraper_widget">test</div>

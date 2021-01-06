@@ -15,6 +15,7 @@ Include pages:
 -   [🛠️ Update](#user-content-️-update)
 -   [📂 Package](#user-content--package)
 -   [👨‍👧‍👦 Groups ID](#user-content--groups-id)
+-   [📡 API](https://github.com/aXenDeveloper/express-react-recipes/wiki/API)
 
 ## 🏷️ Requirements
 
@@ -32,10 +33,7 @@ Include pages:
    `DB_CONNECT = XXX`
 4. Paste uniqe CSRF Token  
    `CSRF_TOKEN = XXX`.
-5. _(Optional)_ Go to **backend** -> server.js
-6. _(Optional)_ Change the **PORT** on which the server is running  
-   `const PORT = 8000;` _(Default: 8000)_
-7. Run server:  
+5. Run server:  
    `npm start` or `yarn run`
 
 ### Frontend

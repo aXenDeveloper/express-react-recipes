@@ -61,7 +61,7 @@ const LoginView: FC = () => {
 	return (
 		<div className="container">
 			{loading ? (
-				<div className="loading"></div>
+				<div className="loading" />
 			) : (
 				<div className="flex flex-ai:center flex-jc:center">
 					<div className="container_box container_box:small padding:large">
