@@ -14,11 +14,17 @@ const RecipeIngredients: FC<RecipeIngredientsType> = ({ ingredients }) => {
 			</div>
 
 			<div className="padding">
-				{ingredientsJSON.map((el: any) => (
-					<div key={el.id} id={el.id}>
-						{el.amount} - {el.element}
-					</div>
-				))}
+				{ingredientsJSON !== null ? (
+					<>
+						{ingredientsJSON.map((el: any) => (
+							<div key={el.id} id={el.id}>
+								{el.amount} - {el.element}
+							</div>
+						))}
+					</>
+				) : (
+					<div>Nie ma</div>
+				)}
 			</div>
 		</div>
 	);

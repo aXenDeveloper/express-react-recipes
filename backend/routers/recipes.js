@@ -68,11 +68,35 @@ router.get('/', async (req, res) => {
 
 router.get('/item', async (req, res) => {
 	try {
-		const recipeItem = await Recipe_posts.find({
+		const recipeItem = await Recipe_posts.findOne({
 			_id: mongoose.Types.ObjectId(req.query.id)
 		});
 
 		return res.json({ recipeItem });
+	} catch (err) {
+		return res.status(404).json({ message: 'Invalid item ID!' });
+	}
+});
+
+router.patch('/edit', csrfValidate, async (req, res) => {
+	const { title, category, ingredients, description } = req.body;
+	if (!title || !category || !description) return res.status(400).json({ message: 'Not all fields have been completed!' });
+
+	try {
+		const recipe = await Recipe_posts.findByIdAndUpdate(
+			mongoose.Types.ObjectId(req.query.id),
+			{
+				title,
+				category,
+				ingredients,
+				description
+			},
+			{ new: true }
+		);
+
+		if (!recipe) return res.status(404).json({ message: 'The recipe does not exist!' });
+
+		return res.json({ recipe: recipe });
 	} catch (err) {
 		return res.status(404).json({ message: 'Invalid item ID!' });
 	}
