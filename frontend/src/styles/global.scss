@@ -1,6 +1,7 @@
 :root {
     --theme-main-color: 26, 122, 191;
     --theme-main-color-rgb: rgb(var(--theme-main-color));
+    --theme-main-color-rgba-01: rgba(var(--theme-main-color), 0.1);
 
     --theme-header: #fff;
 

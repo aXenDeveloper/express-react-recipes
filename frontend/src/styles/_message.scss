@@ -1,5 +1,5 @@
 .message {
-    padding: 1.2rem 2.4rem 1.2rem 3rem;
+    padding: 1.2rem 2.5rem 1.2rem 2.5rem;
     margin: 1rem 0 2rem 0;
     border-left: 4px solid var(--theme-main-color-rgb);
     position: relative;
@@ -35,6 +35,15 @@
         &::before {
             content: '✓';
             background-color: var(--message-success);
+        }
+    }
+
+    &-info {
+        background-color: var(--theme-main-color-rgba-01);
+
+        &::before {
+            content: 'i';
+            background-color: var(--theme-main-color-rgb);
         }
     }
 }

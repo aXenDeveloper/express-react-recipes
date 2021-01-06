@@ -48,19 +48,13 @@ const Root = () => {
 	};
 
 	return (
-		<AuthContext.Provider value={{ tokenCSRF, createTokenCSRF, deleteTokenCSRF, memberData }}>
+		<AuthContext.Provider value={{ tokenCSRF, createTokenCSRF, deleteTokenCSRF, memberData, statusVerifyCSRF }}>
 			<BrowserRouter>
 				<Layout>
 					<Switch>
 						<Route exact path="/" component={HomeView} />
 
-						<Route
-							exact
-							path="/recipes/:id/edit"
-							render={() =>
-								statusVerifyCSRF === 200 ? <RecipeEditView /> : <ErrorView code={401}>You don't have access to this page!</ErrorView>
-							}
-						/>
+						<Route exact path="/recipes/:id/edit" component={RecipeEditView} />
 						<Route
 							exact
 							path="/recipes/add"

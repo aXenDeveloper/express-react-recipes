@@ -37,20 +37,20 @@ const RecipesView: FC = () => {
 				<h1>Recipes</h1>
 
 				{tokenCSRF && (
-					<Link to="/recipes/add">
+					<Link to="/recipes/add" className="text_link:none">
 						<button className="button button_important">Add new recipe</button>
 					</Link>
 				)}
 			</div>
 
-			<div className="container_wraper">
-				<div className="container_wraper_main">
-					<div className="container_box">
-						{loading ? (
-							<div className="loading" />
-						) : (
+			{loading ? (
+				<div className="loading" />
+			) : (
+				<div className="container_wraper">
+					<div className="container_wraper_main">
+						<div className="container_box">
 							<ul className="recipes_ul">
-								{recipesList.length > 0 ? (
+								{recipesList.length > 0 && (
 									<>
 										{recipesList.map((el: any) => (
 											<li key={el._id}>
@@ -65,15 +65,13 @@ const RecipesView: FC = () => {
 											</li>
 										))}
 									</>
-								) : (
-									<li>No recipes</li>
 								)}
 							</ul>
-						)}
+						</div>
 					</div>
+					<div className="container_wraper_widget">test</div>
 				</div>
-				<div className="container_wraper_widget">test</div>
-			</div>
+			)}
 		</div>
 	);
 };

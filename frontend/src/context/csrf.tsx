@@ -1,11 +1,12 @@
 import { createContext, useContext } from 'react';
 
-interface test123 {
+type test123 = {
 	tokenCSRF: string | undefined;
 	createTokenCSRF: (key: string) => void;
 	deleteTokenCSRF: () => void;
 	memberData: {};
-}
+	statusVerifyCSRF: number;
+};
 
 export const AuthContext = createContext<test123 | null>(null);
 

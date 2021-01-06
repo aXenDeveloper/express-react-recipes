@@ -27,7 +27,7 @@ router.post('/add', csrfValidate, upload, async (req, res) => {
 	});
 
 	const { title, category, ingredients, description } = req.body;
-	if (!title || !category || !description) return res.status(400).json({ message: 'Not all fields have been completed!' });
+	if (!title || !category || !description || !req.file) return res.status(400).json({ message: 'Not all fields have been completed!' });
 
 	const verified = jwt.verify(sesionExist.token, process.env.CSRF_TOKEN);
 
@@ -61,6 +61,8 @@ router.post('/add', csrfValidate, upload, async (req, res) => {
 	}
 });
 
+router.post('/upload-image', csrfValidate, upload, (req, res) => {});
+
 router.get('/', async (req, res) => {
 	const recipe = await Recipe_posts.find({});
 	return res.json({ recipe });
@@ -80,7 +82,10 @@ router.get('/item', async (req, res) => {
 
 router.patch('/edit', csrfValidate, async (req, res) => {
 	const { title, category, ingredients, description } = req.body;
-	if (!title || !category || !description) return res.status(400).json({ message: 'Not all fields have been completed!' });
+	//if (!title || !category || !description) return res.status(400).json({ message: 'Not all fields have been completed!' });
+	if (!title) return res.status(400).json({ message: 'Not title fields have been completed!' });
+	if (!category) return res.status(400).json({ message: 'Not category fields have been completed!' });
+	if (!description) return res.status(400).json({ message: 'Not description fields have been completed!' });
 
 	try {
 		const recipe = await Recipe_posts.findByIdAndUpdate(
@@ -96,9 +101,12 @@ router.patch('/edit', csrfValidate, async (req, res) => {
 
 		if (!recipe) return res.status(404).json({ message: 'The recipe does not exist!' });
 
-		return res.json({ recipe: recipe });
+		return res.json({
+			message: 'Edit success!',
+			recipe: recipe
+		});
 	} catch (err) {
-		return res.status(404).json({ message: 'Invalid item ID!' });
+		return res.status(404).json({ message: 'Invalid item ID!', err });
 	}
 });
 

@@ -23,7 +23,7 @@ const recipe_posts = new mongoose.Schema({
 	},
 	ingredients: {
 		type: String,
-		required: true
+		default: '[]'
 	},
 	date: {
 		type: Date,

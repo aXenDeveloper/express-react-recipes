@@ -21,25 +21,29 @@ const Ingredients: FC<IngredientsType> = ({
 }) => {
 	return (
 		<div className="form_ingredient">
-			<ul className="form_ingredient_ul">
-				{listIngredient.map((ingredient: any) => (
-					<li className="flex flex-ai:center flex-jc:space-between" key={ingredient.id}>
-						<div>
-							{ingredient.amount} - {ingredient.element}
-						</div>
+			{listIngredient.length > 0 ? (
+				<ul className="form_ingredient_ul">
+					{listIngredient.map((ingredient: any) => (
+						<li className="flex flex-ai:center flex-jc:space-between" key={ingredient.id}>
+							<div>
+								{ingredient.amount} - {ingredient.element}
+							</div>
 
-						<button className="button button_primary" onClick={() => removeIngredient(ingredient.id)} type="button">
-							Remove
-						</button>
-					</li>
-				))}
-			</ul>
+							<button className="button button_primary" onClick={() => removeIngredient(ingredient.id)} type="button">
+								Remove
+							</button>
+						</li>
+					))}
+				</ul>
+			) : (
+				<div className="message message-info">You haven't added any ingredients yet.</div>
+			)}
 
 			<div className="flex flex-jc:space-between margin-top">
 				<input type="number" className="input input_text margin-right" onChange={handleIngredientAmount} value={inputIngredientAmount} />
 
 				<input type="text" className="input input_text flex:11 margin-right" onChange={handleIngredient} value={inputIngredient} />
-				<button className="button button_primary" type="button" onClick={addIngredient}>
+				<button className="button button_primary" type="button" onClick={addIngredient} disabled={false}>
 					Add
 				</button>
 			</div>

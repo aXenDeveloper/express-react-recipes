@@ -17,10 +17,7 @@ const RecipesAddView = () => {
 
 	const [inputIngredient, setInputIngredient] = useState('');
 	const [inputIngredientAmount, setInputIngredientAmount] = useState(0);
-	const [listIngredient, setListIngredient] = useState([
-		{ id: 1, amount: 24, element: 'test1' },
-		{ id: 11, amount: 4, element: 'test123' }
-	]);
+	const [listIngredient, setListIngredient] = useState([]);
 
 	useEffect(() => {
 		document.title = `${config.title_page} - Add Recipe`;
@@ -69,7 +66,6 @@ const RecipesAddView = () => {
 	};
 
 	const removeIngredient = id => {
-		console.log(listIngredient.filter(el => el.id !== id));
 		setListIngredient(listIngredient.filter(el => el.id !== id));
 	};
 
