@@ -6,8 +6,10 @@ import uniqid from 'uniqid';
 import IngredientsForm from '../../components/IngredientsForm';
 import { useCSRF } from '../../context/csrf';
 
-const RecipesAddView = () => {
-	const { tokenCSRF } = useCSRF();
+import ErrorView from '../ErrorView';
+
+const RecipesAddView = ({ history }) => {
+	const { tokenCSRF, statusVerifyCSRF } = useCSRF();
 
 	const fileInput = createRef();
 	const [inputTitle, setInputTitle] = useState('');
@@ -18,6 +20,8 @@ const RecipesAddView = () => {
 	const [inputIngredient, setInputIngredient] = useState('');
 	const [inputIngredientAmount, setInputIngredientAmount] = useState(0);
 	const [listIngredient, setListIngredient] = useState([]);
+
+	const [errorMessage, setErrorMessage] = useState('');
 
 	useEffect(() => {
 		document.title = `${config.title_page} - Add Recipe`;
@@ -41,7 +45,10 @@ const RecipesAddView = () => {
 			});
 
 			const data = await api.json();
-			console.log(data);
+
+			if (api.status === 200) {
+				history.push(`/recipes/${data.recipe_id}`);
+			} else if (api.status === 400) setErrorMessage(data.message);
 		} catch (err) {
 			console.error(err);
 		}
@@ -76,8 +83,9 @@ const RecipesAddView = () => {
 
 	const handleImage = e => {
 		setInputImage(e.target.files[0]);
-		console.log(fileInput.current.files[0]);
 	};
+
+	if (statusVerifyCSRF !== 200) return <ErrorView code={401}>You don't have access to this page!</ErrorView>;
 
 	return (
 		<form className="form" onSubmit={formSubmit} encType="multipart/form-data">
@@ -134,6 +142,8 @@ const RecipesAddView = () => {
 						inputIngredientAmount={inputIngredientAmount}
 						handleIngredientAmount={handleIngredientAmount}
 					/>
+
+					{errorMessage && <div className="message message-error">{errorMessage}</div>}
 
 					<div className="flex flex-ai:center flex-jc:center padding-top">
 						<button className="button button_primary" type="submit">

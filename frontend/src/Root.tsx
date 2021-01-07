@@ -55,13 +55,7 @@ const Root = () => {
 						<Route exact path="/" component={HomeView} />
 
 						<Route exact path="/recipes/:id/edit" component={RecipeEditView} />
-						<Route
-							exact
-							path="/recipes/add"
-							render={() =>
-								statusVerifyCSRF === 200 ? <RecipesAddView /> : <ErrorView code={401}>You don't have access to this page!</ErrorView>
-							}
-						/>
+						<Route exact path="/recipes/add" component={RecipesAddView} />
 						<Route path="/recipes/:id" component={RecipeItemView} />
 						<Route exact path="/recipes" component={RecipesView} />
 

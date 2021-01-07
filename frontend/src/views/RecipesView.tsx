@@ -19,9 +19,7 @@ const RecipesView: FC = () => {
 
 				const dataRecipesAPI = await recipesAPI.json();
 
-				// console.log(JSON.parse(dataRecipesAPI.recipe[0].ingredients));
 				setRecipesList(dataRecipesAPI.recipe.reverse());
-				console.log(dataRecipesAPI.recipe);
 
 				setLoading(false);
 			} catch (err) {

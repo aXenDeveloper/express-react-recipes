@@ -10,9 +10,10 @@ import Modal from '../components/Modal';
 
 type RecipeItemViewType = {
 	match: any;
+	history: any;
 };
 
-const RecipeItemView: FC<RecipeItemViewType> = ({ match }) => {
+const RecipeItemView: FC<RecipeItemViewType> = ({ match, history }) => {
 	const [statusItem, setStatusItem] = useState<number>(0);
 	const [dataItem, setDataItem] = useState<any>({});
 	const [loading, setLoading] = useState<boolean>(false);
@@ -33,9 +34,6 @@ const RecipeItemView: FC<RecipeItemViewType> = ({ match }) => {
 					setDataItem(dataItemAPI.recipeItem);
 					document.title = `${config.title_page} - Recipes - ${dataItemAPI.recipeItem.title}`;
 					setStatusItem(itemAPI.status);
-
-					console.log(dataItemAPI.recipeItem);
-					console.log(JSON.parse(dataItemAPI.recipeItem.ingredients));
 				} else setStatusItem(itemAPI.status);
 				setLoading(false);
 			} catch (err) {
@@ -56,7 +54,7 @@ const RecipeItemView: FC<RecipeItemViewType> = ({ match }) => {
 
 			if (itemAPI.status === 200) {
 				setIsOpenPopup(false);
-				window.location.href = '/recipes';
+				history.push('/recipes');
 			}
 		} catch (err) {
 			console.error(err);
@@ -113,7 +111,12 @@ const RecipeItemView: FC<RecipeItemViewType> = ({ match }) => {
 										<button className="button button_primary margin-right" onClick={() => deleteAPI()}>
 											Ok
 										</button>
-										<button className="button" onClick={() => setIsOpenPopup(false)}>
+										<button
+											className="button"
+											onClick={() => {
+												setIsOpenPopup(false);
+											}}
+										>
 											Cancel
 										</button>
 									</div>

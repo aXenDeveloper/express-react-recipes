@@ -52,10 +52,11 @@ router.post('/add', csrfValidate, upload, async (req, res) => {
 	});
 
 	try {
-		await createRecipe.save();
+		const addRecipe = await createRecipe.save();
 
 		return res.json({
-			message: 'The recipe has been added!'
+			message: 'The recipe has been added!',
+			recipe_id: addRecipe._id
 		});
 	} catch (err) {
 		res.status(400).send(err);

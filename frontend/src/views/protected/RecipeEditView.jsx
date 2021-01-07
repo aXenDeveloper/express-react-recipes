@@ -7,7 +7,7 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import IngredientsForm from '../../components/IngredientsForm';
 import uniqid from 'uniqid';
 
-const RecipeEditView = ({ match }) => {
+const RecipeEditView = ({ match, history }) => {
 	const [inputTitle, setInputTitle] = useState('');
 	const [inputDesc, setInputDesc] = useState('');
 	const [inputCategory, setInputCategory] = useState('breakfast');
@@ -21,6 +21,8 @@ const RecipeEditView = ({ match }) => {
 	const [listIngredient, setListIngredient] = useState([]);
 
 	const { tokenCSRF, memberData, statusVerifyCSRF } = useCSRF();
+
+	const [errorMessage, setErrorMessage] = useState('');
 
 	useEffect(() => {
 		const api = async () => {
@@ -40,7 +42,6 @@ const RecipeEditView = ({ match }) => {
 					setInputCategory(dataItemAPI.recipeItem.category);
 					setListIngredient(JSON.parse(dataItemAPI.recipeItem.ingredients));
 
-					console.log(dataItemAPI.recipeItem);
 					setLoading(false);
 				} else setStatusItem(itemAPI.status);
 			} catch (err) {
@@ -108,6 +109,12 @@ const RecipeEditView = ({ match }) => {
 				})
 			});
 
+			if (api.status === 200) history.goBack();
+			else if (api.status === 400) {
+				const data = await api.json();
+				setErrorMessage(data.message);
+			}
+
 			const data = await api.json();
 			console.log(data);
 		} catch (err) {
@@ -171,6 +178,8 @@ const RecipeEditView = ({ match }) => {
 							inputIngredientAmount={inputIngredientAmount}
 							handleIngredientAmount={handleIngredientAmount}
 						/>
+
+						{errorMessage && <div className="message message-error">{errorMessage}</div>}
 
 						<div className="flex flex-ai:center flex-jc:center padding-top">
 							<button className="button button_primary" type="submit">
