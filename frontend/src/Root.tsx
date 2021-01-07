@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
+import { AuthContext } from './context/csrf';
+import Cookies from 'js-cookie';
+import config from './config';
+
 import Layout from './components/Layout';
 import HomeView from './views/HomeView';
 import LoginView from './views/LoginView';
 import RegisterView from './views/RegisterView';
-import { AuthContext } from './context/csrf';
 import AdminView from './views/protected/AdminView';
-import Cookies from 'js-cookie';
-import config from './config';
 import ErrorView from './views/ErrorView';
 import RecipesView from './views/RecipesView';
 import RecipesAddView from './views/protected/RecipeAddView';
@@ -38,11 +39,11 @@ const Root = () => {
 	}, [tokenCSRF]);
 
 	const createTokenCSRF = (key: string): void => {
-		Cookies.set('CSRF_token', key);
+		Cookies.set('CSRF_token', key, { expires: 1460 });
 		setTokenCSRF(key);
 	};
 
-	const deleteTokenCSRF = () => {
+	const deleteTokenCSRF = (): void => {
 		Cookies.remove('CSRF_token');
 		setTokenCSRF('');
 	};
@@ -62,13 +63,7 @@ const Root = () => {
 						<Route exact path="/login" render={() => (!tokenCSRF ? <LoginView /> : <Redirect to="/" />)} />
 						<Route exact path="/register" render={() => (!tokenCSRF ? <RegisterView /> : <Redirect to="/" />)} />
 
-						<Route
-							exact
-							path="/admin"
-							render={() =>
-								statusVerifyCSRF === 200 ? <AdminView /> : <ErrorView code={401}>You don't have access to this page!</ErrorView>
-							}
-						/>
+						<Route exact path="/admin" component={AdminView} />
 
 						<Route component={() => <ErrorView code={404}>The page you requested does not exist</ErrorView>} />
 					</Switch>

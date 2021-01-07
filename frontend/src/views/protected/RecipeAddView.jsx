@@ -1,11 +1,11 @@
 import React, { useState, useEffect, createRef } from 'react';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import config from '../../config';
 import uniqid from 'uniqid';
-import IngredientsForm from '../../components/IngredientsForm';
 import { useCSRF } from '../../context/csrf';
+import config from '../../config';
 
+import IngredientsForm from '../../components/IngredientsForm';
 import ErrorView from '../ErrorView';
 
 const RecipesAddView = ({ history }) => {
@@ -27,7 +27,7 @@ const RecipesAddView = ({ history }) => {
 		document.title = `${config.title_page} - Add Recipe`;
 	}, []);
 
-	const api = async () => {
+	const addRecipeAPI = async () => {
 		const formData = new FormData();
 		formData.append('productImage', inputImage);
 		formData.append('title', inputTitle);
@@ -43,7 +43,6 @@ const RecipesAddView = ({ history }) => {
 				},
 				body: formData
 			});
-
 			const data = await api.json();
 
 			if (api.status === 200) {
@@ -56,7 +55,7 @@ const RecipesAddView = ({ history }) => {
 
 	const formSubmit = e => {
 		e.preventDefault();
-		api();
+		addRecipeAPI();
 	};
 
 	const addIngredient = () => {
@@ -72,18 +71,14 @@ const RecipesAddView = ({ history }) => {
 		setInputIngredientAmount(0);
 	};
 
-	const removeIngredient = id => {
-		setListIngredient(listIngredient.filter(el => el.id !== id));
-	};
+	const removeIngredient = id => setListIngredient(listIngredient.filter(el => el.id !== id));
 
 	const handleTitle = e => setInputTitle(e.target.value);
 	const handleCategory = e => setInputCategory(e.target.value);
 	const handleIngredient = e => setInputIngredient(e.target.value);
 	const handleIngredientAmount = e => setInputIngredientAmount(e.target.value);
 
-	const handleImage = e => {
-		setInputImage(e.target.files[0]);
-	};
+	const handleImage = e => setInputImage(e.target.files[0]);
 
 	if (statusVerifyCSRF !== 200) return <ErrorView code={401}>You don't have access to this page!</ErrorView>;
 

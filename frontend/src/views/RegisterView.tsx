@@ -28,18 +28,13 @@ const RegisterView = () => {
 					password: inputPassword
 				})
 			});
-
 			const data = await api.json();
-			console.log(data);
 
 			setErrorMessage('');
 			setSuccessMessage('');
 
-			if (api.status === 200) {
-				setSuccessMessage(data.message);
-			} else if (api.status === 400) {
-				setErrorMessage(data.message);
-			}
+			if (api.status === 200) setSuccessMessage(data.message);
+			else if (api.status === 400) setErrorMessage(data.message);
 		} catch (err) {
 			console.error(err);
 		}

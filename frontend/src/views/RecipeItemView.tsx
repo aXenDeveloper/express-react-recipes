@@ -1,11 +1,12 @@
 import { FC, useEffect, useState } from 'react';
-import ErrorView from './ErrorView';
-import config from '../config';
-import RecipeIngredients from '../components/widgets/RecipeIngredients';
-import { useCSRF } from '../context/csrf';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencilAlt, faTimes, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom';
+import { useCSRF } from '../context/csrf';
+import config from '../config';
+
+import ErrorView from './ErrorView';
+import RecipeIngredients from '../components/widgets/RecipeIngredients';
 import Modal from '../components/Modal';
 
 type RecipeItemViewType = {
@@ -23,24 +24,28 @@ const RecipeItemView: FC<RecipeItemViewType> = ({ match, history }) => {
 	const { tokenCSRF, memberData }: any = useCSRF();
 
 	useEffect(() => {
-		const api = async () => {
+		const getItemAPI = async () => {
+			setLoading(true);
+
 			try {
-				setLoading(true);
 				const itemAPI = await fetch(`${config.backend_url}/recipes/item?id=${match.params.id}`);
 
 				const dataItemAPI = await itemAPI.json();
 
 				if (itemAPI.status === 200) {
 					setDataItem(dataItemAPI.recipeItem);
-					document.title = `${config.title_page} - Recipes - ${dataItemAPI.recipeItem.title}`;
 					setStatusItem(itemAPI.status);
+
+					document.title = `${config.title_page} - Recipes - ${dataItemAPI.recipeItem.title}`;
 				} else setStatusItem(itemAPI.status);
+
 				setLoading(false);
 			} catch (err) {
 				console.error(err);
 			}
 		};
-		api();
+
+		getItemAPI();
 	}, [match.params.id]);
 
 	const deleteAPI = async () => {
@@ -61,15 +66,14 @@ const RecipeItemView: FC<RecipeItemViewType> = ({ match, history }) => {
 		}
 	};
 
-	if (loading) {
+	if (loading)
 		return (
 			<div className="container">
 				<div className="loading" />
 			</div>
 		);
-	}
 
-	if (statusItem === 200) {
+	if (statusItem === 200)
 		return (
 			<div className="container">
 				<div className="container_wraper">
@@ -129,7 +133,6 @@ const RecipeItemView: FC<RecipeItemViewType> = ({ match, history }) => {
 				</div>
 			</div>
 		);
-	}
 
 	return <ErrorView code={404}>The page you requested does not exist</ErrorView>;
 };

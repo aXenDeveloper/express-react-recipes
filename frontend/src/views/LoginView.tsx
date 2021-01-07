@@ -2,6 +2,8 @@ import { useState, useEffect, FC, ChangeEvent, FormEvent, useRef, MutableRefObje
 import { useCSRF } from '../context/csrf';
 import config from '../config';
 
+import Loading from '../components/Loading';
+
 const LoginView: FC = () => {
 	const [inputEmail, setInputEmail] = useState<string>('');
 	const [inputPassword, setInputPassword] = useState<string>('');
@@ -21,9 +23,10 @@ const LoginView: FC = () => {
 		};
 	}, []);
 
-	const api = async () => {
+	const loginAPI = async () => {
+		setLoading(true);
+
 		try {
-			setLoading(true);
 			const api = await fetch(`${config.backend_url}/account/login`, {
 				method: 'POST',
 				headers: {
@@ -34,9 +37,7 @@ const LoginView: FC = () => {
 					password: inputPassword
 				})
 			});
-
 			const data = await api.json();
-			console.log(data);
 
 			if (api.status === 200) {
 				createTokenCSRF(data.CSRF_token);
@@ -52,52 +53,50 @@ const LoginView: FC = () => {
 
 	const formSubmit = (e: FormEvent<HTMLFormElement>): void => {
 		e.preventDefault();
-		api();
+		loginAPI();
 	};
 
-	const handleEmail = (e: ChangeEvent<HTMLInputElement>) => setInputEmail(e.target.value);
-	const handlePassword = (e: ChangeEvent<HTMLInputElement>) => setInputPassword(e.target.value);
+	const handleEmail = (e: ChangeEvent<HTMLInputElement>): void => setInputEmail(e.target.value);
+	const handlePassword = (e: ChangeEvent<HTMLInputElement>): void => setInputPassword(e.target.value);
+
+	if (loading) return <Loading />;
 
 	return (
 		<div className="container">
-			{loading ? (
-				<div className="loading" />
-			) : (
-				<div className="flex flex-ai:center flex-jc:center">
-					<div className="container_box container_box:small padding:large">
-						{errorMessage && <div className="message message-error">{errorMessage}</div>}
+			<div className="flex flex-ai:center flex-jc:center">
+				<div className="container_box container_box:small padding:large">
+					{errorMessage && <div className="message message-error">{errorMessage}</div>}
 
-						<form className="form" onSubmit={formSubmit}>
-							<ul className="form_ul">
-								<li>
-									<input
-										type="email"
-										className="input input_text input_full"
-										placeholder="Email Address"
-										onChange={handleEmail}
-										value={inputEmail}
-									/>
-								</li>
-								<li>
-									<input
-										type="password"
-										className="input input_text input_full"
-										placeholder="Password"
-										onChange={handlePassword}
-										value={inputPassword}
-									/>
-								</li>
-							</ul>
+					<form className="form" onSubmit={formSubmit}>
+						<ul className="form_ul">
+							<li>
+								<input
+									type="email"
+									className="input input_text input_full"
+									placeholder="Email Address"
+									onChange={handleEmail}
+									value={inputEmail}
+								/>
+							</li>
+							<li>
+								<input
+									type="password"
+									className="input input_text input_full"
+									placeholder="Password"
+									onChange={handlePassword}
+									value={inputPassword}
+								/>
+							</li>
+						</ul>
 
-							<div className="flex flex-jc:center margin-top">
-								<button className="button button_primary button_full" type="submit">
-									Login
-								</button>
-							</div>
-						</form>
-					</div>
+						<div className="flex flex-jc:center margin-top">
+							<button className="button button_primary button_full" type="submit">
+								Login
+							</button>
+						</div>
+					</form>
 				</div>
-			)}
+			</div>
 		</div>
 	);
 };

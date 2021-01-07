@@ -1,6 +1,6 @@
 import { FC } from 'react';
-import config from '../config';
 import { useCSRF } from '../context/csrf';
+import config from '../config';
 
 interface LogoutButtonInterface {
 	buttonFull?: boolean;

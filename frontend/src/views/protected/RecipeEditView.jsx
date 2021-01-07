@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useCSRF } from '../../context/csrf';
-import ErrorView from '../ErrorView';
-import config from '../../config';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import IngredientsForm from '../../components/IngredientsForm';
 import uniqid from 'uniqid';
+import config from '../../config';
+
+import ErrorView from '../ErrorView';
+import IngredientsForm from '../../components/IngredientsForm';
 
 const RecipeEditView = ({ match, history }) => {
 	const [inputTitle, setInputTitle] = useState('');
@@ -25,22 +26,22 @@ const RecipeEditView = ({ match, history }) => {
 	const [errorMessage, setErrorMessage] = useState('');
 
 	useEffect(() => {
-		const api = async () => {
-			try {
-				setLoading(true);
-				const itemAPI = await fetch(`${config.backend_url}/recipes/item?id=${match.params.id}`);
+		const getItemAPI = async () => {
+			setLoading(true);
 
+			try {
+				const itemAPI = await fetch(`${config.backend_url}/recipes/item?id=${match.params.id}`);
 				const dataItemAPI = await itemAPI.json();
 
 				if (itemAPI.status === 200) {
 					setDataItem(dataItemAPI.recipeItem);
-					document.title = `${config.title_page} - Recipes - Edit: ${dataItemAPI.recipeItem.title}`;
 					setStatusItem(itemAPI.status);
-
 					setInputTitle(dataItemAPI.recipeItem.title);
 					setInputDesc(dataItemAPI.recipeItem.description);
 					setInputCategory(dataItemAPI.recipeItem.category);
 					setListIngredient(JSON.parse(dataItemAPI.recipeItem.ingredients));
+
+					document.title = `${config.title_page} - Recipes - Edit: ${dataItemAPI.recipeItem.title}`;
 
 					setLoading(false);
 				} else setStatusItem(itemAPI.status);
@@ -48,7 +49,8 @@ const RecipeEditView = ({ match, history }) => {
 				console.error(err);
 			}
 		};
-		api();
+
+		getItemAPI();
 	}, [match.params.id]);
 
 	if (loading) {
@@ -114,9 +116,6 @@ const RecipeEditView = ({ match, history }) => {
 				const data = await api.json();
 				setErrorMessage(data.message);
 			}
-
-			const data = await api.json();
-			console.log(data);
 		} catch (err) {
 			console.error(err);
 		}

@@ -1,7 +1,9 @@
 import { FC, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import config from '../config';
 import { useCSRF } from '../context/csrf';
+import config from '../config';
+
+import Loading from '../components/Loading';
 
 const RecipesView: FC = () => {
 	const [loading, setLoading] = useState<boolean>(false);
@@ -12,11 +14,11 @@ const RecipesView: FC = () => {
 	useEffect(() => {
 		document.title = `${config.title_page} - Recipes`;
 
-		const api = async () => {
-			try {
-				setLoading(true);
-				const recipesAPI = await fetch(`${config.backend_url}/recipes`);
+		const getRecipesAPI = async () => {
+			setLoading(true);
 
+			try {
+				const recipesAPI = await fetch(`${config.backend_url}/recipes`);
 				const dataRecipesAPI = await recipesAPI.json();
 
 				setRecipesList(dataRecipesAPI.recipe.reverse());
@@ -26,8 +28,11 @@ const RecipesView: FC = () => {
 				console.error(err);
 			}
 		};
-		api();
+
+		getRecipesAPI();
 	}, []);
+
+	if (loading) return <Loading />;
 
 	return (
 		<div className="container">
@@ -41,35 +46,32 @@ const RecipesView: FC = () => {
 				)}
 			</div>
 
-			{loading ? (
-				<div className="loading" />
-			) : (
-				<div className="container_wraper">
-					<div className="container_wraper_main">
-						<div className="container_box">
-							<ul className="recipes_ul">
-								{recipesList.length > 0 && (
-									<>
-										{recipesList.map((el: any) => (
-											<li key={el._id}>
-												<Link to={`/recipes/${el._id}`}>
-													<div className="recipes_item">
-														<img src={`${config.backend_url}/uploads/${el.image_url}`} alt={el.title} />
-														<div className="recipes_item_title">{el.title}</div>
-														<div className="recipes_item_category">{el.category}</div>
-														<div className="recipes_item_author">{el.member_name}</div>
-													</div>
-												</Link>
-											</li>
-										))}
-									</>
-								)}
-							</ul>
-						</div>
+			<div className="container_wraper">
+				<div className="container_wraper_main">
+					<div className="container_box">
+						<ul className="recipes_ul">
+							{recipesList.length > 0 && (
+								<>
+									{recipesList.map((el: any) => (
+										<li key={el._id}>
+											<Link to={`/recipes/${el._id}`}>
+												<div className="recipes_item">
+													<img src={`${config.backend_url}/uploads/${el.image_url}`} alt={el.title} />
+													<div className="recipes_item_title">{el.title}</div>
+													<div className="recipes_item_category">{el.category}</div>
+													<div className="recipes_item_author">{el.member_name}</div>
+												</div>
+											</Link>
+										</li>
+									))}
+								</>
+							)}
+						</ul>
 					</div>
-					<div className="container_wraper_widget">test</div>
 				</div>
-			)}
+
+				<div className="container_wraper_widget">test</div>
+			</div>
 		</div>
 	);
 };
