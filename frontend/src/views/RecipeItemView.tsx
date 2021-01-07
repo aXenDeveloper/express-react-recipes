@@ -4,8 +4,9 @@ import config from '../config';
 import RecipeIngredients from '../components/widgets/RecipeIngredients';
 import { useCSRF } from '../context/csrf';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPencilAlt, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faPencilAlt, faTimes, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
+import Modal from '../components/Modal';
 
 type RecipeItemViewType = {
 	match: any;
@@ -15,6 +16,8 @@ const RecipeItemView: FC<RecipeItemViewType> = ({ match }) => {
 	const [statusItem, setStatusItem] = useState<number>(0);
 	const [dataItem, setDataItem] = useState<any>({});
 	const [loading, setLoading] = useState<boolean>(false);
+
+	const [isOpenPopup, setIsOpenPopup] = useState<boolean>(false);
 
 	const { tokenCSRF, memberData }: any = useCSRF();
 
@@ -41,6 +44,24 @@ const RecipeItemView: FC<RecipeItemViewType> = ({ match }) => {
 		};
 		api();
 	}, [match.params.id]);
+
+	const deleteAPI = async () => {
+		try {
+			const itemAPI = await fetch(`${config.backend_url}/recipes/delete?id=${match.params.id}`, {
+				method: 'DELETE',
+				headers: {
+					CSRF_Token: tokenCSRF
+				}
+			});
+
+			if (itemAPI.status === 200) {
+				setIsOpenPopup(false);
+				window.location.href = '/recipes';
+			}
+		} catch (err) {
+			console.error(err);
+		}
+	};
 
 	if (loading) {
 		return (
@@ -81,9 +102,22 @@ const RecipeItemView: FC<RecipeItemViewType> = ({ match }) => {
 									</button>
 								</Link>
 
-								<button className="button button_light">
+								<button className="button button_light" onClick={() => setIsOpenPopup(true)}>
 									<FontAwesomeIcon icon={faTimes} /> Delete
 								</button>
+
+								<Modal isOpen={isOpenPopup} setIsOpen={setIsOpenPopup}>
+									<FontAwesomeIcon icon={faExclamationTriangle} />
+									<div className="modal_content:text">Are you sure you want to delete?</div>
+									<div className="flex flex-ai:center flex-jc:center">
+										<button className="button button_primary margin-right" onClick={() => deleteAPI()}>
+											Ok
+										</button>
+										<button className="button" onClick={() => setIsOpenPopup(false)}>
+											Cancel
+										</button>
+									</div>
+								</Modal>
 							</div>
 						)}
 

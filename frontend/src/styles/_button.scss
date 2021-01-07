@@ -42,15 +42,18 @@
     &_primary {
         background-color: var(--theme-main-color-rgb);
         color: var(--button-primary-text);
+        font-weight: 500;
     }
 
     &_success {
         background-color: var(--button-success);
         color: var(--button-success-text);
+        font-weight: 500;
     }
 
     &_important {
         background-color: var(--button-important);
         color: var(--button-important-text);
+        font-weight: 500;
     }
 }
