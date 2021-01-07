@@ -4,16 +4,16 @@ const Member = require('../../models/core_members');
 const Session = require('../../models/core_session');
 
 const csrfValidate = async (req, res, next) => {
-	const sesionExist = await Session.findOne({
-		token: req.header('CSRF_Token')
-	});
-
-	if (!sesionExist)
-		return res.status(401).json({
-			message: 'Access denied!'
+	try {
+		const sesionExist = await Session.findOne({
+			token: req.header('CSRF_Token')
 		});
 
-	try {
+		if (!sesionExist)
+			return res.status(401).json({
+				message: 'Access denied!'
+			});
+
 		const verified = jwt.verify(sesionExist.token, process.env.CSRF_TOKEN);
 		const memberExist = await Member.findOne({
 			_id: verified._id
@@ -26,8 +26,8 @@ const csrfValidate = async (req, res, next) => {
 
 		next();
 	} catch (err) {
-		res.status(400).json({
-			message: 'Invalid token!'
+		return res.status(500).json({
+			message: 'Something is wrong!'
 		});
 	}
 };

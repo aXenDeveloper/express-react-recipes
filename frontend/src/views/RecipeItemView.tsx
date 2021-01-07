@@ -34,7 +34,6 @@ const RecipeItemView: FC<RecipeItemViewType> = ({ match }) => {
 					console.log(dataItemAPI.recipeItem);
 					console.log(JSON.parse(dataItemAPI.recipeItem.ingredients));
 				} else setStatusItem(itemAPI.status);
-
 				setLoading(false);
 			} catch (err) {
 				console.error(err);
@@ -43,57 +42,59 @@ const RecipeItemView: FC<RecipeItemViewType> = ({ match }) => {
 		api();
 	}, [match.params.id]);
 
-	return (
-		<div className="container">
-			{loading ? (
+	if (loading) {
+		return (
+			<div className="container">
 				<div className="loading" />
-			) : (
-				<>
-					{statusItem === 200 ? (
-						<div className="container_wraper">
-							<div className="container_wraper_main">
-								<div className="recipe_header">
-									<img src={`${config.backend_url}/uploads/${dataItem.image_url}`} alt={dataItem.title} />
-									<div className="recipe_header_content">
-										<div className="recipe_header_content_box">
-											<h1 className="recipe_header_content_box:title">{dataItem.title}</h1>
-											<div className="recipe_header_content_box:author">
-												Author: <span>{dataItem.member_name}</span>
-											</div>
-										</div>
+			</div>
+		);
+	}
+
+	if (statusItem === 200) {
+		return (
+			<div className="container">
+				<div className="container_wraper">
+					<div className="container_wraper_main">
+						<div className="recipe_header">
+							<img src={`${config.backend_url}/uploads/${dataItem.image_url}`} alt={dataItem.title} />
+							<div className="recipe_header_content">
+								<div className="recipe_header_content_box">
+									<h1 className="recipe_header_content_box:title">{dataItem.title}</h1>
+									<div className="recipe_header_content_box:author">
+										Author: <span>{dataItem.member_name}</span>
 									</div>
 								</div>
-
-								<div className="container_box padding">
-									<div dangerouslySetInnerHTML={{ __html: dataItem.description }} />
-								</div>
-							</div>
-
-							<div className="container_wraper_widget">
-								{tokenCSRF && (memberData.group_id === 4 || memberData._id === dataItem.member_id) && (
-									<div className="flex flex-ai:center flex-jc:center margin-bottom">
-										<Link to={`/recipes/${dataItem._id}/edit`} className="margin-right">
-											<button className="button button_primary">
-												<FontAwesomeIcon icon={faPencilAlt} /> Edit
-											</button>
-										</Link>
-
-										<button className="button button_light">
-											<FontAwesomeIcon icon={faTimes} /> Delete
-										</button>
-									</div>
-								)}
-
-								<RecipeIngredients ingredients={dataItem.ingredients} />
 							</div>
 						</div>
-					) : (
-						<ErrorView code={404}>The page you requested does not exist</ErrorView>
-					)}
-				</>
-			)}
-		</div>
-	);
+
+						<div className="container_box padding">
+							<div dangerouslySetInnerHTML={{ __html: dataItem.description }} />
+						</div>
+					</div>
+
+					<div className="container_wraper_widget">
+						{tokenCSRF && (memberData.group_id === 4 || memberData._id === dataItem.member_id) && (
+							<div className="flex flex-ai:center flex-jc:center margin-bottom">
+								<Link to={`/recipes/${dataItem._id}/edit`} className="margin-right">
+									<button className="button button_primary">
+										<FontAwesomeIcon icon={faPencilAlt} /> Edit
+									</button>
+								</Link>
+
+								<button className="button button_light">
+									<FontAwesomeIcon icon={faTimes} /> Delete
+								</button>
+							</div>
+						)}
+
+						<RecipeIngredients ingredients={dataItem.ingredients} />
+					</div>
+				</div>
+			</div>
+		);
+	}
+
+	return <ErrorView code={404}>The page you requested does not exist</ErrorView>;
 };
 
 export default RecipeItemView;

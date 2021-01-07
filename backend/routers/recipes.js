@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const csrfValidate = require('./validate/csrfValidate');
+const authorValidate = require('./validate/authorValidate');
 const multer = require('multer');
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
@@ -61,6 +62,7 @@ router.post('/add', csrfValidate, upload, async (req, res) => {
 	}
 });
 
+// Test
 router.post('/upload-image', csrfValidate, upload, (req, res) => {});
 
 router.get('/', async (req, res) => {
@@ -74,18 +76,17 @@ router.get('/item', async (req, res) => {
 			_id: mongoose.Types.ObjectId(req.query.id)
 		});
 
+		if (!recipeItem) return res.status(404).json({ message: 'Invalid item ID!' });
+
 		return res.json({ recipeItem });
 	} catch (err) {
 		return res.status(404).json({ message: 'Invalid item ID!' });
 	}
 });
 
-router.patch('/edit', csrfValidate, async (req, res) => {
+router.patch('/edit', csrfValidate, authorValidate, async (req, res) => {
 	const { title, category, ingredients, description } = req.body;
-	//if (!title || !category || !description) return res.status(400).json({ message: 'Not all fields have been completed!' });
-	if (!title) return res.status(400).json({ message: 'Not title fields have been completed!' });
-	if (!category) return res.status(400).json({ message: 'Not category fields have been completed!' });
-	if (!description) return res.status(400).json({ message: 'Not description fields have been completed!' });
+	if (!title || !category || !description) return res.status(400).json({ message: 'Not all fields have been completed!' });
 
 	try {
 		const recipe = await Recipe_posts.findByIdAndUpdate(
@@ -105,6 +106,16 @@ router.patch('/edit', csrfValidate, async (req, res) => {
 			message: 'Edit success!',
 			recipe: recipe
 		});
+	} catch (err) {
+		return res.status(404).json({ message: 'Invalid item ID!', err });
+	}
+});
+
+router.delete('/delete', csrfValidate, authorValidate, async (req, res) => {
+	try {
+		await Recipe_posts.findByIdAndRemove(mongoose.Types.ObjectId(req.query.id));
+
+		return res.json({ message: 'Successfully deleted!' });
 	} catch (err) {
 		return res.status(404).json({ message: 'Invalid item ID!', err });
 	}
