@@ -1,14 +1,20 @@
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useState } from 'react';
 import SwiperCore, { Autoplay, Navigation } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper.scss';
 import config from '../config';
 import SwiperVideo from '../assets/video-banner.mp4';
+import Modal from '../components/Modal';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 
 const HomeView: FC = () => {
 	useEffect(() => {
 		document.title = config.title_page;
 	}, []);
+
+	const [isOpenPopup, setIsOpenPopup] = useState<boolean>(false);
 
 	SwiperCore.use([Autoplay, Navigation]);
 
@@ -65,6 +71,20 @@ const HomeView: FC = () => {
 			</section>
 
 			<div className="container">Home</div>
+
+			<button onClick={() => setIsOpenPopup(true)}>Open</button>
+			<Modal isOpen={isOpenPopup} setIsOpen={setIsOpenPopup}>
+				<FontAwesomeIcon icon={faExclamationTriangle} />
+				<div className="modal_content:text">Debil</div>
+				<div className="flex flex-ai:center flex-jc:center">
+					<button className="button button_primary margin-right" onClick={() => setIsOpenPopup(false)}>
+						Ok
+					</button>
+					<button className="button" onClick={() => setIsOpenPopup(false)}>
+						Ok, ale bardziej
+					</button>
+				</div>
+			</Modal>
 		</>
 	);
 };
