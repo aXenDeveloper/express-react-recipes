@@ -50,6 +50,7 @@ Include pages:
 ### Front-end
 
 -   React
+-   React Query
 -   js-cookie
 -   SCSS
 -   Swiper

@@ -2,11 +2,22 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Root from './Root';
 import reportWebVitals from './reportWebVitals';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import './styles/global.scss';
+
+const queryClient = new QueryClient({
+	defaultOptions: {
+		queries: {
+			staleTime: Infinity
+		}
+	}
+});
 
 ReactDOM.render(
 	<React.StrictMode>
-		<Root />
+		<QueryClientProvider client={queryClient}>
+			<Root />
+		</QueryClientProvider>
 	</React.StrictMode>,
 	document.getElementById('root')
 );
