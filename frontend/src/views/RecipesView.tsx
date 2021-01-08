@@ -18,12 +18,7 @@ const RecipesView: FC = () => {
 		return res.json();
 	});
 
-	if (isLoading)
-		return (
-			<div className="container">
-				<Loading />
-			</div>
-		);
+	if (isLoading) return <Loading />;
 
 	if (isError) return <Error code={500}>There was a problem with API connection.</Error>;
 
