@@ -3,15 +3,20 @@
     padding: 0 15px;
     margin: 0 auto;
 
+    &\:medium {
+        width: 98%;
+        max-width: 1000px;
+    }
+
+    &\:small {
+        width: 98%;
+        max-width: 450px;
+    }
+
     &_box {
         box-shadow: var(--box-shadow);
         border-radius: var(--border--radius);
         background-color: var(--box--backgroundColor);
-
-        &\:small {
-            width: 98%;
-            max-width: 450px;
-        }
     }
 
     &_title {

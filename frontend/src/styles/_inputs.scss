@@ -55,4 +55,9 @@
     &_full {
         width: 100%;
     }
+
+    &_error {
+        box-shadow: var(--input-error-border-focusShadow);
+        border-color: var(--input-error-border-rgb);
+    }
 }

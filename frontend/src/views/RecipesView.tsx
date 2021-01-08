@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import { useCSRF } from '../context/csrf';
@@ -8,12 +8,9 @@ import Loading from '../components/Loading';
 import Error from '../components/Error';
 
 const RecipesView: FC = () => {
-	useEffect(() => {
-		document.title = `${config.title_page} - Recipes`;
-	}, []);
-
 	const { tokenCSRF }: any = useCSRF();
-	const { isLoading, isError, data } = useQuery('recipeList', async () => {
+
+	const { isLoading, isError, data, isSuccess } = useQuery('recipeList', async () => {
 		const res = await fetch(`${config.backend_url}/recipes`);
 		return res.json();
 	});
@@ -21,6 +18,8 @@ const RecipesView: FC = () => {
 	if (isLoading) return <Loading />;
 
 	if (isError) return <Error code={500}>There was a problem with API connection.</Error>;
+
+	if (isSuccess) document.title = `${config.title_page} - Recipes`;
 
 	return (
 		<div className="container">

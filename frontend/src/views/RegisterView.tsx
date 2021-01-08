@@ -59,9 +59,9 @@ const RegisterView = () => {
 	};
 
 	return (
-		<div className="container">
+		<div className="container container:small">
 			<div className="flex flex-ai:center flex-jc:center">
-				<div className="container_box container_box:small">
+				<div className="container_box">
 					<div className="container_title">
 						<h1>Register</h1>
 					</div>

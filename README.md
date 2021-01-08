@@ -51,6 +51,7 @@ Include pages:
 
 -   React
 -   React Query
+-   React Form
 -   js-cookie
 -   SCSS
 -   Swiper

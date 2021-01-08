@@ -62,9 +62,9 @@ const LoginView: FC = () => {
 	if (loading) return <Loading />;
 
 	return (
-		<div className="container">
+		<div className="container container:small">
 			<div className="flex flex-ai:center flex-jc:center">
-				<div className="container_box container_box:small padding:large">
+				<div className="container_box padding:large">
 					{errorMessage && <div className="message message-error">{errorMessage}</div>}
 
 					<form className="form" onSubmit={formSubmit}>

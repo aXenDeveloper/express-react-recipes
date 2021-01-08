@@ -16,6 +16,10 @@
     --input--border: rgba(113, 128, 150, 0.4);
     --input--border-focusShadow: rgba(var(--theme-main-color), 0.3) 0 0 0 4px;
 
+    --input-error-border: 195, 21, 46;
+    --input-error-border-rgb: rgb(var(--input-error-border));
+    --input-error-border-focusShadow: rgba(var(--input-error-border), 0.3) 0 0 0 4px;
+
     --loading-border: rgba(0, 0, 0, 0.2);
     --loading-border-top: #000;
 
