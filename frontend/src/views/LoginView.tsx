@@ -1,4 +1,4 @@
-import { useState, useEffect, FC, ChangeEvent, useRef, MutableRefObject } from 'react';
+import { useState, useEffect, FC, ChangeEvent } from 'react';
 import { useCSRF } from '../context/csrf';
 import config from '../config';
 
@@ -15,14 +15,8 @@ const LoginView: FC = () => {
 
 	const { createTokenCSRF }: any = useCSRF();
 
-	const _isMounted: MutableRefObject<boolean> = useRef(true);
-
 	useEffect(() => {
 		document.title = `${config.title_page} - Login`;
-
-		return () => {
-			_isMounted.current = false;
-		};
 	}, []);
 
 	const { mutateAsync, isLoading, isError } = useMutation(async () => {
@@ -48,10 +42,6 @@ const LoginView: FC = () => {
 		return data;
 	});
 
-	const onSubmit = async () => {
-		await mutateAsync();
-	};
-
 	const { register, handleSubmit, errors } = useForm();
 
 	const handleEmail = (e: ChangeEvent<HTMLInputElement>): void => setInputEmail(e.target.value);
@@ -67,7 +57,7 @@ const LoginView: FC = () => {
 				<div className="container_box padding:large">
 					{errorMessage && <div className="message message-error">{errorMessage}</div>}
 
-					<form className="form" onSubmit={handleSubmit(onSubmit)}>
+					<form className="form" onSubmit={handleSubmit(async () => await mutateAsync())}>
 						<ul className="form_ul">
 							<li>
 								<input
