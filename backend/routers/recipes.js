@@ -28,12 +28,7 @@ router.post('/add', csrfValidate, upload, async (req, res) => {
 	});
 
 	const { title, category, ingredients, description } = req.body;
-	// if (!title || !category || !description || !req.file) return res.status(400).json({ message: 'Not all fields have been completed!' });
-	if (!title) return res.status(400).json({ message: 'Title Not all fields have been completed!' });
-	if (!category) return res.status(400).json({ message: 'category Not all fields have been completed!' });
-	if (!ingredients) return res.status(400).json({ message: 'ingredients Not all fields have been completed!' });
-	if (!description) return res.status(400).json({ message: 'description Not all fields have been completed!' });
-	if (!req.file) return res.status(400).json({ message: 'req.file Not all fields have been completed!' });
+	if (!title || !category || !description || !req.file) return res.status(400).json({ message: 'Not all fields have been completed!' });
 
 	const verified = jwt.verify(sesionExist.token, process.env.CSRF_TOKEN);
 

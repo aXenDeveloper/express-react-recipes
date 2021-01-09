@@ -1,69 +1,80 @@
-import { useEffect, useState } from 'react';
-import { useCSRF } from '../../context/csrf';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { useHistory } from 'react-router-dom';
 import uniqid from 'uniqid';
+import { useCSRF } from '../../context/csrf';
 import config from '../../config';
 
-import ErrorView from '../ErrorView';
 import IngredientsForm from '../../components/IngredientsForm';
+import Loading from '../../components/Loading';
+import ErrorView from '../ErrorView';
 
-const RecipeEditView = ({ match, history }) => {
+const RecipeEditView = ({ match }) => {
+	const history = useHistory();
+
 	const [inputTitle, setInputTitle] = useState('');
-	const [inputDesc, setInputDesc] = useState('');
 	const [inputCategory, setInputCategory] = useState('breakfast');
-
-	const [statusItem, setStatusItem] = useState(0);
-	const [loading, setLoading] = useState(false);
-	const [dataItem, setDataItem] = useState({});
+	const [inputDesc, setInputDesc] = useState('');
 
 	const [inputIngredient, setInputIngredient] = useState('');
 	const [inputIngredientAmount, setInputIngredientAmount] = useState(0);
 	const [listIngredient, setListIngredient] = useState([]);
 
-	const { tokenCSRF, memberData, statusVerifyCSRF } = useCSRF();
+	const getDataItem = useQuery(
+		'recipeItemEdit',
+		async () => {
+			const res = await fetch(`${config.backend_url}/recipes/item?id=${match.params.id}`);
+			const data = await res.json();
 
-	const [errorMessage, setErrorMessage] = useState('');
+			if (res.status === 200) {
+				setInputTitle(data.recipeItem.title);
+				setInputDesc(data.recipeItem.description);
+				setInputCategory(data.recipeItem.category);
+				setListIngredient(JSON.parse(data.recipeItem.ingredients));
 
-	useEffect(() => {
-		const getItemAPI = async () => {
-			setLoading(true);
-
-			try {
-				const itemAPI = await fetch(`${config.backend_url}/recipes/item?id=${match.params.id}`);
-				const dataItemAPI = await itemAPI.json();
-
-				if (itemAPI.status === 200) {
-					setDataItem(dataItemAPI.recipeItem);
-					setStatusItem(itemAPI.status);
-					setInputTitle(dataItemAPI.recipeItem.title);
-					setInputDesc(dataItemAPI.recipeItem.description);
-					setInputCategory(dataItemAPI.recipeItem.category);
-					setListIngredient(JSON.parse(dataItemAPI.recipeItem.ingredients));
-
-					document.title = `${config.title_page} - Recipes - Edit: ${dataItemAPI.recipeItem.title}`;
-
-					setLoading(false);
-				} else setStatusItem(itemAPI.status);
-			} catch (err) {
-				console.error(err);
+				document.title = `${config.title_page} - Recipes - Edit: ${data.recipeItem.title}`;
 			}
-		};
 
-		getItemAPI();
-	}, [match.params.id]);
+			return data;
+		},
+		{ cacheTime: 0 }
+	);
 
-	if (loading) {
-		return (
-			<div className="container">
-				<div className="loading" />
-			</div>
-		);
-	}
+	const { tokenCSRF } = useCSRF();
 
-	if (statusItem !== 200) {
-		return <ErrorView code={404}>The page you requested does not exist</ErrorView>;
-	}
+	const { register, handleSubmit, errors } = useForm();
+
+	const { mutateAsync, isLoading } = useMutation(async () => {
+		const api = await fetch(`${config.backend_url}/recipes/edit?id=${match.params.id}`, {
+			method: 'PATCH',
+			headers: {
+				'Content-Type': 'application/json',
+				CSRF_Token: tokenCSRF
+			},
+			body: JSON.stringify({
+				title: inputTitle,
+				category: inputCategory,
+				ingredients: JSON.stringify(listIngredient),
+				description: inputDesc
+			})
+		});
+
+		const data = await api.json();
+		if (api.status === 200) {
+			history.push(`/recipes/${data.recipe._id}`);
+		}
+
+		return data;
+	});
+
+	const queryClient = useQueryClient();
+	const onSubmit = async () => {
+		await mutateAsync();
+		queryClient.invalidateQueries('recipeList');
+	};
 
 	const addIngredient = () => {
 		setListIngredient([
@@ -88,110 +99,83 @@ const RecipeEditView = ({ match, history }) => {
 	const handleIngredient = e => setInputIngredient(e.target.value);
 	const handleIngredientAmount = e => setInputIngredientAmount(e.target.value);
 
-	const apiSubmit = async () => {
-		/*const formData = new FormData();
-		formData.append('productImage', inputImage);
-		formData.append('title', inputTitle);
-		formData.append('category', inputCategory);
-		formData.append('ingredients', JSON.stringify(listIngredient));
-		formData.append('description', inputDesc); */
+	if (getDataItem.isLoading || isLoading) return <Loading />;
 
-		try {
-			const api = await fetch(`${config.backend_url}/recipes/edit?id=${match.params.id}`, {
-				method: 'PATCH',
-				headers: {
-					'Content-Type': 'application/json',
-					CSRF_Token: tokenCSRF
-				},
-				body: JSON.stringify({
-					title: inputTitle,
-					category: inputCategory,
-					ingredients: JSON.stringify(listIngredient),
-					description: inputDesc
-				})
-			});
+	if (getDataItem.isError) return <ErrorView code={500}>There was a problem with API connection.</ErrorView>;
 
-			if (api.status === 200) history.goBack();
-			else if (api.status === 400) {
-				const data = await api.json();
-				setErrorMessage(data.message);
-			}
-		} catch (err) {
-			console.error(err);
-		}
-	};
-
-	const formSubmit = e => {
-		e.preventDefault();
-		apiSubmit();
-	};
-
-	if (statusVerifyCSRF === 200 && tokenCSRF && (memberData.group_id === 4 || memberData._id === dataItem.member_id)) {
-		return (
-			<form className="form" onSubmit={formSubmit} encType="multipart/form-data">
-				<div className="container">
-					<div className="container_box padding">
-						<ul className="form_ul">
-							<li>
-								<label htmlFor="title" className="input_label">
-									Title
-								</label>
-								<input type="text" id="title" className="input input_text input_full" onChange={handleTitle} value={inputTitle} />
-							</li>
-							<li>
-								<label htmlFor="category" className="input_label">
-									Category
-								</label>
-								<select id="category" className="input input_select input_full" onChange={handleCategory} value={inputCategory}>
-									<option value="breakfast">Śniadanie</option>
-									<option value="dinner">Obiad</option>
-									<option value="salads">Salads</option>
-									<option value="pizza">Pizza</option>
-									<option value="cakes">Ciasta i desery</option>
-									<option value="icecream">Lody</option>
-								</select>
-							</li>
-							<li>
-								<CKEditor
-									editor={ClassicEditor}
-									data={inputDesc}
-									onChange={(event, editor) => {
-										const data = editor.getData();
-										console.log({ event, editor, data });
-										setInputDesc(data);
-									}}
-									config={{
-										removePlugins: ['Image', 'ImageCaption', 'ImageStyle', 'ImageToolbar', 'ImageUpload'],
-										width: 'auto'
-									}}
-								/>
-							</li>
-						</ul>
-
-						<IngredientsForm
-							listIngredient={listIngredient}
-							removeIngredient={removeIngredient}
-							handleIngredient={handleIngredient}
-							inputIngredient={inputIngredient}
-							addIngredient={addIngredient}
-							inputIngredientAmount={inputIngredientAmount}
-							handleIngredientAmount={handleIngredientAmount}
+	return (
+		<form className="form container container:medium" onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
+			<div className="container_box padding">
+				<ul className="form_ul">
+					<li>
+						<label htmlFor="title" className="input_label">
+							Title
+						</label>
+						<input
+							type="text"
+							id="title"
+							name="title"
+							className={`input input_text input_full${errors.title ? ' input_error' : ''}`}
+							onChange={handleTitle}
+							value={inputTitle}
+							ref={register({ required: true })}
 						/>
+					</li>
 
-						{errorMessage && <div className="message message-error">{errorMessage}</div>}
+					<li>
+						<label htmlFor="category" className="input_label">
+							Category
+						</label>
+						<select
+							id="category"
+							name="category"
+							onChange={handleCategory}
+							className="input input_select input_full"
+							ref={register({ required: true })}
+						>
+							<option value="breakfast">Śniadanie</option>
+							<option value="dinner">Obiad</option>
+							<option value="salads">Salads</option>
+							<option value="pizza">Pizza</option>
+							<option value="cakes">Ciasta i desery</option>
+							<option value="icecream">Lody</option>
+						</select>
+					</li>
 
-						<div className="flex flex-ai:center flex-jc:center padding-top">
-							<button className="button button_primary" type="submit">
-								Edit recipe
-							</button>
-						</div>
+					<li>
+						<CKEditor
+							editor={ClassicEditor}
+							data={inputDesc}
+							onChange={(event, editor) => {
+								const data = editor.getData();
+								setInputDesc(data);
+							}}
+							config={{
+								removePlugins: ['Image', 'ImageCaption', 'ImageStyle', 'ImageToolbar', 'ImageUpload'],
+								width: 'auto'
+							}}
+						/>
+					</li>
+
+					<IngredientsForm
+						listIngredient={listIngredient}
+						removeIngredient={removeIngredient}
+						handleIngredient={handleIngredient}
+						inputIngredient={inputIngredient}
+						addIngredient={addIngredient}
+						inputIngredientAmount={inputIngredientAmount}
+						handleIngredientAmount={handleIngredientAmount}
+					/>
+
+					<div className="flex flex-ai:center flex-jc:center padding-top">
+						<button className="button button_primary" type="submit">
+							Edit recipe
+						</button>
 					</div>
-				</div>
-			</form>
-		);
-	}
-
-	return <ErrorView code={401}>You don't have access to this page!</ErrorView>;
+				</ul>
+			</div>
+		</form>
+	);
 };
 
 export default RecipeEditView;

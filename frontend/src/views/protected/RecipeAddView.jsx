@@ -31,7 +31,7 @@ const RecipesAddView = () => {
 	const history = useHistory();
 	const { tokenCSRF } = useCSRF();
 
-	const { mutateAsync, isLoading } = useMutation(async newTodo => {
+	const { mutateAsync, isLoading } = useMutation(async () => {
 		const formData = new FormData();
 		formData.append('productImage', inputImage);
 		formData.append('title', inputTitle);
