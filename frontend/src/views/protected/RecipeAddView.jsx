@@ -55,7 +55,7 @@ const RecipesAddView = () => {
 		return data;
 	});
 
-	const onSubmit = async data => {
+	const onSubmit = async () => {
 		await mutateAsync();
 		queryClient.invalidateQueries('recipeList');
 	};

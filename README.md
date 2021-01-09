@@ -1,4 +1,4 @@
-# (Express React) Recipes
+# (Express / React) Recipes app
 
 Include pages:
 

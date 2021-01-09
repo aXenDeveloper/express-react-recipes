@@ -8,7 +8,7 @@ import Navbar from './nav/Navbar';
 import LogoDark from '../assets/logo_dark.png';
 
 const Header: FC = () => (
-	<header>
+	<header className="header">
 		<div className="container">
 			<Link to="/" className="logo">
 				<img src={LogoDark} alt="Logo" />
