@@ -46,6 +46,8 @@ const Root = () => {
 	const deleteTokenCSRF = (): void => {
 		Cookies.remove('CSRF_token');
 		setTokenCSRF('');
+		setStatusVerifyCSRF(0);
+		setMemberData({});
 	};
 
 	return (

@@ -1,14 +1,16 @@
-import { useState, useEffect, FC, ChangeEvent, FormEvent, useRef, MutableRefObject } from 'react';
+import { useState, useEffect, FC, ChangeEvent, useRef, MutableRefObject } from 'react';
 import { useCSRF } from '../context/csrf';
 import config from '../config';
 
 import Loading from '../components/Loading';
+import { useForm } from 'react-hook-form';
+import { useMutation } from 'react-query';
+import ErrorView from './ErrorView';
 
 const LoginView: FC = () => {
 	const [inputEmail, setInputEmail] = useState<string>('');
 	const [inputPassword, setInputPassword] = useState<string>('');
 
-	const [loading, setLoading] = useState<boolean>(false);
 	const [errorMessage, setErrorMessage] = useState<string>('');
 
 	const { createTokenCSRF }: any = useCSRF();
@@ -23,43 +25,41 @@ const LoginView: FC = () => {
 		};
 	}, []);
 
-	const loginAPI = async () => {
-		setLoading(true);
+	const { mutateAsync, isLoading, isError } = useMutation(async () => {
+		const res = await fetch(`${config.backend_url}/account/login`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				email: inputEmail,
+				password: inputPassword
+			})
+		});
 
-		try {
-			const api = await fetch(`${config.backend_url}/account/login`, {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify({
-					email: inputEmail,
-					password: inputPassword
-				})
-			});
-			const data = await api.json();
+		const data = await res.json();
 
-			if (api.status === 200) {
-				createTokenCSRF(data.CSRF_token);
-			} else if (api.status === 400) {
-				setErrorMessage(data.message);
-			}
-
-			setLoading(false);
-		} catch (err) {
-			console.error(err);
+		if (res.status === 200) {
+			createTokenCSRF(data.CSRF_token);
+		} else if (res.status === 400) {
+			setErrorMessage(data.message);
 		}
+
+		return data;
+	});
+
+	const onSubmit = async () => {
+		await mutateAsync();
 	};
 
-	const formSubmit = (e: FormEvent<HTMLFormElement>): void => {
-		e.preventDefault();
-		loginAPI();
-	};
+	const { register, handleSubmit, errors } = useForm();
 
 	const handleEmail = (e: ChangeEvent<HTMLInputElement>): void => setInputEmail(e.target.value);
 	const handlePassword = (e: ChangeEvent<HTMLInputElement>): void => setInputPassword(e.target.value);
 
-	if (loading) return <Loading />;
+	if (isLoading) return <Loading />;
+
+	if (isError) return <ErrorView code={500}>There was a problem with API connection.</ErrorView>;
 
 	return (
 		<div className="container container:small">
@@ -67,24 +67,28 @@ const LoginView: FC = () => {
 				<div className="container_box padding:large">
 					{errorMessage && <div className="message message-error">{errorMessage}</div>}
 
-					<form className="form" onSubmit={formSubmit}>
+					<form className="form" onSubmit={handleSubmit(onSubmit)}>
 						<ul className="form_ul">
 							<li>
 								<input
 									type="email"
-									className="input input_text input_full"
+									name="email"
+									className={`input input_text input_full${errors.email ? ' input_error' : ''}`}
 									placeholder="Email Address"
 									onChange={handleEmail}
 									value={inputEmail}
+									ref={register({ required: true })}
 								/>
 							</li>
 							<li>
 								<input
 									type="password"
-									className="input input_text input_full"
+									name="password"
+									className={`input input_text input_full${errors.password ? ' input_error' : ''}`}
 									placeholder="Password"
 									onChange={handlePassword}
 									value={inputPassword}
+									ref={register({ required: true })}
 								/>
 							</li>
 						</ul>

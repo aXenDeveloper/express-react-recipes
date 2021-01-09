@@ -1,4 +1,6 @@
 .form {
+    min-width: 400px;
+
     & .container {
         overflow: hidden;
     }
@@ -26,29 +28,4 @@
             }
         }
     }
-
-    /* display: flex;
-    flex-direction: column;
-    overflow: hidden;
-
-    input[type='email'],
-    input[type='password'],
-    input[type='text'] {
-        border-radius: var(--border--radius);
-        padding: 1.3rem 1.2rem;
-        color: inherit;
-        background-color: var(--box--backgroundColor);
-        border: 1px solid var(--input--border);
-        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-
-        &:focus {
-            box-shadow: var(--input--border-focusShadow);
-            border-color: var(--theme-main-color-rgb);
-            outline: 0;
-        }
-    }
-
-    > input {
-        margin-bottom: 2rem;
-    }*/
 }
