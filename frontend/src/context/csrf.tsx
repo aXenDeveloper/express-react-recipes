@@ -1,15 +1,22 @@
 import { createContext, useContext } from 'react';
 
-type test123 = {
-	tokenCSRF: string | undefined;
-	createTokenCSRF: (key: string) => void;
-	deleteTokenCSRF: () => void;
-	memberData: any;
+export type AuthContextType = {
+	tokenCSRF?: string;
+	createTokenCSRF(key: string): void;
+	deleteTokenCSRF(): void;
+	memberData: {
+		group_id?: number;
+		_id?: string;
+		name?: string;
+		email?: string;
+		password?: string;
+		date?: string;
+	};
 	statusVerifyCSRF: number;
 };
 
-export const AuthContext = createContext<test123 | null>(null);
+export const AuthContext = createContext<AuthContextType | null>(null);
 
-export function useCSRF(): test123 | null {
+export const useCSRF = () => {
 	return useContext(AuthContext);
-}
+};

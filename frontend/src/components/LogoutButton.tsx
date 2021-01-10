@@ -8,13 +8,12 @@ type LogoutButtontype = {
 };
 
 const LogoutButton: FC<LogoutButtontype> = ({ buttonFull }) => {
-	const { tokenCSRF, deleteTokenCSRF }: any = useCSRF();
+	const { tokenCSRF, deleteTokenCSRF } = useCSRF() as { tokenCSRF: string; deleteTokenCSRF: () => void };
 
 	const { mutateAsync } = useMutation(async () => {
 		const api = await fetch(`${config.backend_url}/account/logout`, {
 			method: 'DELETE',
 			headers: {
-				'Content-Type': 'application/json',
 				CSRF_Token: tokenCSRF
 			}
 		});

@@ -16,8 +16,8 @@ import RecipeItemView from './views/recipes/RecipeItemView';
 import RecipeEditView from './views/recipes/protected/RecipeEditView';
 
 const Root: FC = () => {
-	const [tokenCSRF, setTokenCSRF] = useState<string | undefined>(Cookies.get('CSRF_token'));
-	const [statusVerifyCSRF, setStatusVerifyCSRF] = useState<number>(0);
+	const [tokenCSRF, setTokenCSRF] = useState(Cookies.get('CSRF_token'));
+	const [statusVerifyCSRF, setStatusVerifyCSRF] = useState(0);
 	const [memberData, setMemberData] = useState({});
 
 	useEffect(() => {
@@ -38,12 +38,12 @@ const Root: FC = () => {
 		}
 	}, [tokenCSRF]);
 
-	const createTokenCSRF = (key: string): void => {
+	const createTokenCSRF = (key: string) => {
 		Cookies.set('CSRF_token', key, { expires: 1460 });
 		setTokenCSRF(key);
 	};
 
-	const deleteTokenCSRF = (): void => {
+	const deleteTokenCSRF = () => {
 		Cookies.remove('CSRF_token');
 		setTokenCSRF('');
 		setStatusVerifyCSRF(0);

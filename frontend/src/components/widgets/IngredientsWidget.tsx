@@ -14,16 +14,16 @@ const RecipeIngredients: FC<RecipeIngredientsType> = ({ ingredients }) => {
 			</div>
 
 			<div className="padding">
-				{ingredientsJSON !== null ? (
+				{ingredientsJSON.length > 0 ? (
 					<>
-						{ingredientsJSON.map((el: any) => (
-							<div key={el.id} id={el.id}>
-								{el.text}
+						{ingredientsJSON.map(({ id, text }) => (
+							<div key={id} id={id}>
+								{text}
 							</div>
 						))}
 					</>
 				) : (
-					<div>Nie ma</div>
+					<div className="message message-error">The author has not added any content here.</div>
 				)}
 			</div>
 		</div>

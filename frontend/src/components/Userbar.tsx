@@ -1,11 +1,11 @@
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
-import { useCSRF } from '../context/csrf';
+import { AuthContextType, useCSRF } from '../context/csrf';
 
 import LogoutButton from './LogoutButton';
 
 const Userbar: FC = () => {
-	const { tokenCSRF, memberData }: any = useCSRF();
+	const { tokenCSRF, memberData } = useCSRF() as AuthContextType;
 
 	return (
 		<div className="userbar">

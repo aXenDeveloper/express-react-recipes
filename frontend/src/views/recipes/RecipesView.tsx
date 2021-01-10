@@ -1,14 +1,14 @@
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import { useQuery } from 'react-query';
-import { useCSRF } from '../../context/csrf';
+import { AuthContextType, useCSRF } from '../../context/csrf';
 import config from '../../config';
 
 import Loading from '../../components/Loading';
-import Error from '../../components/Error';
+import ErrorView from '../ErrorView';
 
 const RecipesView: FC = () => {
-	const { tokenCSRF }: any = useCSRF();
+	const { tokenCSRF } = useCSRF() as AuthContextType;
 
 	const { isLoading, isError, data, isSuccess } = useQuery('recipeList', async () => {
 		const res = await fetch(`${config.backend_url}/recipes`);
@@ -18,7 +18,7 @@ const RecipesView: FC = () => {
 	if (isSuccess) document.title = `${config.title_page} - Recipes`;
 
 	if (isLoading) return <Loading />;
-	if (isError) return <Error code={500}>There was a problem with API connection.</Error>;
+	if (isError) return <ErrorView code={500}>There was a problem with API connection.</ErrorView>;
 
 	return (
 		<div className="container">
@@ -32,33 +32,45 @@ const RecipesView: FC = () => {
 				)}
 			</div>
 
-			<div className="container_wraper">
-				<div className="container_wraper_main">
-					<div className="container_box">
-						<ul className="recipes_ul">
-							{data.recipe
-								.map((item: any) => (
-									<li key={item._id}>
-										<Link to={`/recipes/${item._id}`}>
-											<div className="recipes_item">
-												<img
-													src={`${config.backend_url}/uploads/${item.image_url}`}
-													alt={item.title}
-												/>
-												<div className="recipes_item_title">{item.title}</div>
-												<div className="recipes_item_category">{item.category}</div>
-												<div className="recipes_item_author">{item.member_name}</div>
-											</div>
-										</Link>
-									</li>
-								))
-								.reverse()}
-						</ul>
+			{data.recipe.length > 0 ? (
+				<div className="container_wraper">
+					<div className="container_wraper_main">
+						<div className="container_box">
+							<ul className="recipes_ul">
+								{data.recipe
+									.map(
+										(item: {
+											_id: string;
+											image_url: string;
+											title: string;
+											category: string;
+											member_name: string;
+										}) => (
+											<li key={item._id}>
+												<Link to={`/recipes/${item._id}`}>
+													<div className="recipes_item">
+														<img
+															src={`${config.backend_url}/uploads/${item.image_url}`}
+															alt={item.title}
+														/>
+														<div className="recipes_item_title">{item.title}</div>
+														<div className="recipes_item_category">{item.category}</div>
+														<div className="recipes_item_author">{item.member_name}</div>
+													</div>
+												</Link>
+											</li>
+										)
+									)
+									.reverse()}
+							</ul>
+						</div>
 					</div>
-				</div>
 
-				<div className="container_wraper_widget">Widget</div>
-			</div>
+					<div className="container_wraper_widget">Widget</div>
+				</div>
+			) : (
+				<ErrorView code={404}>You haven't added any content yet.</ErrorView>
+			)}
 		</div>
 	);
 };

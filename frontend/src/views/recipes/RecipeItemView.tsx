@@ -1,5 +1,6 @@
 import { FC } from 'react';
-import { useCSRF } from '../../context/csrf';
+import { RouteComponentProps } from 'react-router-dom';
+import { AuthContextType, useCSRF } from '../../context/csrf';
 import { useQuery } from 'react-query';
 import config from '../../config';
 
@@ -8,12 +9,14 @@ import IngredientsWidget from '../../components/widgets/IngredientsWidget';
 import Loading from '../../components/Loading';
 import ActionRecipeItem from '../../components/recipes/ActionRecipeItem';
 
-type RecipeItemViewType = {
-	match: any;
+type RouterProps = {
+	id: string;
 };
 
-const RecipeItemView: FC<RecipeItemViewType> = ({ match }) => {
-	const { tokenCSRF, memberData }: any = useCSRF();
+interface TopicDetailProps extends RouteComponentProps<RouterProps> {}
+
+const RecipeItemView: FC<TopicDetailProps> = ({ match }) => {
+	const { tokenCSRF, memberData } = useCSRF() as AuthContextType;
 
 	const { isLoading, isError, data, isSuccess } = useQuery(
 		'recipeItem',

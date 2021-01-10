@@ -1,15 +1,15 @@
 import { useState, ChangeEvent } from 'react';
 
 const useAuthForm = () => {
-	const [inputName, setInputName] = useState<string>('');
-	const [inputEmail, setInputEmail] = useState<string>('');
-	const [inputPassword, setInputPassword] = useState<string>('');
-	const [inputPasswordCF, setInputPasswordCF] = useState<string>('');
+	const [inputName, setInputName] = useState('');
+	const [inputEmail, setInputEmail] = useState('');
+	const [inputPassword, setInputPassword] = useState('');
+	const [inputPasswordCF, setInputPasswordCF] = useState('');
 
-	const handleName = (e: ChangeEvent<HTMLInputElement>): void => setInputName(e.target.value);
-	const handleEmail = (e: ChangeEvent<HTMLInputElement>): void => setInputEmail(e.target.value);
-	const handlePassword = (e: ChangeEvent<HTMLInputElement>): void => setInputPassword(e.target.value);
-	const handlePasswordCF = (e: ChangeEvent<HTMLInputElement>): void => setInputPasswordCF(e.target.value);
+	const handleName = (e: ChangeEvent<HTMLInputElement>) => setInputName(e.target.value);
+	const handleEmail = (e: ChangeEvent<HTMLInputElement>) => setInputEmail(e.target.value);
+	const handlePassword = (e: ChangeEvent<HTMLInputElement>) => setInputPassword(e.target.value);
+	const handlePasswordCF = (e: ChangeEvent<HTMLInputElement>) => setInputPasswordCF(e.target.value);
 
 	return {
 		inputName,

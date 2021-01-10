@@ -2,13 +2,13 @@ import { FC, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
-import { useCSRF } from '../../context/csrf';
+import { AuthContextType, useCSRF } from '../../context/csrf';
 
 import LogoutButton from '../LogoutButton';
 import NavItems from './NavItems';
 
 const NavbarMobile: FC = () => {
-	const { tokenCSRF, memberData }: any = useCSRF();
+	const { tokenCSRF, memberData } = useCSRF() as AuthContextType;
 
 	const [active, setActive] = useState(false);
 

@@ -14,9 +14,9 @@ type ActionRecipeItemType = {
 };
 
 const ActionRecipeItem: FC<ActionRecipeItemType> = ({ _id }) => {
-	const [isOpenPopup, setIsOpenPopup] = useState<boolean>(false);
+	const [isOpenPopup, setIsOpenPopup] = useState(false);
 
-	const { tokenCSRF }: any = useCSRF();
+	const { tokenCSRF } = useCSRF() as { tokenCSRF: string };
 	const history = useHistory();
 
 	const queryClient = useQueryClient();

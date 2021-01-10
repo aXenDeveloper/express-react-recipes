@@ -2,10 +2,10 @@ import { FC } from 'react';
 import { NavLink } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faUserShield, faPhoneAlt, faUtensils } from '@fortawesome/free-solid-svg-icons';
-import { useCSRF } from '../../context/csrf';
+import { AuthContextType, useCSRF } from '../../context/csrf';
 
 const NavItems: FC = () => {
-	const { tokenCSRF }: any = useCSRF();
+	const { tokenCSRF } = useCSRF() as AuthContextType;
 
 	return (
 		<>
@@ -26,6 +26,7 @@ const NavItems: FC = () => {
 					<FontAwesomeIcon icon={faPhoneAlt} /> Contact
 				</NavLink>
 			</li>
+
 			{tokenCSRF && (
 				<li>
 					<NavLink exact to="/admin">
