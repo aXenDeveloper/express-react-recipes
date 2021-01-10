@@ -4,11 +4,11 @@ import config from '../../config';
 import ErrorView from '../ErrorView';
 
 const AdminView: FC = () => {
-	const { memberData, statusVerifyCSRF }: any = useCSRF();
-
 	useEffect(() => {
 		document.title = `${config.title_page} - Admin Panel`;
 	}, []);
+
+	const { memberData, statusVerifyCSRF }: any = useCSRF();
 
 	if (statusVerifyCSRF !== 200) return <ErrorView code={401}>You don't have access to this page!</ErrorView>;
 

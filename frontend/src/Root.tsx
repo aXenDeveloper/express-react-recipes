@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, FC } from 'react';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { AuthContext } from './context/csrf';
 import Cookies from 'js-cookie';
@@ -15,7 +15,7 @@ import RecipesAddView from './views/protected/RecipeAddView';
 import RecipeItemView from './views/RecipeItemView';
 import RecipeEditView from './views/protected/RecipeEditView';
 
-const Root = () => {
+const Root: FC = () => {
 	const [tokenCSRF, setTokenCSRF] = useState<string | undefined>(Cookies.get('CSRF_token'));
 	const [statusVerifyCSRF, setStatusVerifyCSRF] = useState<number>(0);
 	const [memberData, setMemberData] = useState({});

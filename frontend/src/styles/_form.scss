@@ -1,6 +1,4 @@
 .form {
-    min-width: 400px;
-
     & .container {
         overflow: hidden;
     }
@@ -15,7 +13,7 @@
         }
     }
 
-    &_ingredient {
+    /* &_ingredient {
         margin-top: 2rem;
 
         &_ul {
@@ -27,5 +25,5 @@
                 margin-bottom: 1rem;
             }
         }
-    }
+    } */
 }

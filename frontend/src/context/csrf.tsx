@@ -4,7 +4,7 @@ type test123 = {
 	tokenCSRF: string | undefined;
 	createTokenCSRF: (key: string) => void;
 	deleteTokenCSRF: () => void;
-	memberData: {};
+	memberData: any;
 	statusVerifyCSRF: number;
 };
 

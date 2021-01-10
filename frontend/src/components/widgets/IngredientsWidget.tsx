@@ -18,7 +18,7 @@ const RecipeIngredients: FC<RecipeIngredientsType> = ({ ingredients }) => {
 					<>
 						{ingredientsJSON.map((el: any) => (
 							<div key={el.id} id={el.id}>
-								{el.amount} - {el.element}
+								{el.text}
 							</div>
 						))}
 					</>

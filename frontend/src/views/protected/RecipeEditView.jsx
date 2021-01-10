@@ -4,24 +4,30 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useHistory } from 'react-router-dom';
-import uniqid from 'uniqid';
 import { useCSRF } from '../../context/csrf';
 import config from '../../config';
 
-import IngredientsForm from '../../components/IngredientsForm';
+import IngredientsForm from '../../components/recipes/IngredientsForm';
 import Loading from '../../components/Loading';
 import ErrorView from '../ErrorView';
+import useIngredientsForm from '../../hooks/useIngredientsForm';
 
 const RecipeEditView = ({ match }) => {
 	const history = useHistory();
 
+	const {
+		inputingredient,
+		listIngredients,
+		removeIngredient,
+		upadateIngredient,
+		addIngredient,
+		handleInput,
+		setListIngredients
+	} = useIngredientsForm();
+
 	const [inputTitle, setInputTitle] = useState('');
 	const [inputCategory, setInputCategory] = useState('breakfast');
 	const [inputDesc, setInputDesc] = useState('');
-
-	const [inputIngredient, setInputIngredient] = useState('');
-	const [inputIngredientAmount, setInputIngredientAmount] = useState(0);
-	const [listIngredient, setListIngredient] = useState([]);
 
 	const getDataItem = useQuery(
 		'recipeItemEdit',
@@ -33,7 +39,7 @@ const RecipeEditView = ({ match }) => {
 				setInputTitle(data.recipeItem.title);
 				setInputDesc(data.recipeItem.description);
 				setInputCategory(data.recipeItem.category);
-				setListIngredient(JSON.parse(data.recipeItem.ingredients));
+				setListIngredients(JSON.parse(data.recipeItem.ingredients));
 
 				document.title = `${config.title_page} - Recipes - Edit: ${data.recipeItem.title}`;
 			}
@@ -57,7 +63,7 @@ const RecipeEditView = ({ match }) => {
 			body: JSON.stringify({
 				title: inputTitle,
 				category: inputCategory,
-				ingredients: JSON.stringify(listIngredient),
+				ingredients: JSON.stringify(listIngredients),
 				description: inputDesc
 			})
 		});
@@ -76,28 +82,8 @@ const RecipeEditView = ({ match }) => {
 		queryClient.invalidateQueries('recipeList');
 	};
 
-	const addIngredient = () => {
-		setListIngredient([
-			...listIngredient,
-			{
-				id: uniqid(),
-				amount: inputIngredientAmount,
-				element: inputIngredient
-			}
-		]);
-
-		setInputIngredient('');
-		setInputIngredientAmount(0);
-	};
-
-	const removeIngredient = id => {
-		setListIngredient(listIngredient.filter(el => el.id !== id));
-	};
-
 	const handleTitle = e => setInputTitle(e.target.value);
 	const handleCategory = e => setInputCategory(e.target.value);
-	const handleIngredient = e => setInputIngredient(e.target.value);
-	const handleIngredientAmount = e => setInputIngredientAmount(e.target.value);
 
 	if (getDataItem.isLoading || isLoading) return <Loading />;
 
@@ -158,13 +144,12 @@ const RecipeEditView = ({ match }) => {
 					</li>
 
 					<IngredientsForm
-						listIngredient={listIngredient}
+						inputingredient={inputingredient}
+						listIngredients={listIngredients}
 						removeIngredient={removeIngredient}
-						handleIngredient={handleIngredient}
-						inputIngredient={inputIngredient}
+						upadateIngredient={upadateIngredient}
 						addIngredient={addIngredient}
-						inputIngredientAmount={inputIngredientAmount}
-						handleIngredientAmount={handleIngredientAmount}
+						handleInput={handleInput}
 					/>
 
 					<div className="flex flex-ai:center flex-jc:center padding-top">

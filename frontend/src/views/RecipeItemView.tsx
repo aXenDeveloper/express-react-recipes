@@ -4,9 +4,9 @@ import { useQuery } from 'react-query';
 import config from '../config';
 
 import ErrorView from './ErrorView';
-import RecipeIngredients from '../components/widgets/RecipeIngredients';
+import IngredientsWidget from '../components/widgets/IngredientsWidget';
 import Loading from '../components/Loading';
-import ActionRecipeItem from '../components/ActionRecipeItem';
+import ActionRecipeItem from '../components/recipes/ActionRecipeItem';
 
 type RecipeItemViewType = {
 	match: any;
@@ -57,7 +57,7 @@ const RecipeItemView: FC<RecipeItemViewType> = ({ match }) => {
 						<ActionRecipeItem _id={data.recipeItem._id} />
 					)}
 
-					<RecipeIngredients ingredients={data.recipeItem.ingredients} />
+					<IngredientsWidget ingredients={data.recipeItem.ingredients} />
 				</div>
 			</div>
 		</div>

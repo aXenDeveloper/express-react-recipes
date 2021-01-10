@@ -4,26 +4,31 @@ import { useMutation, useQueryClient } from 'react-query';
 import { useHistory } from 'react-router-dom';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import uniqid from 'uniqid';
 import { useCSRF } from '../../context/csrf';
 import config from '../../config';
 
-import IngredientsForm from '../../components/IngredientsForm';
+import IngredientsForm from '../../components/recipes/IngredientsForm';
 import Loading from '../../components/Loading';
+import useIngredientsForm from '../../hooks/useIngredientsForm';
 
 const RecipesAddView = () => {
 	useEffect(() => {
 		document.title = `${config.title_page} - Add Recipe`;
 	}, []);
 
+	const {
+		inputingredient,
+		listIngredients,
+		removeIngredient,
+		upadateIngredient,
+		addIngredient,
+		handleInput
+	} = useIngredientsForm();
+
 	const [inputTitle, setInputTitle] = useState('');
 	const [inputCategory, setInputCategory] = useState('breakfast');
 	const [inputImage, setInputImage] = useState({});
 	const [inputDesc, setInputDesc] = useState('');
-	const [listIngredient, setListIngredient] = useState([]);
-
-	const [inputIngredientAmount, setInputIngredientAmount] = useState(0);
-	const [inputIngredient, setInputIngredient] = useState('');
 
 	const { register, handleSubmit, errors } = useForm();
 	const queryClient = useQueryClient();
@@ -36,7 +41,7 @@ const RecipesAddView = () => {
 		formData.append('productImage', inputImage);
 		formData.append('title', inputTitle);
 		formData.append('category', inputCategory);
-		formData.append('ingredients', JSON.stringify(listIngredient));
+		formData.append('ingredients', JSON.stringify(listIngredients));
 		formData.append('description', inputDesc);
 
 		const api = await fetch(`${config.backend_url}/recipes/add`, {
@@ -63,22 +68,6 @@ const RecipesAddView = () => {
 	const handleTitle = e => setInputTitle(e.target.value);
 	const handleCategory = e => setInputCategory(e.target.value);
 	const handleImage = e => setInputImage(e.target.files[0]);
-	const handleIngredient = e => setInputIngredient(e.target.value);
-	const handleIngredientAmount = e => setInputIngredientAmount(e.target.value);
-
-	const addIngredient = () => {
-		setListIngredient([
-			...listIngredient,
-			{
-				id: uniqid(),
-				amount: inputIngredientAmount,
-				element: inputIngredient
-			}
-		]);
-		setInputIngredient('');
-		setInputIngredientAmount(0);
-	};
-	const removeIngredient = id => setListIngredient(listIngredient.filter(el => el.id !== id));
 
 	if (isLoading) return <Loading />;
 
@@ -135,6 +124,8 @@ const RecipesAddView = () => {
 					</li>
 
 					<li>
+						<label className="input_label">Description</label>
+
 						<CKEditor
 							editor={ClassicEditor}
 							onChange={(event, editor) => {
@@ -149,13 +140,12 @@ const RecipesAddView = () => {
 					</li>
 
 					<IngredientsForm
-						listIngredient={listIngredient}
+						inputingredient={inputingredient}
+						listIngredients={listIngredients}
 						removeIngredient={removeIngredient}
-						handleIngredient={handleIngredient}
-						inputIngredient={inputIngredient}
+						upadateIngredient={upadateIngredient}
 						addIngredient={addIngredient}
-						inputIngredientAmount={inputIngredientAmount}
-						handleIngredientAmount={handleIngredientAmount}
+						handleInput={handleInput}
 					/>
 				</ul>
 

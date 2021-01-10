@@ -3,21 +3,21 @@ import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencilAlt, faTimes, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
-import config from '../config';
+import config from '../../config';
 
-import Modal from './Modal';
+import Modal from '../Modal';
 import { useMutation, useQueryClient } from 'react-query';
-import { useCSRF } from '../context/csrf';
+import { useCSRF } from '../../context/csrf';
 
 type ActionRecipeItemType = {
-	_id: Object;
+	_id: string;
 };
 
 const ActionRecipeItem: FC<ActionRecipeItemType> = ({ _id }) => {
 	const [isOpenPopup, setIsOpenPopup] = useState<boolean>(false);
 
 	const { tokenCSRF }: any = useCSRF();
-	let history = useHistory();
+	const history = useHistory();
 
 	const queryClient = useQueryClient();
 	const { mutateAsync, isLoading } = useMutation(async () => {

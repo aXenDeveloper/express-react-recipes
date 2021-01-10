@@ -50,7 +50,6 @@ const RegisterView = () => {
 	const { register, handleSubmit, errors } = useForm();
 
 	if (isLoading) return <LoginView />;
-
 	if (isError) return <ErrorView code={500}>There was a problem with API connection.</ErrorView>;
 
 	return (
