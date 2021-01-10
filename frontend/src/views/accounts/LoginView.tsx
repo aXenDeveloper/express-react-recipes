@@ -1,9 +1,10 @@
 import { useState, useEffect, FC } from 'react';
 import { useCSRF } from '../../context/csrf';
-import config from '../../config';
 import { useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
 import useAuthForm from '../../hooks/useAuthForm';
+import config from '../../config';
+
 import Loading from '../../components/Loading';
 import ErrorView from '../ErrorView';
 

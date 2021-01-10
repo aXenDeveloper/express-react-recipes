@@ -5,16 +5,15 @@ import { useHistory } from 'react-router-dom';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { useCSRF } from '../../../context/csrf';
+import useIngredientsForm from '../../../hooks/useIngredientsForm';
+import useRecipeForm from '../../../hooks/useRecipeForm';
 import config from '../../../config';
 
 import IngredientsForm from '../../../components/recipes/IngredientsForm';
 import Loading from '../../../components/Loading';
-import useIngredientsForm from '../../../hooks/useIngredientsForm';
 
 const RecipesAddView = () => {
-	useEffect(() => {
-		document.title = `${config.title_page} - Add Recipe`;
-	}, []);
+	const { inputTitle, inputCategory, inputDesc, handleTitle, handleCategory, setInputDesc } = useRecipeForm();
 
 	const {
 		inputingredient,
@@ -25,10 +24,11 @@ const RecipesAddView = () => {
 		handleInput
 	} = useIngredientsForm();
 
-	const [inputTitle, setInputTitle] = useState('');
-	const [inputCategory, setInputCategory] = useState('breakfast');
 	const [inputImage, setInputImage] = useState({});
-	const [inputDesc, setInputDesc] = useState('');
+
+	useEffect(() => {
+		document.title = `${config.title_page} - Add Recipe`;
+	}, []);
 
 	const { register, handleSubmit, errors } = useForm();
 	const queryClient = useQueryClient();
@@ -65,8 +65,6 @@ const RecipesAddView = () => {
 		queryClient.invalidateQueries('recipeList');
 	};
 
-	const handleTitle = e => setInputTitle(e.target.value);
-	const handleCategory = e => setInputCategory(e.target.value);
 	const handleImage = e => setInputImage(e.target.files[0]);
 
 	if (isLoading) return <Loading />;

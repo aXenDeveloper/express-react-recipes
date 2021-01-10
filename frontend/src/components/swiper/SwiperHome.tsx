@@ -30,8 +30,8 @@ const SwiperHome: FC = () => {
 					<div className="swiper_slide">
 						<div className="swiper_slide:title">Lifehack in Kitchen #2</div>
 						<div className="swiper_slide:desc">
-							No need to peel garlic cloves if you have a garlic press. Just pop the whole clove in the hopper, press, and then remove
-							the empty peel.
+							No need to peel garlic cloves if you have a garlic press. Just pop the whole clove in the hopper,
+							press, and then remove the empty peel.
 						</div>
 					</div>
 				</SwiperSlide>
@@ -40,8 +40,8 @@ const SwiperHome: FC = () => {
 					<div className="swiper_slide">
 						<div className="swiper_slide:title">Lifehack in Kitchen #3</div>
 						<div className="swiper_slide:desc">
-							To prevent quinoa from falling through your fine mesh sieve while rinsing, run the sieve under water first to create a
-							barrier between the quinoa and mesh.
+							To prevent quinoa from falling through your fine mesh sieve while rinsing, run the sieve under
+							water first to create a barrier between the quinoa and mesh.
 						</div>
 					</div>
 				</SwiperSlide>
@@ -50,8 +50,9 @@ const SwiperHome: FC = () => {
 					<div className="swiper_slide">
 						<div className="swiper_slide:title">Lifehack in Kitchen #4</div>
 						<div className="swiper_slide:desc">
-							To ensure chicken breasts cook evenly from top to bottom, place the chicken on a cutting board then cover with Glad
-							Press’n’ Seal or saran wrap, and then whack it with a rolling pin or meat mallet until the chicken is the same thickness.
+							To ensure chicken breasts cook evenly from top to bottom, place the chicken on a cutting board
+							then cover with Glad Press’n’ Seal or saran wrap, and then whack it with a rolling pin or meat
+							mallet until the chicken is the same thickness.
 						</div>
 					</div>
 				</SwiperSlide>

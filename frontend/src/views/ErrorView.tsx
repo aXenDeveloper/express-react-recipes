@@ -1,5 +1,6 @@
 import { FC, useEffect, ReactNode } from 'react';
 import config from '../config';
+
 import Error from '../components/Error';
 
 type ErrorViewType = {

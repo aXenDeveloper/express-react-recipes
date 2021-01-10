@@ -13,6 +13,8 @@ type RecipeItemViewType = {
 };
 
 const RecipeItemView: FC<RecipeItemViewType> = ({ match }) => {
+	const { tokenCSRF, memberData }: any = useCSRF();
+
 	const { isLoading, isError, data, isSuccess } = useQuery(
 		'recipeItem',
 		async () => {
@@ -23,8 +25,6 @@ const RecipeItemView: FC<RecipeItemViewType> = ({ match }) => {
 	);
 
 	if (isSuccess) document.title = `${config.title_page} - Recipes - ${data.recipeItem.title}`;
-
-	const { tokenCSRF, memberData }: any = useCSRF();
 
 	if (isLoading) return <Loading />;
 	if (isError) return <ErrorView code={500}>There was a problem with API connection.</ErrorView>;

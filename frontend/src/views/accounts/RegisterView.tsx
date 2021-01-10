@@ -2,8 +2,9 @@ import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
 import { Link } from 'react-router-dom';
-import config from '../../config';
 import useAuthForm from '../../hooks/useAuthForm';
+import config from '../../config';
+
 import ErrorView from '../ErrorView';
 import LoginView from './LoginView';
 

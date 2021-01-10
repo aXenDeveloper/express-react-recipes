@@ -1,5 +1,6 @@
 import { FC, useEffect } from 'react';
 import config from '../config';
+
 import SwiperHome from '../components/swiper/SwiperHome';
 
 const HomeView: FC = () => {

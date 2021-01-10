@@ -1,6 +1,7 @@
 import { FC, useEffect } from 'react';
 import { useCSRF } from '../../context/csrf';
 import config from '../../config';
+
 import ErrorView from '../ErrorView';
 
 const AdminView: FC = () => {

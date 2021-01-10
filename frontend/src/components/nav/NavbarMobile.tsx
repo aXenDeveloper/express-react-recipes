@@ -8,9 +8,9 @@ import LogoutButton from '../LogoutButton';
 import NavItems from './NavItems';
 
 const NavbarMobile: FC = () => {
-	const [active, setActive] = useState(false);
-
 	const { tokenCSRF, memberData }: any = useCSRF();
+
+	const [active, setActive] = useState(false);
 
 	const navOpen = () => setActive(true);
 	const navClose = () => setActive(false);
@@ -21,7 +21,11 @@ const NavbarMobile: FC = () => {
 				<FontAwesomeIcon icon={faBars} />
 			</button>
 
-			<button className={`nav_mobile_button:close${active ? ' active' : ''}`} aria-label="Close nav mobile" onClick={navClose}>
+			<button
+				className={`nav_mobile_button:close${active ? ' active' : ''}`}
+				aria-label="Close nav mobile"
+				onClick={navClose}
+			>
 				<FontAwesomeIcon icon={faTimes} />
 			</button>
 

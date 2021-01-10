@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
@@ -7,15 +6,23 @@ import { useHistory } from 'react-router-dom';
 import { useCSRF } from '../../../context/csrf';
 import config from '../../../config';
 
+import useIngredientsForm from '../../../hooks/useIngredientsForm';
+import useRecipeForm from '../../../hooks/useRecipeForm';
 import IngredientsForm from '../../../components/recipes/IngredientsForm';
 import Loading from '../../../components/Loading';
 import ErrorView from '../../ErrorView';
-import useIngredientsForm from '../../../hooks/useIngredientsForm';
 
 const RecipeEditView = ({ match }) => {
-	const [inputTitle, setInputTitle] = useState('');
-	const [inputCategory, setInputCategory] = useState('breakfast');
-	const [inputDesc, setInputDesc] = useState('');
+	const {
+		inputTitle,
+		setInputTitle,
+		inputCategory,
+		setInputCategory,
+		inputDesc,
+		setInputDesc,
+		handleTitle,
+		handleCategory
+	} = useRecipeForm();
 
 	const {
 		inputingredient,
@@ -79,9 +86,6 @@ const RecipeEditView = ({ match }) => {
 		await mutateAsync();
 		queryClient.invalidateQueries('recipeList');
 	};
-
-	const handleTitle = e => setInputTitle(e.target.value);
-	const handleCategory = e => setInputCategory(e.target.value);
 
 	if (getDataItem.isLoading || isLoading) return <Loading />;
 	if (getDataItem.isError) return <ErrorView code={500}>There was a problem with API connection.</ErrorView>;

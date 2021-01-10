@@ -3,11 +3,11 @@ import { useCSRF } from '../context/csrf';
 import config from '../config';
 import { useMutation } from 'react-query';
 
-interface LogoutButtonInterface {
+type LogoutButtontype = {
 	buttonFull?: boolean;
-}
+};
 
-const LogoutButton: FC<LogoutButtonInterface> = ({ buttonFull }) => {
+const LogoutButton: FC<LogoutButtontype> = ({ buttonFull }) => {
 	const { tokenCSRF, deleteTokenCSRF }: any = useCSRF();
 
 	const { mutateAsync } = useMutation(async () => {
@@ -25,7 +25,10 @@ const LogoutButton: FC<LogoutButtonInterface> = ({ buttonFull }) => {
 	});
 
 	return (
-		<button className={`button button_important${buttonFull ? ' button_full' : ''}`} onClick={async () => await mutateAsync()}>
+		<button
+			className={`button button_important${buttonFull ? ' button_full' : ''}`}
+			onClick={async () => await mutateAsync()}
+		>
 			Logout
 		</button>
 	);
