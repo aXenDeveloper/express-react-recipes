@@ -6,14 +6,14 @@ import config from './config';
 
 import Layout from './components/Layout';
 import HomeView from './views/HomeView';
-import LoginView from './views/LoginView';
-import RegisterView from './views/RegisterView';
+import LoginView from './views/accounts/LoginView';
+import RegisterView from './views/accounts/RegisterView';
 import AdminView from './views/protected/AdminView';
 import ErrorView from './views/ErrorView';
-import RecipesView from './views/RecipesView';
-import RecipesAddView from './views/protected/RecipeAddView';
-import RecipeItemView from './views/RecipeItemView';
-import RecipeEditView from './views/protected/RecipeEditView';
+import RecipesView from './views/recipes/RecipesView';
+import RecipesAddView from './views/recipes/protected/RecipeAddView';
+import RecipeItemView from './views/recipes/RecipeItemView';
+import RecipeEditView from './views/recipes/protected/RecipeEditView';
 
 const Root: FC = () => {
 	const [tokenCSRF, setTokenCSRF] = useState<string | undefined>(Cookies.get('CSRF_token'));

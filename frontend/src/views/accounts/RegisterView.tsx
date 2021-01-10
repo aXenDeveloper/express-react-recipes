@@ -1,27 +1,32 @@
-import { useState, useEffect, ChangeEvent } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
 import { Link } from 'react-router-dom';
-import config from '../config';
-import ErrorView from './ErrorView';
+import config from '../../config';
+import useAuthForm from '../../hooks/useAuthForm';
+import ErrorView from '../ErrorView';
 import LoginView from './LoginView';
 
 const RegisterView = () => {
-	const [inputName, setInputName] = useState<string>('');
-	const [inputEmail, setInputEmail] = useState<string>('');
-	const [inputPassword, setInputPassword] = useState<string>('');
-	const [inputPasswordCF, setInputPasswordCF] = useState<string>('');
 	const [errorMessage, setErrorMessage] = useState<string>('');
 	const [successMessage, setSuccessMessage] = useState<string>('');
+
+	const { register, handleSubmit, errors } = useForm();
+
+	const {
+		inputName,
+		inputEmail,
+		inputPassword,
+		inputPasswordCF,
+		handleName,
+		handleEmail,
+		handlePassword,
+		handlePasswordCF
+	} = useAuthForm();
 
 	useEffect(() => {
 		document.title = `${config.title_page} - Register`;
 	}, []);
-
-	const handleName = (e: ChangeEvent<HTMLInputElement>): void => setInputName(e.target.value);
-	const handleEmail = (e: ChangeEvent<HTMLInputElement>): void => setInputEmail(e.target.value);
-	const handlePassword = (e: ChangeEvent<HTMLInputElement>): void => setInputPassword(e.target.value);
-	const handlePasswordCF = (e: ChangeEvent<HTMLInputElement>): void => setInputPasswordCF(e.target.value);
 
 	const { mutateAsync, isLoading, isError } = useMutation(async () => {
 		const api = await fetch(`${config.backend_url}/account/register`, {
@@ -46,8 +51,6 @@ const RegisterView = () => {
 
 		return data;
 	});
-
-	const { register, handleSubmit, errors } = useForm();
 
 	if (isLoading) return <LoginView />;
 	if (isError) return <ErrorView code={500}>There was a problem with API connection.</ErrorView>;

@@ -5,9 +5,7 @@ const useIngredientsForm = () => {
 	const [inputingredient, setInputingredient] = useState('');
 	const [listIngredients, setListIngredients] = useState<any>();
 
-	const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
-		setInputingredient(e.target.value);
-	};
+	const handleInput = (e: ChangeEvent<HTMLInputElement>) => setInputingredient(e.target.value);
 
 	const addIngredient = () => {
 		if (listIngredients) {
@@ -43,9 +41,7 @@ const useIngredientsForm = () => {
 		);
 	};
 
-	const removeIngredient = (id: string) => {
-		setListIngredients(listIngredients.filter((el: any) => el.id !== id));
-	};
+	const removeIngredient = (id: string) => setListIngredients(listIngredients.filter((el: any) => el.id !== id));
 
 	return {
 		inputingredient,

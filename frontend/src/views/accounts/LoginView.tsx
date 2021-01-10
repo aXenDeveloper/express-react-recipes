@@ -1,18 +1,17 @@
-import { useState, useEffect, FC, ChangeEvent } from 'react';
-import { useCSRF } from '../context/csrf';
-import config from '../config';
-
-import Loading from '../components/Loading';
+import { useState, useEffect, FC } from 'react';
+import { useCSRF } from '../../context/csrf';
+import config from '../../config';
 import { useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
-import ErrorView from './ErrorView';
+import useAuthForm from '../../hooks/useAuthForm';
+import Loading from '../../components/Loading';
+import ErrorView from '../ErrorView';
 
 const LoginView: FC = () => {
-	const [inputEmail, setInputEmail] = useState<string>('');
-	const [inputPassword, setInputPassword] = useState<string>('');
-
 	const [errorMessage, setErrorMessage] = useState<string>('');
 
+	const { inputEmail, inputPassword, handleEmail, handlePassword } = useAuthForm();
+	const { register, handleSubmit, errors } = useForm();
 	const { createTokenCSRF }: any = useCSRF();
 
 	useEffect(() => {
@@ -42,13 +41,7 @@ const LoginView: FC = () => {
 		return data;
 	});
 
-	const { register, handleSubmit, errors } = useForm();
-
-	const handleEmail = (e: ChangeEvent<HTMLInputElement>): void => setInputEmail(e.target.value);
-	const handlePassword = (e: ChangeEvent<HTMLInputElement>): void => setInputPassword(e.target.value);
-
 	if (isLoading) return <Loading />;
-
 	if (isError) return <ErrorView code={500}>There was a problem with API connection.</ErrorView>;
 
 	return (

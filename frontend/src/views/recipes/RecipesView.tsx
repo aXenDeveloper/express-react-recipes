@@ -1,25 +1,23 @@
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import { useQuery } from 'react-query';
-import { useCSRF } from '../context/csrf';
-import config from '../config';
-
-import Loading from '../components/Loading';
-import Error from '../components/Error';
+import { useCSRF } from '../../context/csrf';
+import config from '../../config';
+import Loading from '../../components/Loading';
+import Error from '../../components/Error';
 
 const RecipesView: FC = () => {
-	const { tokenCSRF }: any = useCSRF();
-
 	const { isLoading, isError, data, isSuccess } = useQuery('recipeList', async () => {
 		const res = await fetch(`${config.backend_url}/recipes`);
 		return res.json();
 	});
 
-	if (isLoading) return <Loading />;
-
-	if (isError) return <Error code={500}>There was a problem with API connection.</Error>;
-
 	if (isSuccess) document.title = `${config.title_page} - Recipes`;
+
+	const { tokenCSRF }: any = useCSRF();
+
+	if (isLoading) return <Loading />;
+	if (isError) return <Error code={500}>There was a problem with API connection.</Error>;
 
 	return (
 		<div className="container">
@@ -42,7 +40,10 @@ const RecipesView: FC = () => {
 									<li key={item._id}>
 										<Link to={`/recipes/${item._id}`}>
 											<div className="recipes_item">
-												<img src={`${config.backend_url}/uploads/${item.image_url}`} alt={item.title} />
+												<img
+													src={`${config.backend_url}/uploads/${item.image_url}`}
+													alt={item.title}
+												/>
 												<div className="recipes_item_title">{item.title}</div>
 												<div className="recipes_item_category">{item.category}</div>
 												<div className="recipes_item_author">{item.member_name}</div>

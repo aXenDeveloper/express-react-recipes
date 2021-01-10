@@ -1,19 +1,20 @@
-import { useState } from 'react';
+import { useEffect, useState, createRef } from 'react';
 import { useForm } from 'react-hook-form';
+import { useMutation, useQueryClient } from 'react-query';
+import { useHistory } from 'react-router-dom';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { useHistory } from 'react-router-dom';
-import { useCSRF } from '../../context/csrf';
-import config from '../../config';
+import { useCSRF } from '../../../context/csrf';
+import config from '../../../config';
 
-import IngredientsForm from '../../components/recipes/IngredientsForm';
-import Loading from '../../components/Loading';
-import ErrorView from '../ErrorView';
-import useIngredientsForm from '../../hooks/useIngredientsForm';
+import IngredientsForm from '../../../components/recipes/IngredientsForm';
+import Loading from '../../../components/Loading';
+import useIngredientsForm from '../../../hooks/useIngredientsForm';
 
-const RecipeEditView = ({ match }) => {
-	const history = useHistory();
+const RecipesAddView = () => {
+	useEffect(() => {
+		document.title = `${config.title_page} - Add Recipe`;
+	}, []);
 
 	const {
 		inputingredient,
@@ -21,62 +22,44 @@ const RecipeEditView = ({ match }) => {
 		removeIngredient,
 		upadateIngredient,
 		addIngredient,
-		handleInput,
-		setListIngredients
+		handleInput
 	} = useIngredientsForm();
 
 	const [inputTitle, setInputTitle] = useState('');
 	const [inputCategory, setInputCategory] = useState('breakfast');
+	const [inputImage, setInputImage] = useState({});
 	const [inputDesc, setInputDesc] = useState('');
 
-	const getDataItem = useQuery(
-		'recipeItemEdit',
-		async () => {
-			const res = await fetch(`${config.backend_url}/recipes/item?id=${match.params.id}`);
-			const data = await res.json();
-
-			if (res.status === 200) {
-				setInputTitle(data.recipeItem.title);
-				setInputDesc(data.recipeItem.description);
-				setInputCategory(data.recipeItem.category);
-				setListIngredients(JSON.parse(data.recipeItem.ingredients));
-
-				document.title = `${config.title_page} - Recipes - Edit: ${data.recipeItem.title}`;
-			}
-
-			return data;
-		},
-		{ cacheTime: 0 }
-	);
-
+	const { register, handleSubmit, errors } = useForm();
+	const queryClient = useQueryClient();
+	const fileInput = createRef();
+	const history = useHistory();
 	const { tokenCSRF } = useCSRF();
 
-	const { register, handleSubmit, errors } = useForm();
-
 	const { mutateAsync, isLoading } = useMutation(async () => {
-		const api = await fetch(`${config.backend_url}/recipes/edit?id=${match.params.id}`, {
-			method: 'PATCH',
+		const formData = new FormData();
+		formData.append('productImage', inputImage);
+		formData.append('title', inputTitle);
+		formData.append('category', inputCategory);
+		formData.append('ingredients', JSON.stringify(listIngredients));
+		formData.append('description', inputDesc);
+
+		const api = await fetch(`${config.backend_url}/recipes/add`, {
+			method: 'POST',
 			headers: {
-				'Content-Type': 'application/json',
 				CSRF_Token: tokenCSRF
 			},
-			body: JSON.stringify({
-				title: inputTitle,
-				category: inputCategory,
-				ingredients: JSON.stringify(listIngredients),
-				description: inputDesc
-			})
+			body: formData
 		});
-
 		const data = await api.json();
+
 		if (api.status === 200) {
-			history.push(`/recipes/${data.recipe._id}`);
+			history.push(`/recipes/${data.recipe_id}`);
 		}
 
 		return data;
 	});
 
-	const queryClient = useQueryClient();
 	const onSubmit = async () => {
 		await mutateAsync();
 		queryClient.invalidateQueries('recipeList');
@@ -84,10 +67,9 @@ const RecipeEditView = ({ match }) => {
 
 	const handleTitle = e => setInputTitle(e.target.value);
 	const handleCategory = e => setInputCategory(e.target.value);
+	const handleImage = e => setInputImage(e.target.files[0]);
 
-	if (getDataItem.isLoading || isLoading) return <Loading />;
-
-	if (getDataItem.isError) return <ErrorView code={500}>There was a problem with API connection.</ErrorView>;
+	if (isLoading) return <Loading />;
 
 	return (
 		<form className="form container container:medium" onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
@@ -99,11 +81,10 @@ const RecipeEditView = ({ match }) => {
 						</label>
 						<input
 							type="text"
-							id="title"
 							name="title"
+							id="title"
 							className={`input input_text input_full${errors.title ? ' input_error' : ''}`}
 							onChange={handleTitle}
-							value={inputTitle}
 							ref={register({ required: true })}
 						/>
 					</li>
@@ -129,9 +110,24 @@ const RecipeEditView = ({ match }) => {
 					</li>
 
 					<li>
+						<label htmlFor="image" className="input_label">
+							Image
+						</label>
+						<input
+							type="file"
+							name="image"
+							className={`input input_file input_full${errors.image ? ' input_error' : ''}`}
+							id="image"
+							onChange={handleImage}
+							ref={register({ required: true, fileInput })}
+						/>
+					</li>
+
+					<li>
+						<label className="input_label">Description</label>
+
 						<CKEditor
 							editor={ClassicEditor}
-							data={inputDesc}
 							onChange={(event, editor) => {
 								const data = editor.getData();
 								setInputDesc(data);
@@ -151,16 +147,16 @@ const RecipeEditView = ({ match }) => {
 						addIngredient={addIngredient}
 						handleInput={handleInput}
 					/>
-
-					<div className="flex flex-ai:center flex-jc:center padding-top">
-						<button className="button button_primary" type="submit">
-							Edit recipe
-						</button>
-					</div>
 				</ul>
+
+				<div className="flex flex-ai:center flex-jc:center padding-top">
+					<button className="button button_primary" type="submit">
+						Add recipe
+					</button>
+				</div>
 			</div>
 		</form>
 	);
 };
 
-export default RecipeEditView;
+export default RecipesAddView;
