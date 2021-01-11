@@ -12,7 +12,7 @@ Include pages:
 
 -   [🏷️ Requirements](#user-content-️-requirements)
 -   [🧰 Install](#user-content--install)
--   [🛠️ Update](#user-content-️-update)
+-   [🛠️ Config](https://github.com/aXenDeveloper/express-react-recipes/wiki/Config)
 -   [📂 Package](#user-content--package)
 -   [👨‍👧‍👦 Groups ID](#user-content--groups-id)
 -   [📡 API](https://github.com/aXenDeveloper/express-react-recipes/wiki/API)
@@ -41,15 +41,12 @@ Include pages:
 1. Install frontend with **NPM** or **Yarn**:  
    `npm install` or `yarn install`
 
-## 🛠️ Update
-
--   test
-
 ## 📂 Package
 
 ### Front-end
 
 -   React
+-   React Router
 -   React Query
 -   React Form
 -   js-cookie

@@ -11,6 +11,7 @@ import useRecipeForm from '../../../hooks/useRecipeForm';
 import IngredientsForm from '../../../components/recipes/IngredientsForm';
 import Loading from '../../../components/Loading';
 import ErrorView from '../../ErrorView';
+import CategoryList from '../../../components/recipes/CategoryList';
 
 const RecipeEditView = ({ match }) => {
 	const {
@@ -120,12 +121,7 @@ const RecipeEditView = ({ match }) => {
 							className="input input_select input_full"
 							ref={register({ required: true })}
 						>
-							<option value="breakfast">Śniadanie</option>
-							<option value="dinner">Obiad</option>
-							<option value="salads">Salads</option>
-							<option value="pizza">Pizza</option>
-							<option value="cakes">Ciasta i desery</option>
-							<option value="icecream">Lody</option>
+							<CategoryList />
 						</select>
 					</li>
 

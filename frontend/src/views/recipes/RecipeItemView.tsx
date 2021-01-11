@@ -13,9 +13,9 @@ type RouterProps = {
 	id: string;
 };
 
-interface TopicDetailProps extends RouteComponentProps<RouterProps> {}
+interface RecipeItemViewInterface extends RouteComponentProps<RouterProps> {}
 
-const RecipeItemView: FC<TopicDetailProps> = ({ match }) => {
+const RecipeItemView: FC<RecipeItemViewInterface> = ({ match }) => {
 	const { tokenCSRF, memberData } = useCSRF() as AuthContextType;
 
 	const { isLoading, isError, data, isSuccess } = useQuery(
