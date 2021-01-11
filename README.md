@@ -15,7 +15,8 @@ Include pages:
 -   [🛠️ Config](https://github.com/aXenDeveloper/express-react-recipes/wiki/Config)
 -   [📂 Package](#user-content--package)
 -   [👨‍👧‍👦 Groups ID](#user-content--groups-id)
--   [📡 API](https://github.com/aXenDeveloper/express-react-recipes/wiki/API)
+-   [📖 Wiki](https://github.com/aXenDeveloper/express-react-recipes/wiki)
+    -   [📡 API](https://github.com/aXenDeveloper/express-react-recipes/wiki/API)
 
 ## 🏷️ Requirements
 
@@ -40,6 +41,8 @@ Include pages:
 
 1. Install frontend with **NPM** or **Yarn**:  
    `npm install` or `yarn install`
+2. Run server:  
+   `npm start` or `yarn run`
 
 ## 📂 Package
 

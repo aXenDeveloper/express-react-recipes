@@ -38,29 +38,22 @@ const RecipesView: FC = () => {
 						<div className="container_box">
 							<ul className="recipes_ul">
 								{data.recipe
-									.map(
-										(item: {
-											_id: string;
-											image_url: string;
-											title: string;
-											category: string;
-											member_name: string;
-										}) => (
-											<li key={item._id}>
-												<Link to={`/recipes/${item._id}`}>
-													<div className="recipes_item">
-														<img
-															src={`${config.backend_url}/uploads/${item.image_url}`}
-															alt={item.title}
-														/>
-														<div className="recipes_item_title">{item.title}</div>
-														<div className="recipes_item_category">{item.category}</div>
-														<div className="recipes_item_author">{item.member_name}</div>
+									.map((item: { _id: string; image_url: string; title: string; member_name: string }) => (
+										<li key={item._id}>
+											<Link to={`/recipes/${item._id}`}>
+												<div className="recipes_item">
+													<img
+														src={`${config.backend_url}/uploads/${item.image_url}`}
+														alt={item.title}
+													/>
+													<div className="recipes_item_content">
+														<div className="recipes_item_content:title">{item.title}</div>
+														<span>Author: {item.member_name}</span>
 													</div>
-												</Link>
-											</li>
-										)
-									)
+												</div>
+											</Link>
+										</li>
+									))
 									.reverse()}
 							</ul>
 						</div>
