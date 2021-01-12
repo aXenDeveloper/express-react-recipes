@@ -5,7 +5,11 @@ Include pages:
 -   Home,
 -   Login,
 -   Register,
+-   Recipe list,
+-   Single recipe,
+-   Add / Edit recipe,
 -   Error 401 (No permission in protected page),
+-   Error 500 (Error server API),
 -   Error 404
 
 ## 📖 Table of contents
