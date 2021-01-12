@@ -2,6 +2,7 @@ import { FC } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import uniqid from 'uniqid';
 
 const Breadcrumb: FC = ({ children }) => {
 	const location = useLocation();
@@ -22,7 +23,7 @@ const Breadcrumb: FC = ({ children }) => {
 						const pathLink = `/${pathname.slice(0, index + 1).join('/')}`;
 
 						return (
-							<li>
+							<li key={uniqid(`pathname-${el}`)}>
 								<FontAwesomeIcon icon={faChevronRight} />
 								<Link to={pathLink}>{el}</Link>
 							</li>

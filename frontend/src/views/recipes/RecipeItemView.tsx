@@ -19,7 +19,7 @@ interface RecipeItemViewInterface extends RouteComponentProps<RouterProps> {}
 const RecipeItemView: FC<RecipeItemViewInterface> = ({ match }) => {
 	const { tokenCSRF, memberData } = useCSRF() as AuthContextType;
 
-	const { isLoading, isError, data, isSuccess } = useQuery(
+	const { isLoading, isError, data } = useQuery(
 		'recipeItem',
 		async () => {
 			const res = await fetch(`${config.backend_url}/recipes/item?id=${match.params.id}`);
@@ -28,10 +28,11 @@ const RecipeItemView: FC<RecipeItemViewInterface> = ({ match }) => {
 		{ cacheTime: 0 }
 	);
 
-	if (isSuccess) document.title = `${config.title_page} - Recipes - ${data.recipeItem.title}`;
-
 	if (isLoading) return <Loading />;
 	if (isError) return <ErrorView code={500}>There was a problem with API connection.</ErrorView>;
+	if (data.message) return <ErrorView code={404}>The page you requested does not exist</ErrorView>;
+
+	document.title = `${config.title_page} - Recipes - ${data.recipeItem.title}`;
 
 	return (
 		<div className="container">
