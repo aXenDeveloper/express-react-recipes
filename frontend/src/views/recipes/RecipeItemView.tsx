@@ -8,6 +8,7 @@ import ErrorView from '../ErrorView';
 import IngredientsWidget from '../../components/widgets/IngredientsWidget';
 import Loading from '../../components/Loading';
 import ActionRecipeItem from '../../components/recipes/ActionRecipeItem';
+import Breadcrumb from '../../components/Breadcrumb';
 
 type RouterProps = {
 	id: string;
@@ -34,6 +35,8 @@ const RecipeItemView: FC<RecipeItemViewInterface> = ({ match }) => {
 
 	return (
 		<div className="container">
+			<Breadcrumb>{data.recipeItem.title}</Breadcrumb>
+
 			<div className="container_wraper">
 				<div className="container_wraper_main">
 					<div className="recipe_header">

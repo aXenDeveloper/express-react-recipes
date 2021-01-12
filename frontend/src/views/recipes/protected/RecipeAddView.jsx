@@ -12,6 +12,7 @@ import config from '../../../config';
 import IngredientsForm from '../../../components/recipes/IngredientsForm';
 import Loading from '../../../components/Loading';
 import CategoryList from '../../../components/recipes/CategoryList';
+import Breadcrumb from '../../../components/Breadcrumb';
 
 const RecipesAddView = () => {
 	const { inputTitle, inputCategory, inputDesc, handleTitle, handleCategory, setInputDesc } = useRecipeForm();
@@ -72,6 +73,8 @@ const RecipesAddView = () => {
 
 	return (
 		<form className="form container container:medium" onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
+			<Breadcrumb>Add</Breadcrumb>
+
 			<div className="container_box padding">
 				<ul className="form_ul">
 					<li>

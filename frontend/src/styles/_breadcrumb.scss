@@ -1,0 +1,17 @@
+.breadcrumb {
+    list-style: none;
+    padding: 0;
+    margin: 2rem 0;
+    display: flex;
+
+    li {
+        svg {
+            margin-right: 1rem;
+        }
+
+        &:not(:last-child) {
+            text-transform: capitalize;
+            margin-right: 1rem;
+        }
+    }
+}

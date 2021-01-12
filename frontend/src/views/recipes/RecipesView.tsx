@@ -6,6 +6,7 @@ import config from '../../config';
 
 import Loading from '../../components/Loading';
 import ErrorView from '../ErrorView';
+import Breadcrumb from '../../components/Breadcrumb';
 
 const RecipesView: FC = () => {
 	const { tokenCSRF } = useCSRF() as AuthContextType;
@@ -22,6 +23,8 @@ const RecipesView: FC = () => {
 
 	return (
 		<div className="container">
+			<Breadcrumb>Recipes</Breadcrumb>
+
 			<div className="container_header">
 				<h1>Recipes</h1>
 

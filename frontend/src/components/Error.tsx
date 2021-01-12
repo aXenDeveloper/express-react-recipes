@@ -9,16 +9,14 @@ type ErrorType = {
 
 const Error: FC<ErrorType> = ({ children, code }) => {
 	return (
-		<div className="container">
-			<div className="container_box">
-				<div className="errorBox">
-					<FontAwesomeIcon icon={faExclamationCircle} />
-					<p>Oops, something is wrong (╯°□°）╯︵ ┻━┻</p>
-					<span>{children}</span>
-					<p>
-						Error code: <span>{code}</span>
-					</p>
-				</div>
+		<div className="container_box">
+			<div className="errorBox">
+				<FontAwesomeIcon icon={faExclamationCircle} />
+				<p>Oops, something is wrong (╯°□°）╯︵ ┻━┻</p>
+				<span>{children}</span>
+				<p>
+					Error code: <span>{code}</span>
+				</p>
 			</div>
 		</div>
 	);
