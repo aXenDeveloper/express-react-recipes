@@ -9,17 +9,30 @@ const Recipe_posts = require('../models/recipe_posts');
 const Member = require('../models/core_members');
 const Session = require('../models/core_session');
 
-const storage = multer.diskStorage({
-	destination: function (req, file, cb) {
-		cb(null, './public/uploads');
-	},
-	filename: function (req, file, cb) {
-		cb(null, new Date().toISOString().replace(':', '_').replace(':', '_') + file.originalname);
+const destination = (req, file, cb) => {
+	cb(null, './public/uploads');
+};
+
+const filename = (req, file, cb) => {
+	cb(null, new Date().toISOString().replace(':', '_').replace(':', '_') + file.originalname);
+};
+
+const fileFilter = (req, file, cb) => {
+	if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+		cb(null, true);
+	} else {
+		cb(null, false, '');
 	}
+};
+
+const storage = multer.diskStorage({
+	destination,
+	filename
 });
 
 const upload = multer({
-	storage: storage
+	storage,
+	fileFilter
 }).single('productImage');
 
 router.post('/add', csrfValidate, upload, async (req, res) => {
@@ -28,7 +41,8 @@ router.post('/add', csrfValidate, upload, async (req, res) => {
 	});
 
 	const { title, category, ingredients, description } = req.body;
-	if (!title || !category || !description || !req.file) return res.status(400).json({ message: 'Not all fields have been completed!' });
+	if (!title || !category || !description || !req.file)
+		return res.status(400).json({ message: 'Not all fields have been completed!' });
 
 	const verified = jwt.verify(sesionExist.token, process.env.CSRF_TOKEN);
 

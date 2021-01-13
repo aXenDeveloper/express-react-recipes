@@ -27,6 +27,7 @@ const RecipesAddView = () => {
 	} = useIngredientsForm();
 
 	const [inputImage, setInputImage] = useState({});
+	const [errorMessageFile, setErrorMessageFile] = useState('');
 
 	useEffect(() => {
 		document.title = `${config.title_page} - Add Recipe`;
@@ -59,12 +60,20 @@ const RecipesAddView = () => {
 			history.push(`/recipes/${data.recipe_id}`);
 		}
 
+		console.log(data);
+
 		return data;
 	});
 
-	const onSubmit = async () => {
-		await mutateAsync();
-		queryClient.invalidateQueries('recipeList');
+	const onSubmit = async data => {
+		setErrorMessageFile('');
+
+		if (data.image[0].type === 'image/jpeg' || data.image[0].type === 'image/png') {
+			await mutateAsync();
+			queryClient.invalidateQueries('recipeList');
+		} else {
+			setErrorMessageFile('The file is not a Image!');
+		}
 	};
 
 	const handleImage = e => setInputImage(e.target.files[0]);
@@ -116,8 +125,11 @@ const RecipesAddView = () => {
 							className={`input input_file input_full${errors.image ? ' input_error' : ''}`}
 							id="image"
 							onChange={handleImage}
+							accept="image/x-png,image/gif,image/jpeg"
 							ref={register({ required: true, fileInput })}
 						/>
+
+						{errorMessageFile && <div className="message message-error">{errorMessageFile}</div>}
 					</li>
 
 					<li>

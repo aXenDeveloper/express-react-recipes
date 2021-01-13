@@ -3,7 +3,7 @@ import uniqid from 'uniqid';
 
 const useIngredientsForm = () => {
 	const [inputingredient, setInputingredient] = useState('');
-	const [listIngredients, setListIngredients] = useState<any[]>();
+	const [listIngredients, setListIngredients] = useState<any[]>([]);
 
 	const handleInput = (e: ChangeEvent<HTMLInputElement>) => setInputingredient(e.target.value);
 

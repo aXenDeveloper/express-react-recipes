@@ -21,7 +21,7 @@ const IngredientsForm: FC<IngredientsFormType> = ({
 		<li>
 			<label className="input_label">Ingredients</label>
 
-			{listIngredients ? (
+			{listIngredients.length > 0 ? (
 				<ul className="form_ul">
 					{listIngredients.map(({ id, text }: { id: string; text: string }) => (
 						<li className="flex" key={`item-${id}`}>

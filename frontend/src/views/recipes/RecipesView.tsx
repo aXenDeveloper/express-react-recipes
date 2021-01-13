@@ -7,6 +7,7 @@ import config from '../../config';
 import Loading from '../../components/Loading';
 import ErrorView from '../ErrorView';
 import Breadcrumb from '../../components/Breadcrumb';
+import Error from '../../components/Error';
 
 const RecipesView: FC = () => {
 	const { tokenCSRF } = useCSRF() as AuthContextType;
@@ -65,7 +66,7 @@ const RecipesView: FC = () => {
 					<div className="container_wraper_widget">Widget</div>
 				</div>
 			) : (
-				<ErrorView code={404}>You haven't added any content yet.</ErrorView>
+				<Error code={404}>You haven't added any content yet.</Error>
 			)}
 		</div>
 	);
