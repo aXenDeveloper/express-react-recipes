@@ -1,14 +1,17 @@
-const express = require('express');
+import * as express from 'express';
+import { connect } from 'mongoose';
+import accountRoute from './routers/auth';
+import recipesRoute from './routers/recipes';
+
 const app = express();
-const mongoose = require('mongoose');
 const dotenv = require('dotenv').config();
 
 // Config
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT ?? 8000;
 
 // Connect DB
-mongoose.connect(
-	process.env.DB_CONNECT,
+connect(
+	process.env.DB_CONNECT ?? '',
 	{
 		useNewUrlParser: true,
 		useUnifiedTopology: true,
@@ -32,7 +35,7 @@ app.use((req, res, next) => {
 app.use(express.json());
 
 // Routers
-app.use('/account', require('./routers/auth'));
-app.use('/recipes', require('./routers/recipes'));
+app.use('/account', accountRoute);
+app.use('/recipes', recipesRoute);
 
 app.listen(PORT, () => console.log(`Server running in http://localhost:${PORT}/`));

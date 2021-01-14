@@ -1,23 +1,26 @@
-const router = require('express').Router();
-const csrfValidate = require('./validate/csrfValidate');
-const authorValidate = require('./validate/authorValidate');
-const multer = require('multer');
-const jwt = require('jsonwebtoken');
-const mongoose = require('mongoose');
+import { Request, Response, Router } from 'express';
+const router = Router();
+import mongoose from 'mongoose';
+import * as multer from 'multer';
+import jwt, { verify } from 'jsonwebtoken';
 
-const Recipe_posts = require('../models/recipe_posts');
-const Member = require('../models/core_members');
-const Session = require('../models/core_session');
+import { multerConfig } from '../configMulter';
 
-const destination = (req, file, cb) => {
+import csrfValidate from './validate/csrfValidate';
+import authorValidate from './validate/authorValidate';
+import Recipe_posts from '../models/recipe_posts';
+import Member from '../models/core_members';
+import Session from '../models/core_session';
+
+/* const destination = (req: Request, file: any, cb: any) => {
 	cb(null, './public/uploads');
 };
 
-const filename = (req, file, cb) => {
+const filename = (req: any, file: any, cb: any) => {
 	cb(null, new Date().toISOString().replace(':', '_').replace(':', '_') + file.originalname);
 };
 
-const fileFilter = (req, file, cb) => {
+const fileFilter = (req: any, file: any, cb: any) => {
 	if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
 		cb(null, true);
 	} else {
@@ -25,7 +28,7 @@ const fileFilter = (req, file, cb) => {
 	}
 };
 
-const storage = multer.diskStorage({
+const storage = diskStorage({
 	destination,
 	filename
 });
@@ -33,18 +36,28 @@ const storage = multer.diskStorage({
 const upload = multer({
 	storage,
 	fileFilter
-}).single('productImage');
+}); */
 
-router.post('/add', csrfValidate, upload, async (req, res) => {
+router.post('/add', csrfValidate, multer(multerConfig).single('productImage'), async (req: Request, res: Response) => {
+	if (!process.env.CSRF_TOKEN)
+		return res.status(500).json({
+			message: 'CSRF_TOKEN key not found in the .env file.'
+		});
+
 	const sesionExist = await Session.findOne({
 		token: req.header('CSRF_Token')
 	});
+
+	if (!sesionExist)
+		return res.status(400).json({
+			message: 'Invalid CSRF_Token!'
+		});
 
 	const { title, category, ingredients, description } = req.body;
 	if (!title || !category || !description || !req.file)
 		return res.status(400).json({ message: 'Not all fields have been completed!' });
 
-	const verified = jwt.verify(sesionExist.token, process.env.CSRF_TOKEN);
+	const verified: any = verify(sesionExist.token, process.env.CSRF_TOKEN);
 
 	const memberExist = await Member.findOne({
 		_id: verified._id
@@ -78,20 +91,20 @@ router.post('/add', csrfValidate, upload, async (req, res) => {
 });
 
 // Test
-router.post('/upload-image', csrfValidate, upload, (req, res) => {});
+router.post('/upload-image', csrfValidate, multer(multerConfig).single('productImage'), (req: Request, res: Response) => {});
 
-router.get('/', async (req, res) => {
+router.get('/', async (req: Request, res: Response) => {
 	const recipe = await Recipe_posts.find({});
 	return res.json({ recipe });
 });
 
-router.get('/item', async (req, res) => {
+router.get('/item', async (req: Request, res: Response) => {
 	try {
 		const recipeItem = await Recipe_posts.findOne({
-			_id: mongoose.Types.ObjectId(req.query.id)
+			_id: req.query.id as string
 		});
 
-		if (!recipeItem) return res.status(404).json({ message: 'Invalid item ID!' });
+		if (!recipeItem) return res.status(404).json({ message: 'Invalid item ID! eee' });
 
 		return res.json({ recipeItem });
 	} catch (err) {
@@ -99,13 +112,13 @@ router.get('/item', async (req, res) => {
 	}
 });
 
-router.patch('/edit', csrfValidate, authorValidate, async (req, res) => {
+router.patch('/edit', csrfValidate, authorValidate, async (req: Request, res: Response) => {
 	const { title, category, ingredients, description } = req.body;
 	if (!title || !category || !description) return res.status(400).json({ message: 'Not all fields have been completed!' });
 
 	try {
 		const recipe = await Recipe_posts.findByIdAndUpdate(
-			mongoose.Types.ObjectId(req.query.id),
+			req.query.id as string,
 			{
 				title,
 				category,
@@ -126,9 +139,9 @@ router.patch('/edit', csrfValidate, authorValidate, async (req, res) => {
 	}
 });
 
-router.delete('/delete', csrfValidate, authorValidate, async (req, res) => {
+router.delete('/delete', csrfValidate, authorValidate, async (req: Request, res: Response) => {
 	try {
-		await Recipe_posts.findByIdAndRemove(mongoose.Types.ObjectId(req.query.id));
+		await Recipe_posts.findByIdAndRemove(req.query.id as string);
 
 		return res.json({ message: 'Successfully deleted!' });
 	} catch (err) {
@@ -136,4 +149,4 @@ router.delete('/delete', csrfValidate, authorValidate, async (req, res) => {
 	}
 });
 
-module.exports = router;
+export default router;

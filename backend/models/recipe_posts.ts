@@ -1,6 +1,17 @@
-const mongoose = require('mongoose');
+import mongoose, { Document, Schema, model } from 'mongoose';
 
-const recipe_posts = new mongoose.Schema({
+interface recipe_postsInterface extends Document {
+	title: string;
+	member_id: string;
+	member_name: string;
+	category: string;
+	image_url: string;
+	ingredients: string;
+	date: string;
+	description: string;
+}
+
+const recipe_posts = new Schema({
 	title: {
 		type: String,
 		required: true
@@ -35,4 +46,4 @@ const recipe_posts = new mongoose.Schema({
 	}
 });
 
-module.exports = mongoose.model('recipe_posts', recipe_posts);
+export default model<recipe_postsInterface>('recipe_posts', recipe_posts);
