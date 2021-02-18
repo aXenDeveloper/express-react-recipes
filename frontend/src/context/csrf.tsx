@@ -1,19 +1,5 @@
 import { createContext, useContext } from 'react';
-
-export type AuthContextType = {
-	tokenCSRF?: string;
-	createTokenCSRF(key: string): void;
-	deleteTokenCSRF(): void;
-	memberData: {
-		group_id?: number;
-		_id?: string;
-		name?: string;
-		email?: string;
-		password?: string;
-		date?: string;
-	};
-	statusVerifyCSRF: number;
-};
+import { AuthContextType } from '../types/contextTypes';
 
 export const AuthContext = createContext<AuthContextType | null>(null);
 

@@ -3,13 +3,13 @@ import Footer from './Footer';
 import Header from './Header';
 
 const Layout: FC = ({ children }) => (
-	<>
-		<Header />
+  <>
+    <Header />
 
-		<main>{children}</main>
+    <main>{children}</main>
 
-		<Footer />
-	</>
+    <Footer />
+  </>
 );
 
 export default Layout;

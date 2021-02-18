@@ -1,20 +1,20 @@
-import { FC, useEffect } from 'react';
+import { useEffect } from 'react';
 import config from '../config';
 
 import SwiperHome from '../components/swiper/SwiperHome';
 
-const HomeView: FC = () => {
-	useEffect(() => {
-		document.title = config.title_page;
-	}, []);
+const HomeView = () => {
+  useEffect(() => {
+    document.title = config.title_page;
+  }, []);
 
-	return (
-		<>
-			<SwiperHome />
+  return (
+    <>
+      <SwiperHome />
 
-			<div className="container">Home</div>
-		</>
-	);
+      <div className="container">Home</div>
+    </>
+  );
 };
 
 export default HomeView;

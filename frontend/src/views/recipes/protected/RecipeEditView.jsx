@@ -2,10 +2,9 @@ import { useForm } from 'react-hook-form';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { useCSRF } from '../../../context/csrf';
 import config from '../../../config';
-
 import useIngredientsForm from '../../../hooks/useIngredientsForm';
 import useRecipeForm from '../../../hooks/useRecipeForm';
 import IngredientsForm from '../../../components/recipes/IngredientsForm';
@@ -14,153 +13,156 @@ import ErrorView from '../../ErrorView';
 import CategoryList from '../../../components/recipes/CategoryList';
 import Breadcrumb from '../../../components/Breadcrumb';
 
-const RecipeEditView = ({ match }) => {
-	const {
-		inputTitle,
-		setInputTitle,
-		inputCategory,
-		setInputCategory,
-		inputDesc,
-		setInputDesc,
-		handleTitle,
-		handleCategory
-	} = useRecipeForm();
+const RecipeEditView = () => {
+  const location = useLocation();
+  const recipeID = location.pathname.split('/')[2];
 
-	const {
-		inputingredient,
-		listIngredients,
-		removeIngredient,
-		upadateIngredient,
-		addIngredient,
-		handleInput,
-		setListIngredients
-	} = useIngredientsForm();
+  const {
+    inputTitle,
+    setInputTitle,
+    inputCategory,
+    setInputCategory,
+    inputDesc,
+    setInputDesc,
+    handleTitle,
+    handleCategory
+  } = useRecipeForm();
 
-	const history = useHistory();
-	const queryClient = useQueryClient();
-	const { register, handleSubmit, errors } = useForm();
-	const { tokenCSRF } = useCSRF();
+  const {
+    inputingredient,
+    listIngredients,
+    removeIngredient,
+    upadateIngredient,
+    addIngredient,
+    handleInput,
+    setListIngredients
+  } = useIngredientsForm();
 
-	const getDataItem = useQuery(
-		'recipeItemEdit',
-		async () => {
-			const res = await fetch(`${config.backend_url}/recipes/item?id=${match.params.id}`);
-			const data = await res.json();
+  const history = useHistory();
+  const queryClient = useQueryClient();
+  const { register, handleSubmit, errors } = useForm();
+  const { tokenCSRF } = useCSRF();
 
-			if (res.status === 200) {
-				setInputTitle(data.recipeItem.title);
-				setInputDesc(data.recipeItem.description);
-				setInputCategory(data.recipeItem.category);
-				setListIngredients(JSON.parse(data.recipeItem.ingredients));
+  const getDataItem = useQuery(
+    'recipeItemEdit',
+    async () => {
+      const res = await fetch(`${config.backend_url}/recipes/item?id=${recipeID}`);
+      const data = await res.json();
 
-				document.title = `${config.title_page} - Recipes - Edit: ${data.recipeItem.title}`;
-			}
+      if (res.status === 200) {
+        setInputTitle(data.recipeItem.title);
+        setInputDesc(data.recipeItem.description);
+        setInputCategory(data.recipeItem.category);
+        setListIngredients(JSON.parse(data.recipeItem.ingredients));
 
-			return data;
-		},
-		{ cacheTime: 0 }
-	);
+        document.title = `${config.title_page} - Recipes - Edit: ${data.recipeItem.title}`;
+      }
 
-	const { mutateAsync, isLoading } = useMutation(async () => {
-		const api = await fetch(`${config.backend_url}/recipes/edit?id=${match.params.id}`, {
-			method: 'PATCH',
-			headers: {
-				'Content-Type': 'application/json',
-				CSRF_Token: tokenCSRF
-			},
-			body: JSON.stringify({
-				title: inputTitle,
-				category: inputCategory,
-				ingredients: JSON.stringify(listIngredients),
-				description: inputDesc
-			})
-		});
+      return data;
+    },
+    { cacheTime: 0 }
+  );
 
-		const data = await api.json();
-		if (api.status === 200) {
-			history.push(`/recipes/${data.recipe._id}`);
-		}
+  const { mutateAsync, isLoading } = useMutation(async () => {
+    const api = await fetch(`${config.backend_url}/recipes/edit?id=${recipeID}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        CSRF_Token: tokenCSRF
+      },
+      body: JSON.stringify({
+        title: inputTitle,
+        category: inputCategory,
+        ingredients: JSON.stringify(listIngredients),
+        description: inputDesc
+      })
+    });
 
-		return data;
-	});
+    const data = await api.json();
+    if (api.status === 200) {
+      history.push(`/recipes/${data.recipe._id}`);
+    }
 
-	const onSubmit = async () => {
-		await mutateAsync();
-		queryClient.invalidateQueries('recipeList');
-	};
+    return data;
+  });
 
-	if (getDataItem.isLoading || isLoading) return <Loading />;
-	if (getDataItem.isError) return <ErrorView code={500}>There was a problem with API connection.</ErrorView>;
+  const onSubmit = async () => {
+    await mutateAsync();
+    queryClient.invalidateQueries('recipeList');
+  };
 
-	return (
-		<form className="form container container:medium" onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
-			<Breadcrumb>Edit</Breadcrumb>
+  if (getDataItem.isLoading || isLoading) return <Loading />;
+  if (getDataItem.isError) return <ErrorView code={500}>There was a problem with API connection.</ErrorView>;
 
-			<div className="container_box padding">
-				<ul className="form_ul">
-					<li>
-						<label htmlFor="title" className="input_label">
-							Title
-						</label>
-						<input
-							type="text"
-							id="title"
-							name="title"
-							className={`input input_text input_full${errors.title ? ' input_error' : ''}`}
-							onChange={handleTitle}
-							value={inputTitle}
-							ref={register({ required: true })}
-						/>
-					</li>
+  return (
+    <form className="form container container:medium" onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
+      <Breadcrumb>Edit</Breadcrumb>
 
-					<li>
-						<label htmlFor="category" className="input_label">
-							Category
-						</label>
-						<select
-							id="category"
-							name="category"
-							onChange={handleCategory}
-							className="input input_select input_full"
-							ref={register({ required: true })}
-						>
-							<CategoryList />
-						</select>
-					</li>
+      <div className="container_box padding">
+        <ul className="form_ul">
+          <li>
+            <label htmlFor="title" className="input_label">
+              Title
+            </label>
+            <input
+              type="text"
+              id="title"
+              name="title"
+              className={`input input_text input_full${errors.title ? ' input_error' : ''}`}
+              onChange={handleTitle}
+              value={inputTitle}
+              ref={register({ required: true })}
+            />
+          </li>
 
-					<li>
-						<CKEditor
-							editor={ClassicEditor}
-							data={inputDesc}
-							onChange={(event, editor) => {
-								const data = editor.getData();
-								setInputDesc(data);
-							}}
-							config={{
-								removePlugins: ['Image', 'ImageCaption', 'ImageStyle', 'ImageToolbar', 'ImageUpload'],
-								width: 'auto'
-							}}
-						/>
-					</li>
+          <li>
+            <label htmlFor="category" className="input_label">
+              Category
+            </label>
+            <select
+              id="category"
+              name="category"
+              onChange={handleCategory}
+              className="input input_select input_full"
+              ref={register({ required: true })}
+            >
+              <CategoryList />
+            </select>
+          </li>
 
-					<IngredientsForm
-						inputingredient={inputingredient}
-						listIngredients={listIngredients}
-						removeIngredient={removeIngredient}
-						upadateIngredient={upadateIngredient}
-						addIngredient={addIngredient}
-						handleInput={handleInput}
-					/>
+          <li>
+            <CKEditor
+              editor={ClassicEditor}
+              data={inputDesc}
+              onChange={(event, editor) => {
+                const data = editor.getData();
+                setInputDesc(data);
+              }}
+              config={{
+                removePlugins: ['Image', 'ImageCaption', 'ImageStyle', 'ImageToolbar', 'ImageUpload'],
+                width: 'auto'
+              }}
+            />
+          </li>
 
-					<div className="flex flex-ai:center flex-jc:center padding-top">
-						<button className="button button_primary" type="submit">
-							Edit recipe
-						</button>
-					</div>
-				</ul>
-			</div>
-		</form>
-	);
+          <IngredientsForm
+            inputingredient={inputingredient}
+            listIngredients={listIngredients}
+            removeIngredient={removeIngredient}
+            upadateIngredient={upadateIngredient}
+            addIngredient={addIngredient}
+            handleInput={handleInput}
+          />
+
+          <div className="flex flex-ai:center flex-jc:center padding-top">
+            <button className="button button_primary" type="submit">
+              Edit recipe
+            </button>
+          </div>
+        </ul>
+      </div>
+    </form>
+  );
 };
 
 export default RecipeEditView;

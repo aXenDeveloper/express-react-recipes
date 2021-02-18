@@ -8,12 +8,12 @@ import './styles/global.scss';
 const queryClient = new QueryClient({});
 
 ReactDOM.render(
-	<React.StrictMode>
-		<QueryClientProvider client={queryClient}>
-			<Root />
-		</QueryClientProvider>
-	</React.StrictMode>,
-	document.getElementById('root')
+  <React.StrictMode>
+    <QueryClientProvider client={queryClient}>
+      <Root />
+    </QueryClientProvider>
+  </React.StrictMode>,
+  document.getElementById('root')
 );
 
 // If you want to start measuring performance in your app, pass a function
