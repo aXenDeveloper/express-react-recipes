@@ -25,7 +25,9 @@ const RecipeEditView = () => {
     inputDesc,
     setInputDesc,
     handleTitle,
-    handleCategory
+    handleCategory,
+    inputNewDesc,
+    setInputNewDesc
   } = useRecipeForm();
 
   const {
@@ -74,7 +76,7 @@ const RecipeEditView = () => {
         title: inputTitle,
         category: inputCategory,
         ingredients: JSON.stringify(listIngredients),
-        description: inputDesc
+        description: inputNewDesc
       })
     });
 
@@ -136,10 +138,12 @@ const RecipeEditView = () => {
               data={inputDesc}
               onChange={(event, editor) => {
                 const data = editor.getData();
-                setInputDesc(data);
+                setInputNewDesc(data);
               }}
               config={{
-                removePlugins: ['Image', 'ImageCaption', 'ImageStyle', 'ImageToolbar', 'ImageUpload'],
+                ckfinder: {
+                  uploadUrl: `${config.backend_url}/recipes/upload-image`
+                },
                 width: 'auto'
               }}
             />

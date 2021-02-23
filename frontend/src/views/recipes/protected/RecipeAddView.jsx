@@ -40,7 +40,7 @@ const RecipesAddView = () => {
 
   const { mutateAsync, isLoading } = useMutation(async () => {
     const formData = new FormData();
-    formData.append('productImage', inputImage);
+    formData.append('upload', inputImage);
     formData.append('title', inputTitle);
     formData.append('category', inputCategory);
     formData.append('ingredients', JSON.stringify(listIngredients));
@@ -139,7 +139,9 @@ const RecipesAddView = () => {
                 setInputDesc(data);
               }}
               config={{
-                removePlugins: ['Image', 'ImageCaption', 'ImageStyle', 'ImageToolbar', 'ImageUpload'],
+                ckfinder: {
+                  uploadUrl: `${config.backend_url}/recipes/upload-image`
+                },
                 width: 'auto'
               }}
             />

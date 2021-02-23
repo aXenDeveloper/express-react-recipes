@@ -48,7 +48,7 @@ const RecipeItemView = () => {
             </div>
           </div>
 
-          <div className="container_box padding">
+          <div className="recipe_content container_box padding">
             <div dangerouslySetInnerHTML={{ __html: data.recipeItem.description }} />
           </div>
         </div>
