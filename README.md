@@ -2,30 +2,30 @@
 
 Include pages:
 
--   Home,
--   Login,
--   Register,
--   Recipe list,
--   Single recipe,
--   Add / Edit recipe,
--   Error 401 (No permission in protected page),
--   Error 500 (Error server API),
--   Error 404
+- Home,
+- Login,
+- Register,
+- Recipe list,
+- Single recipe,
+- Add / Edit recipe,
+- Error 401 (No permission in protected page),
+- Error 500 (Error server API),
+- Error 404
 
 ## 📖 Table of contents
 
--   [🏷️ Requirements](#user-content-️-requirements)
--   [🧰 Install](#user-content--install)
--   [🛠️ Config](https://github.com/aXenDeveloper/express-react-recipes/wiki/Config)
--   [📂 Package](#user-content--package)
--   [👨‍👧‍👦 Groups ID](#user-content--groups-id)
--   [📖 Wiki](https://github.com/aXenDeveloper/express-react-recipes/wiki)
-    -   [📡 API](https://github.com/aXenDeveloper/express-react-recipes/wiki/API)
+- [🏷️ Requirements](#user-content-️-requirements)
+- [🧰 Install](#user-content--install)
+- [🛠️ Config](https://github.com/aXenDeveloper/express-react-recipes/wiki/Config)
+- [📂 Package](#user-content--package)
+- [👨‍👧‍👦 Groups ID](#user-content--groups-id)
+- [📖 Wiki](https://github.com/aXenDeveloper/express-react-recipes/wiki)
+  - [📡 API](https://github.com/aXenDeveloper/express-react-recipes/wiki/API)
 
 ## 🏷️ Requirements
 
--   Node.js
--   Mongoose
+- Node.js
+- Mongoose
 
 ## 🧰 Install
 
@@ -52,27 +52,27 @@ Include pages:
 
 ### Front-end
 
--   React
--   React Router
--   React Query
--   React Form
--   js-cookie
--   SCSS
--   Swiper
--   Typescript
--   CKEditor
--   uniqid
+- React
+- React Router
+- React Query
+- React Form
+- js-cookie
+- SASS
+- Swiper
+- Typescript
+- CKEditor
+- uniqid
 
 ### Back-end
 
--   Express.js
--   bcrypt
--   dotenv
--   jsonwebtoken
--   mongoose
--   multer
+- Express.js
+- bcrypt
+- dotenv
+- jsonwebtoken
+- mongoose
+- multer
 
 ## 👨‍👧‍👦 Groups ID
 
--   3 - **Member**,
--   4 - **Root**
+- 3 - **Member**,
+- 4 - **Root**

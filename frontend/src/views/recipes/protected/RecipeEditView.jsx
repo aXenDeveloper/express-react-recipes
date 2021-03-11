@@ -142,7 +142,7 @@ const RecipeEditView = () => {
               }}
               config={{
                 ckfinder: {
-                  uploadUrl: `${config.backend_url}/recipes/upload-image`
+                  uploadUrl: `${config.backend_url}/recipes/upload-image?csrf=${tokenCSRF}`
                 },
                 width: 'auto'
               }}

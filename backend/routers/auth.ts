@@ -1,8 +1,7 @@
 import { Request, Response, NextFunction, Router } from 'express';
 import { compare, hash } from 'bcrypt';
 import { sign, verify } from 'jsonwebtoken';
-
-import csrfValidate from './validate/csrfValidate';
+import { csrfValidate } from './validate/csrfValidate';
 import Member from '../models/core_members';
 import Session from '../models/core_session';
 

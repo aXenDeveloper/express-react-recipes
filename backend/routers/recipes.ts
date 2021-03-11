@@ -1,15 +1,13 @@
 import { Request, Response, Router } from 'express';
-const router = Router();
 import * as multer from 'multer';
 import { verify } from 'jsonwebtoken';
-
 import { multerConfig } from '../configMulter';
-
-import csrfValidate from './validate/csrfValidate';
+import { csrfValidate, csrfValidateByPath } from './validate/csrfValidate';
 import authorValidate from './validate/authorValidate';
 import Recipe_posts from '../models/recipe_posts';
 import Member from '../models/core_members';
 import Session from '../models/core_session';
+const router = Router();
 
 router.post('/add', csrfValidate, multer(multerConfig).single('upload'), async (req: Request, res: Response) => {
   if (!process.env.CSRF_TOKEN)
@@ -65,10 +63,7 @@ router.post('/add', csrfValidate, multer(multerConfig).single('upload'), async (
   }
 });
 
-// csrfValidate
-
-// Test
-router.post('/upload-image', multer(multerConfig).single('upload'), (req: Request, res: Response) => {
+router.post('/upload-image', multer(multerConfig).single('upload'), csrfValidateByPath, (req: Request, res: Response) => {
   try {
     return res.status(200).json({
       uploaded: true,
