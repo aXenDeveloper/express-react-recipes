@@ -7,12 +7,17 @@ import config from '../../config';
 
 import ErrorView from '../ErrorView';
 import LoginView from './LoginView';
+import { RegisterViewFormValues } from '../../types/formTypes';
 
 const RegisterView = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
 
-  const { register, handleSubmit, errors } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm<RegisterViewFormValues>();
 
   const {
     inputName,
@@ -56,6 +61,15 @@ const RegisterView = () => {
   if (isLoading) return <LoginView />;
   if (isError) return <ErrorView code={500}>There was a problem with API connection.</ErrorView>;
 
+  const handleSubmitWithValue = (data: RegisterViewFormValues) => {
+    handleName(data.displayName);
+    handleEmail(data.email);
+    handlePassword(data.password);
+    handlePasswordCF(data.passwordCF);
+
+    mutateAsync();
+  };
+
   return (
     <div className="container container:small">
       <div className="container_box">
@@ -67,50 +81,46 @@ const RegisterView = () => {
           {errorMessage && <div className="message message-error">{errorMessage}</div>}
           {successMessage && <div className="message message-success">{successMessage}</div>}
 
-          <form className="form" onSubmit={handleSubmit(async () => await mutateAsync())}>
+          <form className="form" onSubmit={handleSubmit(handleSubmitWithValue)}>
             <ul className="form_ul">
               <li>
                 <input
                   type="text"
-                  name="displayName"
-                  className={`input input_text input_full${errors.displayName ? ' input_error' : ''}`}
+                  className={`input input_text input_full${
+                    errors.displayName ? ' input_error' : ''
+                  }`}
                   placeholder="Display Name"
-                  onChange={handleName}
                   value={inputName}
-                  ref={register({ required: true })}
+                  {...register('displayName', { required: true })}
                 />
               </li>
               <li>
                 <input
                   type="email"
-                  name="email"
                   className={`input input_text input_full${errors.email ? ' input_error' : ''}`}
                   placeholder="Email Address"
-                  onChange={handleEmail}
                   value={inputEmail}
-                  ref={register({ required: true })}
+                  {...register('email', { required: true })}
                 />
               </li>
               <li>
                 <input
                   type="password"
-                  name="password"
                   className={`input input_text input_full${errors.password ? ' input_error' : ''}`}
                   placeholder="Password"
-                  onChange={handlePassword}
                   value={inputPassword}
-                  ref={register({ required: true })}
+                  {...register('password', { required: true })}
                 />
               </li>
               <li>
                 <input
                   type="password"
-                  name="passwordCF"
-                  className={`input input_text input_full${errors.passwordCF ? ' input_error' : ''}`}
+                  className={`input input_text input_full${
+                    errors.passwordCF ? ' input_error' : ''
+                  }`}
                   placeholder="Confirm Password"
-                  onChange={handlePasswordCF}
                   value={inputPasswordCF}
-                  ref={register({ required: true })}
+                  {...register('passwordCF', { required: true })}
                 />
               </li>
             </ul>

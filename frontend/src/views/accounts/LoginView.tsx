@@ -7,12 +7,17 @@ import config from '../../config';
 import Loading from '../../components/Loading';
 import ErrorView from '../ErrorView';
 import { AuthContextType } from '../../types/contextTypes';
+import { LoginViewFormValues } from '../../types/formTypes';
 
 const LoginView = () => {
   const [errorMessage, setErrorMessage] = useState('');
 
   const { inputEmail, inputPassword, handleEmail, handlePassword } = useAuthForm();
-  const { register, handleSubmit, errors } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm<LoginViewFormValues>();
   const { createTokenCSRF } = useCSRF() as AuthContextType;
 
   useEffect(() => {
@@ -45,33 +50,34 @@ const LoginView = () => {
   if (isLoading) return <Loading />;
   if (isError) return <ErrorView code={500}>There was a problem with API connection.</ErrorView>;
 
+  const handleSubmitWithValue = (data: LoginViewFormValues) => {
+    handlePassword(data.password);
+    handleEmail(data.email);
+
+    mutateAsync();
+  };
+
   return (
     <div className="container container:small">
       <div className="container_box padding:large">
         {errorMessage && <div className="message message-error">{errorMessage}</div>}
 
-        <form className="form" onSubmit={handleSubmit(async () => await mutateAsync())}>
+        <form className="form" onSubmit={handleSubmit(handleSubmitWithValue)}>
           <ul className="form_ul">
             <li>
               <input
                 type="email"
-                name="email"
                 className={`input input_text input_full${errors.email ? ' input_error' : ''}`}
                 placeholder="Email Address"
-                onChange={handleEmail}
-                value={inputEmail}
-                ref={register({ required: true })}
+                {...register('email', { required: true })}
               />
             </li>
             <li>
               <input
                 type="password"
-                name="password"
                 className={`input input_text input_full${errors.password ? ' input_error' : ''}`}
                 placeholder="Password"
-                onChange={handlePassword}
-                value={inputPassword}
-                ref={register({ required: true })}
+                {...register('password', { required: true })}
               />
             </li>
           </ul>
