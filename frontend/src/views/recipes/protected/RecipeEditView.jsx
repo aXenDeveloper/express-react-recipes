@@ -42,7 +42,11 @@ const RecipeEditView = () => {
 
   const history = useHistory();
   const queryClient = useQueryClient();
-  const { register, handleSubmit, errors } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm();
   const { tokenCSRF } = useCSRF();
 
   const getDataItem = useQuery(
@@ -88,16 +92,24 @@ const RecipeEditView = () => {
     return data;
   });
 
-  const onSubmit = async () => {
-    await mutateAsync();
+  const onSubmit = data => {
+    handleTitle(data.name);
+    handleCategory(data.category);
+
+    mutateAsync();
     queryClient.invalidateQueries('recipeList');
   };
 
   if (getDataItem.isLoading || isLoading) return <Loading />;
-  if (getDataItem.isError) return <ErrorView code={500}>There was a problem with API connection.</ErrorView>;
+  if (getDataItem.isError)
+    return <ErrorView code={500}>There was a problem with API connection.</ErrorView>;
 
   return (
-    <form className="form container container:medium" onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
+    <form
+      className="form container container:medium"
+      onSubmit={handleSubmit(onSubmit)}
+      encType="multipart/form-data"
+    >
       <Breadcrumb>Edit</Breadcrumb>
 
       <div className="container_box padding">
@@ -109,11 +121,9 @@ const RecipeEditView = () => {
             <input
               type="text"
               id="title"
-              name="title"
               className={`input input_text input_full${errors.title ? ' input_error' : ''}`}
-              onChange={handleTitle}
               value={inputTitle}
-              ref={register({ required: true })}
+              {...register('title', { required: true })}
             />
           </li>
 
@@ -124,9 +134,8 @@ const RecipeEditView = () => {
             <select
               id="category"
               name="category"
-              onChange={handleCategory}
               className="input input_select input_full"
-              ref={register({ required: true })}
+              {...register('category', { required: true })}
             >
               <CategoryList />
             </select>

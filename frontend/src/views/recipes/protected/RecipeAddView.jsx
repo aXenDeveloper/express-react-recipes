@@ -14,7 +14,14 @@ import CategoryList from '../../../components/recipes/CategoryList';
 import Breadcrumb from '../../../components/Breadcrumb';
 
 const RecipesAddView = () => {
-  const { inputTitle, inputCategory, inputDesc, handleTitle, handleCategory, setInputDesc } = useRecipeForm();
+  const {
+    inputTitle,
+    inputCategory,
+    inputDesc,
+    handleTitle,
+    handleCategory,
+    setInputDesc
+  } = useRecipeForm();
 
   const {
     inputingredient,
@@ -32,7 +39,11 @@ const RecipesAddView = () => {
     document.title = `${config.title_page} - Add Recipe`;
   }, []);
 
-  const { register, handleSubmit, errors } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm();
   const queryClient = useQueryClient();
   const fileInput = createRef();
   const history = useHistory();
@@ -65,6 +76,10 @@ const RecipesAddView = () => {
   const onSubmit = async data => {
     setErrorMessageFile('');
 
+    handleTitle(data.title);
+    handleCategory(data.category);
+    setInputImage(data.image[0].name);
+
     if (data.image[0].type === 'image/jpeg' || data.image[0].type === 'image/png') {
       await mutateAsync();
       queryClient.invalidateQueries('recipeList');
@@ -73,12 +88,14 @@ const RecipesAddView = () => {
     }
   };
 
-  const handleImage = e => setInputImage(e.target.files[0]);
-
   if (isLoading) return <Loading />;
 
   return (
-    <form className="form container container:medium" onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
+    <form
+      className="form container container:medium"
+      onSubmit={handleSubmit(onSubmit)}
+      encType="multipart/form-data"
+    >
       <Breadcrumb>Add</Breadcrumb>
 
       <div className="container_box padding">
@@ -89,11 +106,9 @@ const RecipesAddView = () => {
             </label>
             <input
               type="text"
-              name="title"
               id="title"
               className={`input input_text input_full${errors.title ? ' input_error' : ''}`}
-              onChange={handleTitle}
-              ref={register({ required: true })}
+              {...register('title', { required: true })}
             />
           </li>
 
@@ -103,10 +118,8 @@ const RecipesAddView = () => {
             </label>
             <select
               id="category"
-              name="category"
-              onChange={handleCategory}
               className="input input_select input_full"
-              ref={register({ required: true })}
+              {...register('category', { required: true })}
             >
               <CategoryList />
             </select>
@@ -118,12 +131,11 @@ const RecipesAddView = () => {
             </label>
             <input
               type="file"
-              name="image"
               className={`input input_file input_full${errors.image ? ' input_error' : ''}`}
               id="image"
-              onChange={handleImage}
               accept="image/x-png,image/gif,image/jpeg"
-              ref={register({ required: true, fileInput })}
+              ref={fileInput}
+              {...register('image', { required: true })}
             />
 
             {errorMessageFile && <div className="message message-error">{errorMessageFile}</div>}

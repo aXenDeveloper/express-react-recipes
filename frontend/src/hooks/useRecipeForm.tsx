@@ -1,4 +1,4 @@
-import { useState, ChangeEvent } from 'react';
+import { useState } from 'react';
 
 const useRecipeForm = () => {
   const [inputTitle, setInputTitle] = useState('');
@@ -6,8 +6,8 @@ const useRecipeForm = () => {
   const [inputDesc, setInputDesc] = useState('');
   const [inputNewDesc, setInputNewDesc] = useState('');
 
-  const handleTitle = (e: ChangeEvent<HTMLInputElement>) => setInputTitle(e.target.value);
-  const handleCategory = (e: ChangeEvent<HTMLInputElement>) => setInputCategory(e.target.value);
+  const handleTitle = (e: string) => setInputTitle(e);
+  const handleCategory = (e: string) => setInputCategory(e);
 
   return {
     inputTitle,
