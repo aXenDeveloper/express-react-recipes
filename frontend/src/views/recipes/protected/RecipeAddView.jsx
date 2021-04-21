@@ -73,15 +73,15 @@ const RecipesAddView = () => {
     return data;
   });
 
-  const onSubmit = async data => {
+  const onSubmit = data => {
     setErrorMessageFile('');
 
     handleTitle(data.title);
     handleCategory(data.category);
-    setInputImage(data.image[0].name);
+    setInputImage(data.image[0]);
 
     if (data.image[0].type === 'image/jpeg' || data.image[0].type === 'image/png') {
-      await mutateAsync();
+      mutateAsync();
       queryClient.invalidateQueries('recipeList');
     } else {
       setErrorMessageFile('The file is not a Image!');
