@@ -1,3 +1,5 @@
+![GitHub Header](https://raw.githubusercontent.com/aXenDeveloper/express-react-recipes/main/screenshots/1.png)
+
 # (Express / React) Recipes app
 
 Include pages:
@@ -76,3 +78,13 @@ Include pages:
 
 - 3 - **Member**,
 - 4 - **Root**
+
+## Graphics 📷
+
+![2](https://raw.githubusercontent.com/aXenDeveloper/express-react-recipes/main/screenshots/2.png)
+![3](https://raw.githubusercontent.com/aXenDeveloper/express-react-recipes/main/screenshots/3.png)
+![4](https://raw.githubusercontent.com/aXenDeveloper/express-react-recipes/main/screenshots/4.png)
+![5](https://raw.githubusercontent.com/aXenDeveloper/express-react-recipes/main/screenshots/5.png)
+![6](https://raw.githubusercontent.com/aXenDeveloper/express-react-recipes/main/screenshots/6.png)
+![7](https://raw.githubusercontent.com/aXenDeveloper/express-react-recipes/main/screenshots/7.png)
+![8](https://raw.githubusercontent.com/aXenDeveloper/express-react-recipes/main/screenshots/8.png)
