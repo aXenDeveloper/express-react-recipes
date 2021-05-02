@@ -6,16 +6,11 @@ const useRecipeForm = () => {
   const [inputDesc, setInputDesc] = useState('');
   const [inputNewDesc, setInputNewDesc] = useState('');
 
-  const handleTitle = (e: string) => setInputTitle(e);
-  const handleCategory = (e: string) => setInputCategory(e);
-
   return {
     inputTitle,
     inputCategory,
     inputDesc,
     inputNewDesc,
-    handleTitle,
-    handleCategory,
     setInputTitle,
     setInputCategory,
     setInputDesc,

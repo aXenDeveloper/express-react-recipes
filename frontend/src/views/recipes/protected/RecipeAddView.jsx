@@ -18,9 +18,9 @@ const RecipesAddView = () => {
     inputTitle,
     inputCategory,
     inputDesc,
-    handleTitle,
-    handleCategory,
-    setInputDesc
+    setInputDesc,
+    setInputTitle,
+    setInputCategory
   } = useRecipeForm();
 
   const {
@@ -76,8 +76,8 @@ const RecipesAddView = () => {
   const onSubmit = data => {
     setErrorMessageFile('');
 
-    handleTitle(data.title);
-    handleCategory(data.category);
+    setInputTitle(data.title);
+    setInputCategory(data.category);
     setInputImage(data.image[0]);
 
     if (data.image[0].type === 'image/jpeg' || data.image[0].type === 'image/png') {

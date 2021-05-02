@@ -23,11 +23,7 @@ const RecipeEditView = () => {
     inputCategory,
     setInputCategory,
     inputDesc,
-    setInputDesc,
-    handleTitle,
-    handleCategory,
-    inputNewDesc,
-    setInputNewDesc
+    setInputDesc
   } = useRecipeForm();
 
   const {
@@ -43,7 +39,6 @@ const RecipeEditView = () => {
   const history = useHistory();
   const queryClient = useQueryClient();
   const {
-    register,
     handleSubmit,
     formState: { errors }
   } = useForm();
@@ -80,7 +75,7 @@ const RecipeEditView = () => {
         title: inputTitle,
         category: inputCategory,
         ingredients: JSON.stringify(listIngredients),
-        description: inputNewDesc
+        description: inputDesc
       })
     });
 
@@ -92,10 +87,7 @@ const RecipeEditView = () => {
     return data;
   });
 
-  const onSubmit = data => {
-    handleTitle(data.name);
-    handleCategory(data.category);
-
+  const onSubmit = () => {
     mutateAsync();
     queryClient.invalidateQueries('recipeList');
   };
@@ -123,7 +115,9 @@ const RecipeEditView = () => {
               id="title"
               className={`input input_text input_full${errors.title ? ' input_error' : ''}`}
               value={inputTitle}
-              {...register('title', { required: true })}
+              onChange={el => {
+                setInputTitle(el.target.value);
+              }}
             />
           </li>
 
@@ -135,7 +129,10 @@ const RecipeEditView = () => {
               id="category"
               name="category"
               className="input input_select input_full"
-              {...register('category', { required: true })}
+              value={inputCategory}
+              onChange={el => {
+                setInputCategory(el.target.value);
+              }}
             >
               <CategoryList />
             </select>
@@ -147,7 +144,7 @@ const RecipeEditView = () => {
               data={inputDesc}
               onChange={(event, editor) => {
                 const data = editor.getData();
-                setInputNewDesc(data);
+                setInputDesc(data);
               }}
               config={{
                 ckfinder: {
