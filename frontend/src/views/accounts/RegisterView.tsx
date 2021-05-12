@@ -90,7 +90,6 @@ const RegisterView = () => {
                     errors.displayName ? ' input_error' : ''
                   }`}
                   placeholder="Display Name"
-                  value={inputName}
                   {...register('displayName', { required: true })}
                 />
               </li>
@@ -99,7 +98,6 @@ const RegisterView = () => {
                   type="email"
                   className={`input input_text input_full${errors.email ? ' input_error' : ''}`}
                   placeholder="Email Address"
-                  value={inputEmail}
                   {...register('email', { required: true })}
                 />
               </li>
@@ -108,7 +106,6 @@ const RegisterView = () => {
                   type="password"
                   className={`input input_text input_full${errors.password ? ' input_error' : ''}`}
                   placeholder="Password"
-                  value={inputPassword}
                   {...register('password', { required: true })}
                 />
               </li>
@@ -119,7 +116,6 @@ const RegisterView = () => {
                     errors.passwordCF ? ' input_error' : ''
                   }`}
                   placeholder="Confirm Password"
-                  value={inputPasswordCF}
                   {...register('passwordCF', { required: true })}
                 />
               </li>

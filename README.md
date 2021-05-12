@@ -79,7 +79,7 @@ Include pages:
 - 3 - **Member**,
 - 4 - **Root**
 
-## Graphics 📷
+## 📷 Graphics
 
 ![2](https://raw.githubusercontent.com/aXenDeveloper/express-react-recipes/main/screenshots/2.png)
 ![3](https://raw.githubusercontent.com/aXenDeveloper/express-react-recipes/main/screenshots/3.png)
